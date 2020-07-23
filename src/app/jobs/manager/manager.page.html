@@ -1,0 +1,313 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Manage Jobs
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" (click)="loadJobs()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button (click)="goToPostNewJob()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-friends-content">
+  <ion-segment class="user-friends-segment" mode="md" (ionChange)="segmentChanged($event)" [(ngModel)]="segmentValue">
+    <ion-segment-button mode="md" checked="true" value="job_requests">
+      <ion-label>Pending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button mode="md" value="ongoing_jobs">
+      <ion-label>Ongoing</ion-label>
+    </ion-segment-button>
+    <ion-segment-button mode="md" value="completed_jobs">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-searchbar class="friends-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
+
+
+  <!------------->
+  <ng-template #completedJobItem let-item="item">
+    <ion-row class="user-details-section">
+      <ion-col class="user-image-wrapper" size="2">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="item.grafter_image" [alt]="'Grafter Photo'"></app-image-shell>
+        </app-aspect-ratio>
+<!-- <p> <app-text-shell [data]="item.grafter_name"></app-text-shell></p> -->
+
+      </ion-col>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell [data]="item.title"></app-text-shell>
+          </h3>
+
+          <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+            <ion-icon name="clipboard"></ion-icon> Started <app-text-shell style="display: inline;" [data]="item.date_approved"></app-text-shell></h5>
+
+            <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+              <ion-icon name="clock"></ion-icon> Completed <app-text-shell style="display: inline;" [data]="item.date_completed"></app-text-shell></h5>
+  
+              <!-- <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                <ion-icon name="wallet"></ion-icon> Paid <app-text-shell style="display: inline;" [data]="item.salary"></app-text-shell></h5>
+     -->
+     
+          <!-- <ion-row class="item-tags">
+            <ion-col class="tag-wrapper">
+              <span class="item-tag" style="display: inline-block;">
+                <app-text-shell [data]="item.job_area"></app-text-shell>
+              </span>
+
+              &nbsp;&nbsp;<span class="item-tag" style="display: inline-block;">
+                <app-text-shell [data]="item.job_type"></app-text-shell>
+              </span>
+            </ion-col>
+          </ion-row> -->
+
+          <!-- <ion-row class="item-tags">
+          <ion-badge ion-position="end" class="schedule-closed" color="primary" >
+             Completed {{item.date_completed}}</ion-badge> 
+
+            </ion-row> -->
+
+        </div>
+      </ion-col>
+    <ion-row>
+      <ion-col class="user-actions-wrapper">
+        <ion-button class="user-action" expand="block" size="small" color="primary" *ngIf="item.is_rated">
+          <ion-icon name="star"></ion-icon>  
+          <ion-icon name="star"></ion-icon> 
+          <ion-icon name="star"></ion-icon> 
+          <ion-icon name="star-half"></ion-icon> 
+          <ion-icon name="star-outline"></ion-icon> 
+         </ion-button>
+<hr>
+         <ion-button *ngIf="item.is_rated" class="user-action" expand="block" size="small" color="warning"><ion-icon name="heart-empty"></ion-icon>  Endorse</ion-button>
+      
+          <ion-button *ngIf="!item.is_rated" class="user-action" expand="block" size="small" color="light"><ion-icon name="thumbs-up"></ion-icon>  Rate</ion-button>
+      
+      
+      </ion-col></ion-row>
+
+    </ion-row>
+  </ng-template>
+<!-----------Completed  Buttons -->
+
+  <ng-template #ongoingJobItem let-item="item">
+    <div class="user-details-section">
+    <ion-row>
+      <ion-col class="user-image-wrapper" size="2">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="item.grafter_image" [alt]="'Grafter Photo'"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell animation="bouncing" [data]="item.title"></app-text-shell>
+          </h3>
+
+          <div style="margin-bottom: 4px;margin-top: 4px;" *ngIf="item && item.progress">
+            <ion-progress-bar value="{{item.progress}}" color="success"></ion-progress-bar>
+          </div>
+          <ion-badge class="schedule-closed" color="primary" *ngIf="item && item.status">
+            {{item.status}}</ion-badge> 
+        
+            <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item && item.grafter_name">
+              <app-text-shell animation="bouncing" [data]="'Accepted by '+item.grafter_name+' on '+item.date_approved"></app-text-shell>
+              </h5>
+        </div>
+      </ion-col>
+
+     
+    </ion-row>
+
+
+    <ion-row>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+     
+      <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item && item.date_created">
+              <ion-icon name="calendar"></ion-icon> <app-text-shell style="display: inline;" [data]="'Job Posted On '+item.date_created"></app-text-shell></h5>
+ 
+      <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item && item.date_approved">
+              <ion-icon name="stopwatch"></ion-icon> Job Start Date: <app-text-shell style="display: inline;" [data]="item.date_approved"></app-text-shell></h5>
+      
+      <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item && item.job_order_id">
+                <ion-icon name="clipboard"></ion-icon> Order ID: <app-text-shell style="display: inline;" [data]="item.job_order_id"></app-text-shell></h5>
+          
+       <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item && item.expected_delivery_date">
+                  <ion-icon name="timer"></ion-icon> <app-text-shell style="display: inline;" [data]="'Expected Delivery : '+item.expected_delivery_date"></app-text-shell></h5>
+                 
+        </div></ion-col>
+        </ion-row>
+
+
+    <!--------- FULLCRUM VIEW ------>
+    <ion-row class="bottom-row">
+      <ion-col class="code-wrapper" *ngIf="item && item.qcode">
+        <ion-button style="display: inline-block;" class="user-action" expand="cover" size="small" color="primary" [routerLink]="['/jobs/details', item.qcode]"><ion-icon name="copy"></ion-icon>  View</ion-button>
+        <!-- <ion-button style="display: inline-block;" class="user-action" expand="cover" size="small" color="secondary"><ion-icon name="chatbubbles"></ion-icon>  Chat<span></span></ion-button> -->
+        <ion-button style="display: inline-block;" class="user-action" expand="cover" fill="outline" size="small" color="blue" [routerLink]="['/jobs/track', item.qcode]"><ion-icon name="analytics"></ion-icon>  Track</ion-button>
+       
+      </ion-col>
+      <ion-col class="time-left-wrapper" size="5" [ngClass]="{'countdown-active': ((item.expected_delivery | appTimeDifference) > 0 && (item.expected_delivery | appTimeDifference) <= 2)}">
+        <span class="expiration-cta">JOB {{ ((item.expirationDate | appTimeDifference) < 0) ? 'LATE' : 'DELIVERY IN' }}:</span>
+        <ng-container *ngIf="((item.expected_delivery | appTimeDifference) < 0 || (item.expected_delivery | appTimeDifference) > 4)">
+          <span class="item-time-left">
+            <app-text-shell [data]="(item.expected_delivery | appTimeAgo)"></app-text-shell>
+          </span>
+        </ng-container>
+        <ng-container *ngIf="((item.expected_delivery | appTimeDifference) > 0 && (item.expected_delivery | appTimeDifference) <= 4)">
+          <ion-row class="countdown-wrapper">
+            <app-countdown-timer class="item-countdown" fill="inner-time" [end]="item.expected_delivery" [units]="{from: 'hour', to: 'second'}"></app-countdown-timer>
+          </ion-row>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+    <!--------- FULLCRUM VIEW ------->
+</div>
+  </ng-template>
+
+
+  <!-----------##### PENDING JOB REQUESTS ####-->
+  <ng-template #pendingJobItem let-item="item">
+    <ion-row class="user-details-section">
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell [data]="item.title" animation="bouncing"></app-text-shell>
+          </h3>
+
+          <!-- <p *ngIf="item">
+            <app-text-shell animation="bouncing" lines="3" [data]="item.job_description"></app-text-shell>
+          </p> -->
+
+          <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item.address && false">
+            <ion-icon name="locate"></ion-icon> <app-text-shell style="display: inline;" [data]="item.address"></app-text-shell></h5>
+
+            <ion-badge *ngIf="item && item.job_type_name" style="margin-left: 0px;" class="status-label" color="facebook">{{item.job_type_name}}</ion-badge>
+            &nbsp; <ion-badge *ngIf="item && item.job_area_name" style="margin-left: 0px;" class="status-label" color="facebook">{{item.job_area_name}} </ion-badge>
+
+            <!-- <ion-badge style="margin-left: 0px;" class="status-label" color="facebook"><ion-icon name="briefcase"></ion-icon> {{item.job_type_name}} </ion-badge>
+            &nbsp;<ion-badge style="margin-left: 0px;" class="status-label" color="facebook"><ion-icon name="construct"></ion-icon> {{item.job_area_name}} </ion-badge>
+            -->
+
+            <ion-row>
+              <ion-col size="5" *ngIf="item && item.numApplications">
+                <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                  <ion-icon name="document"></ion-icon> <app-text-shell animation="bouncing" style="display: inline;" [data]="' '+item.numApplications+' Applied'"></app-text-shell></h5>      
+              </ion-col>
+
+              <ion-col size="7" *ngIf="item && item.numShortlists">
+                <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                  <ion-icon name="people"></ion-icon> <app-text-shell animation="bouncing" style="display: inline;" [data]="' '+item.numShortlists+' Shortlisted'"></app-text-shell></h5>      
+              </ion-col>
+            </ion-row>
+            
+            <ion-row>
+                <ion-col size="5" *ngIf="item && item.numViews">
+                  <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item.numViews > 0">
+                    <ion-icon name="people"></ion-icon> <app-text-shell animation="bouncing" style="display: inline;" [data]="' '+item.numViews+' Visits'"></app-text-shell></h5>      
+                </ion-col>
+
+                <ion-col size="7" *ngIf="item && item.numTotalViews">
+                  <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;" *ngIf="item.numTotalViews > 0">
+                    <ion-icon name="eye"></ion-icon> <app-text-shell animation="bouncing" style="display: inline;" [data]="' '+item.numTotalViews+' Views'"></app-text-shell></h5>      
+                </ion-col>
+              </ion-row>
+
+          <h5 class="user-job" style="color: #444444;margin-top:3px;margin-bottom: 3px;" *ngIf="item && item.date_created">
+            <ion-icon name="clock"></ion-icon> Posted on <app-text-shell animation="bouncing" style="display: inline;" [data]="item.date_created"></app-text-shell></h5>
+
+
+          <ion-row class="item-tags">
+            <ion-col class="tag-wrapper" *ngFor="let skill of item.jobSkills">
+              <span class="item-tag" style="display: inline-block;">
+                <app-text-shell animation="bouncing" style="display: inline-block;vertical-align: middle;" [data]="skill.title"></app-text-shell>
+              </span>
+            </ion-col>
+          </ion-row>
+          
+        </div>
+
+
+        <!-- <ion-row class="bottom-row">
+          <ion-col class="code-wrapper">
+            <span class="item-code">
+              <app-text-shell [data]="item.job_type_name"></app-text-shell>
+            </span>
+    
+          </ion-col>
+        </ion-row> -->
+
+      </ion-col>
+      <ion-col class="user-actions-wrapper">
+        <div class="user-info" style="text-align: center;">
+        <h4 class="user-job" style="font-size: 15px;line-height: 18px;margin-bottom: 2px;">
+          <span class="accommodation-value" *ngIf="item.salary_type == 'monthly'">
+            <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.min_salary+' - '+item.jobSalary.max_salary"></app-text-shell>
+          </span>
+          <span class="accommodation-value" *ngIf="item.salary_type == 'hourly'">
+            <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.min_rate_per_hour+' - '+item.jobSalary.max_rate_per_hour"></app-text-shell>
+          </span>
+          <span class="accommodation-value" *ngIf="item.salary_type == 'fixed'">
+            <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.fixed_fee"></app-text-shell>
+          </span>
+        </h4>
+        <h5 class="user-job" style="font-size: 12px;line-height: 12px;margin-top: 0px;">
+          <app-text-shell animation="bouncing" [data]="item.salary_type|titlecase"></app-text-shell>
+        </h5>
+</div>
+        <ion-button *ngIf="item && item.numApplications > 0" class="user-action" [routerLink]="['/jobs/applications', item.qcode]" expand="block" size="small" color="primary">{{item.numApplications}} Offer<span *ngIf="item.numApplications > 1">s</span></ion-button>
+        <h5 class="user-job" *ngIf="item && item.numApplications <= 0" style="font-size: 12px;line-height: 12px;margin-top: 4px;text-align: center;">
+          <app-text-shell animation="bouncing" [data]="'(No Offer Yet)'"></app-text-shell>
+        </h5>
+      
+        <ion-button *ngIf="item && item.qcode" class="user-action" style="margin-top:4px;" expand="block" size="small" color="secondary" [routerLink]="['/jobs/details', item.qcode]">View</ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ng-template>
+
+  <section [hidden]="segmentValue !== 'job_requests'">
+    <ion-list class="friends-list" *ngIf="JobRequestsList.length > 0">
+      <div class="friend-item" *ngFor="let item of JobRequestsList">
+        <ng-container *ngTemplateOutlet="pendingJobItem; context: { item: item }"></ng-container>
+      </div>
+    </ion-list>
+    <ng-container *ngIf="JobRequestsList.length <= 0">
+      <h3 class="empty-list-message">No Job Request found</h3>
+    </ng-container>
+  </section>
+
+  <section [hidden]="segmentValue !== 'ongoing_jobs'">
+    <ion-list class="friends-list" *ngIf="ongoingJobsList.length > 0">
+      <div class="friend-item" *ngFor="let item of ongoingJobsList">
+        <ng-container *ngTemplateOutlet="ongoingJobItem; context: { item: item }"></ng-container>
+      </div>
+    </ion-list>
+    <ng-container *ngIf="ongoingJobsList.length <= 0">
+      <h3 class="empty-list-message">No ongoing job found</h3>
+    </ng-container>
+  </section>
+
+  <section [hidden]="segmentValue !== 'completed_jobs'">
+    <ion-list class="friends-list" *ngIf="completedJobsList.length > 0">
+      <div class="friend-item" *ngFor="let item of completedJobsList">
+        <ng-container *ngTemplateOutlet="completedJobItem; context: { item: item }"></ng-container>
+      </div>
+    </ion-list>
+    <ng-container *ngIf="completedJobsList.length <= 0">
+      <h3 class="empty-list-message">No completed job found</h3>
+    </ng-container>
+  </section>
+
+</ion-content>

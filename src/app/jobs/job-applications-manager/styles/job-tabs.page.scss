@@ -1,0 +1,152 @@
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-narrow-margin);
+
+  --page-border-radius: var(--app-fair-radius);
+  --page-segment-background: var(--app-background);
+  --page-segment-indicator-height: 2px;
+
+  --page-pictures-gutter: calc(var(--page-margin) / 4);
+  --page-tags-gutter: 4px;
+}
+
+.expiration-countdown {
+  color: var(--ion-color-lightest);
+  background-color:#3b5998;
+  padding: calc(var(--page-margin) / 2) var(--page-margin);
+
+  position: sticky;
+  top: 0;
+  z-index: 8;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  .expiration-lead {
+    padding: 0px calc(var(--page-margin) / 2);
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.user-friends-segment {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  background-color: var(--page-segment-background);
+
+  ion-segment-button {
+    --padding-end: var(--page-margin);
+    --padding-start: var(--page-margin);
+    --background: var(--page-segment-background);
+    --color: rgba(var(--ion-color-dark-rgb), 0.4);
+    --color-checked: var(--ion-color-dark);
+    --indicator-color-checked: var(--ion-color-dark);
+
+    text-transform: capitalize;
+    min-height: calc((var(--page-margin) * 3) - var(--page-segment-indicator-height));
+
+    ion-label {
+      margin-top: calc(var(--page-margin) / 2);
+      margin-bottom: calc(var(--page-margin) / 4);
+    }
+  }
+}
+
+ion-searchbar.friends-searchbar {
+  padding: var(--page-margin);
+}
+
+.friends-list {
+  padding: 0px var(--page-margin);
+  margin-bottom: calc(var(--page-margin) * 3);
+}
+
+.empty-list-message {
+  margin: calc(var(--page-margin) * 5);
+  color: rgba(var(--ion-color-dark-rgb), 0.4);
+  text-align: center;
+}
+
+ion-item.friend-item {
+  --inner-padding-start: 0px;
+  --inner-padding-end: 0px;
+  --padding-start: 0px;
+  --padding-end: 0px;
+  --padding-bottom: var(--page-margin);
+  --inner-padding-bottom: var(--page-margin);
+
+  &:last-child {
+    --border-style: none;
+    --padding-bottom: 0px;
+    --inner-padding-bottom: 0px;
+  }
+
+  .user-details-section {
+    --ion-grid-column-padding: 0px;
+
+    width: 100%;
+    align-items: center;
+
+    .user-data-wrapper {
+      padding-left: var(--page-margin);
+      padding-right: calc(var(--page-margin) / 2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .user-info {
+        &:not(:last-child) {
+          margin-bottom: calc(var(--page-margin) / 2);
+        }
+
+        .user-name {
+          margin: 0px;
+          margin-bottom: 4px;
+          font-size: 16px;
+        }
+
+        .user-job {
+          margin: 0px;
+          color: rgba(var(--ion-color-dark-rgb), 0.4);
+          font-size: 14px;
+        }
+      }
+    }
+
+    .user-actions-wrapper {
+      font-size: 14px;
+      max-width: 20ex; // The 'x' character is semi-square char
+      max-width: 20ch; // ch is the only font unit based on the width of characters
+      .user-action {
+        margin: 0px;
+      }
+    }
+  }
+}
+
+.item-tags {
+  margin-top: 5px;
+
+  .tag-wrapper {
+    padding-right: var(--page-tags-gutter);
+    flex-grow: 0;
+    min-width: fit-content;
+
+    &:last-child {
+      padding-right: 0px;
+    }
+  }
+
+  .item-tag {
+    display: block;
+    border-radius: var(--app-narrow-radius);
+    border: 1px solid var(--ion-color-light-shade);
+    padding: calc(var(--page-tags-gutter) / 2) var(--page-tags-gutter);
+    font-size: 11px;
+    font-weight: bold;
+    color: #222222;
+  }
+}

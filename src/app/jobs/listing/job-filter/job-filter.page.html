@@ -1,0 +1,186 @@
+<form class="validations-form ion-page" [formGroup]="userFilterForm" (ngSubmit)="onSubmit()" method="POST">
+  <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-menu-button></ion-menu-button> -->
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="filterUsers()">FILTER</ion-button>
+    </ion-buttons>
+    <ion-title>Filter Jobs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="filters-content">
+  <ion-item-group class="filters-group">
+  
+    <ion-list class="toggle-list" lines="full">
+      <ion-item class="toggle-item">
+        <ion-label class="toggle-label" style="color:#333333;font-weight:bold;">Use My Default Location</ion-label>
+        <ion-toggle color="primary"  (ionChange)="onLocationEnabled($event)" formControlName="isLocationEnabled" checked></ion-toggle>
+      </ion-item>
+    </ion-list>
+      
+      <ion-row *ngIf="!isLocationEnabled">
+        <ion-col size="12" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Select a location" name="address" formControlName="address" (click)="showAddressModal()"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="6" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Latitude" name="latitude" formControlName="latitude"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Longitude" name="longitude" formControlName="longitude"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <div style="border-bottom: 1px solid #999999;"></div>
+
+      <ion-list class="toggle-list" lines="full">
+        <ion-item class="toggle-item" style="--background: #ffffff;">
+          <ion-label class="toggle-label" style="color:#333333;font-weight:bold;">Search Job Within Range</ion-label>
+          <ion-toggle color="primary" (ionChange)="onSearchRadiusEnabled($event)" formControlName="isRadiusEnabled"></ion-toggle>
+        </ion-item>
+      </ion-list>
+
+      <ion-item-divider *ngIf="isSearchRadiusEnabled">
+        <ion-label style="color:#555555;font-weight:bold;">Search within {{ this.userFilterForm.value.km_radius }} KM</ion-label>
+      </ion-item-divider>
+
+      <ion-row class="range-item" *ngIf="isSearchRadiusEnabled">
+        <ion-col size="12">
+          <ion-range class="range-control"  formControlName="km_radius" color="secondary" (ionChange)="searchRangeChange($event)" min="0" max="100" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Select Job Type(s)</ion-label>
+      </ion-item-divider>
+
+    <ion-row class="checkbox-tags square-checkbox-tags" *ngIf="job_types" style="background-color:#ffffff;">
+          <ion-item formArrayName="availableJobTypes" lines="none" class="checkbox-tag" *ngFor="let jobType of job_types">
+            <ion-label class="tag-label">{{jobType.title}}</ion-label>
+            <ion-checkbox [formControlName]="jobType.id" (ionChange)="onJobTypeFilterSelected($event, jobType.id)"></ion-checkbox>
+          </ion-item>
+    </ion-row>
+
+<ion-item-divider>
+<ion-label style="color:#555555;font-weight:bold;">Select Job Area</ion-label>
+</ion-item-divider>
+
+<ion-row>
+    <ion-col size="12" align-self-start style="vertical-align:middle;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Select Job Area *</ion-label>
+        <ion-input type="hidden" formControlName="jobArea"></ion-input>
+        <ion-input type="text" formControlName="job_area_name" (click)="openSelectJobArea()"></ion-input>
+      </ion-item>
+    </ion-col>
+</ion-row>
+
+<ion-item-divider *ngIf="selected_job_area && selected_job_area > 0">
+  <ion-label style="color:#555555;font-weight:bold;">Select Professional Skills</ion-label>
+  </ion-item-divider>
+<ion-list class="counter-list" lines="full">
+      
+<ion-row class="checkbox-tags rounded-checkbox-tags" *ngIf="selected_job_area && selected_job_area > 0">
+      <ion-item formArrayName="skillID" lines="none" class="checkbox-tag rounded-tag" *ngFor="let jobSkill of skill_types">
+        <ion-label class="tag-label">{{jobSkill.title}}</ion-label>
+        <ion-checkbox [formControlName]="jobSkill.id" (ionChange)="onJobSkillsChange($event, jobSkill.id)"></ion-checkbox>
+      </ion-item>
+
+</ion-row>
+
+
+ <!------ Start Filter By Experience --------->
+ <ion-list class="toggle-list" lines="full">
+  <ion-item class="toggle-item" style="--background: #ffffff;">
+    <ion-label class="toggle-label" style="color:#333333;">Filter By Work Experience</ion-label>
+    <ion-toggle color="primary" formControlName="isExperienceFilterEnabled" (ionChange)="onFilterByExperienceEnabled($event)"></ion-toggle>
+  </ion-item>
+</ion-list>
+
+<ion-item-divider *ngIf="isExperienceFilterEnabled">
+  <ion-label style="color:#555555;font-weight:bold;">Work Experience ({{selected_work_experience_min}}-{{selected_work_experience_max}} Yrs)</ion-label>
+</ion-item-divider>
+
+<ion-row *ngIf="isExperienceFilterEnabled">
+<ion-col size="6">
+  <ion-item class="input-item">
+    <ion-label position="floating">Min. Experience</ion-label>
+    <ion-select  formControlName="selected_work_experience_min" cancelText="Cancel" okText="OK">
+      <ion-select-option *ngFor="let item of custom_values" [value]="item" >{{item}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-col>
+
+<ion-col size="6">
+  <ion-item class="input-item">
+    <ion-label position="floating">Max. Experience</ion-label>
+    <ion-select formControlName="selected_work_experience_max" cancelText="Cancel" okText="OK">
+      <ion-select-option *ngFor="let item of custom_values" [value]="item" >{{item}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-col>
+</ion-row>
+<!------ Ends Filter By Experience --------->
+
+<div style="border-bottom: 1px solid #999999;"></div>
+
+<!------ Start Filter By Salary Range --------->
+<ion-list class="toggle-list" lines="full">
+<ion-item class="toggle-item" style="--background: #ffffff;">
+  <ion-label class="toggle-label" style="color:#333333;">Filter By Salary</ion-label>
+  <ion-toggle color="primary" formControlName="isSalaryFilterEnabled" (ionChange)="onFilterBySalaryEnabled($event)"></ion-toggle>
+</ion-item>
+</ion-list>
+
+<ion-item-divider *ngIf="isSalaryFilterEnabled">
+  <ion-label style="color:#555555;font-weight:bold;">EXPECTED SALARY RANGE</ion-label>
+</ion-item-divider>
+
+<ion-row *ngIf="isSalaryFilterEnabled">
+<ion-col align-self-start style="vertical-align:middle;">
+<ion-item>
+  <ion-label position="floating">Min Salary</ion-label>
+  <ion-input type="number" formControlName="min_salary" name="min_slary" placeholder="Min Salary"></ion-input>
+</ion-item>
+
+</ion-col>
+
+<ion-col align-self-end style="text-align:middle;">
+<ion-item>
+  <ion-label position="floating">Max Salary</ion-label>
+<ion-input type="number" formControlName="max_salary" name="max_slary" placeholder="Max Salary"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="3" align-self-start style="vertical-align:middle;">
+<ion-item>
+<ion-label position="floating">Currency</ion-label>
+<ion-input formControlName="currency" name="currency" (click)="openCurrencyChooser()" readonly></ion-input>
+</ion-item>
+
+</ion-col>
+</ion-row>
+<!------ Ends Filter By Experience --------->
+
+
+<ion-row class="checkbox-tags rounded-checkbox-tags">
+     <ion-col size="12">
+      <ion-button lg class="submit-btn" (click)="filterUsers()" type="submit" [disabled]="!userFilterForm.valid" expand="block" fill="solid">Apply Filter </ion-button>
+</ion-col></ion-row>
+
+</ion-list>
+
+    
+</ion-item-group>
+</ion-content>
+</form>

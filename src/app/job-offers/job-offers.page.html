@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="welcome"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Received Job Offers</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openFirebaseCreateModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+ 
+  <ion-list class="items-list" *ngIf="items?.length > 0">
+    <ion-item class="list-item" *ngFor="let item of items" [routerLink]="['/app/user', item.id]">
+
+      <!-- <ion-item class="list-item" *ngFor="let item of items" [routerLink]="['/app/user']"> -->
+      <ion-row class="user-row">
+        <ion-col size="2" class="user-image-wrapper">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+            <app-image-shell class="user-image" animation="spinner" [mode]="'cover'" [src]="item.grafter_image" [alt]="'item image'"></app-image-shell>
+          </app-aspect-ratio>
+        </ion-col>
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+            <h3 class="user-name">
+              <app-text-shell style="display: inline-block;" animation="bouncing" [data]="item.grafter_name"></app-text-shell>
+            </h3>
+
+            <h5 class="user-name">
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon> (3 <ion-icon name="thumbs-up"></ion-icon>) 
+              
+              <!-- <app-text-shell style="display: inline-block;" animation="bouncing" [data]="item.id+' Reviews'"></app-text-shell> -->
+            </h5>
+           
+
+            <h5 class="user-name">
+              <app-text-shell style="display: inline-block;" animation="bouncing" [data]="item.job_name"></app-text-shell>
+            </h5>
+            
+
+            <!-- <div *ngIf="item.online_status=='Online'">
+              <ion-badge class="schedule-closed" color="primary"><ion-icon name="checkmark-circle-outline" style="vertical-align: middle;"></ion-icon> {{item.online_status}}</ion-badge>
+            </div> -->
+
+          
+   <h5 class="user-job" style="font-size: 13px;line-height: 13px;margin-top:2px;margin-bottom: 2px;vertical-align: middle;">
+    <ion-icon name="calendar"></ion-icon> <app-text-shell animation="bouncing" style="display: inline-block;" [data]="'Offer Submitted :'+item.date_created"></app-text-shell>
+            </h5>
+
+            <h5 class="user-job" style="font-size: 13px;line-height: 13px;margin-top:5px;margin-bottom: 2px;vertical-align: middle;">
+              <ion-icon name="timer"></ion-icon> <app-text-shell style="display: inline-block;" [data]="'Estimated Delivery : '+item.end_date"></app-text-shell>
+            </h5>
+            
+            <!-- <h5 class="user-age">
+              <app-text-shell animation="bouncing" [data]="item.skills|json"></app-text-shell>
+            </h5> -->
+
+          </div>
+        </ion-col>
+
+       
+        <ion-col class="user-actions-wrapper ion-align-self-end" style="vertical-align: middle;text-align: end;">
+          <div class="user-info">
+          <h4 class="user-job" style="font-size: 18px;line-height: 18px;margin-bottom: 2px;">
+            <app-text-shell [data]="item.amount"></app-text-shell>
+          </h4>
+          <h5 class="user-job" style="font-size: 12px;line-height: 12px;margin-top: 3px;">
+            <app-text-shell [data]="'Within 7 Days'"></app-text-shell>
+          </h5>
+          <ion-button class="ion-align-self-end" *ngIf="item.grafter_id" class="user-action" [routerLink]="['/job-offer']" expand="cover" size="small" color="primary">View Offer<span></span></ion-button>
+   
+  </div>
+        
+        </ion-col>
+
+        
+      </ion-row>
+            
+    </ion-item>
+  </ion-list>
+  <div *ngIf="items?.length == 0" class="">
+    
+    <h3 class="empty-list-message">
+      <ion-icon name="ios-people" style="margin:0px;font-size: 60px;width:50px;height:50px;"></ion-icon>
+    </h3>
+    <h4 class="empty-list-message">
+      No offer found
+    </h4>
+  </div>
+</ion-content>

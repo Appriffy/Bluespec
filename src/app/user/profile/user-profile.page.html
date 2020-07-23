@@ -1,0 +1,348 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="selfView">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="start" *ngIf="!selfView">
+      <ion-back-button defaultHref=""></ion-back-button> 
+    </ion-buttons>
+
+    <ion-title *ngIf="!selfView">View Profile</ion-title>
+    <ion-title *ngIf="selfView"><img src="assets/images/logo.png" style="height:30px;vertical-align: middle;"/></ion-title>
+  
+    <ion-buttons slot="end">
+      <!-- <ion-button (click)="hitProfileAPI()">REFRESH</ion-button> -->
+
+      <ion-button *ngIf="!loading" fill="clear" color="primary" class="filters-btn" (click)="hitProfileAPI()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button color="primary" [routerLink]="['/people/update', profile?.user_name]" *ngIf="profile && (selfView || localUser?.role_id === 1)">
+        <ion-icon slot="icon-only" src="./assets/sample-icons/side-menu/edit.svg"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="openItemUpdateModal()" *ngIf="profile && (selfView || localUser?.role_id === 1)">
+        Edit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-profile-content">
+  <ion-row class="expiration-countdown" *ngIf="!selfView && loading" style="background-color: #0A5392;">
+    <span class="expiration-lead">
+      Loading profile...</span>
+  </ion-row>
+
+  <ion-row class="expiration-countdown" *ngIf="profile?.status=='Blocked' || profile?.status=='Pending'">
+    <span *ngIf="profile?.status=='Blocked'" class="expiration-lead">This account has been blocked.</span>
+    <span *ngIf="profile?.status=='Pending'" class="expiration-lead">This user account is pending verification.</span>
+  </ion-row>
+  
+
+  <!-----Small Completeness Progress 
+  <ion-row class="popular-dish" *ngIf="!loading && selfView">
+    <ion-col size="12">
+      <ion-progress-bar class="dish-score" type="determinate" [value]="completenessScore"></ion-progress-bar>
+    </ion-col>
+  </ion-row>
+  ----->
+
+  <ion-row class="user-details-section" *ngIf="!loading">
+    <ion-col class="user-image-wrapper">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+        <app-image-shell class="user-image" animation="spinner" [src]="profile?.user_image"></app-image-shell>
+      </app-aspect-ratio>
+    </ion-col>
+    <ion-col class="user-info-wrapper">
+      <ion-row class="user-data-row">
+        <ion-col size="12">
+          <h3 class="user-name">
+            <app-text-shell [data]="profile?.first_name+' '+profile?.last_name"></app-text-shell>
+          </h3>
+         
+          <h5 class="user-title" *ngIf="profile?.tagline" style="color: #444444;margin-top: 1px;">
+            <app-text-shell style="display: inline-block;" animation="bouncing" [data]="profile?.tagline"></app-text-shell>
+            <ion-icon *ngIf="selfView" (click)="openStatusDialog()" src="./assets/sample-icons/side-menu/edit.svg" style="display: inline-block;width:24px;cursor: pointer;"></ion-icon>
+          </h5>
+
+          <h5 class="user-title" *ngIf="!profile?.tagline && selfView" style="color: #444444;">
+            <app-text-shell style="display: inline-block;" animation="bouncing" [data]="'Add a short profile tagline'"></app-text-shell>
+            <ion-icon *ngIf="selfView" (click)="openStatusDialog()" src="./assets/sample-icons/side-menu/edit.svg" style="display: inline-block;width:24px;"></ion-icon>
+          </h5>
+
+          <ion-badge *ngIf="profile?.online_status=='Online'" style="margin-left: 0px;" class="status-label" color="primary">{{profile?.online_status}}</ion-badge>
+          <ion-badge *ngIf="profile?.online_status !=='Online'" style="margin-left: 0px;" class="status-label" color="danger">{{profile?.online_status}}</ion-badge>
+
+          <h5 class="user-age" style="font-size:13px;color: #444444;margin-top:3px;margin-bottom:1px;" *ngIf="profile?.last_active && !adminMode">
+            <app-text-shell animation="bouncing" [data]="'Last Seen: '+profile?.last_active"></app-text-shell>
+          </h5>
+
+          <h5 class="user-age" style="font-size:13px;color: #444444;margin-top:3px;margin-bottom:1px;">
+            <app-text-shell animation="bouncing" [data]="'Country: '+profile?.country"></app-text-shell>
+          </h5>  
+
+        </ion-col>
+      </ion-row>
+     
+    </ion-col>
+  </ion-row>
+  
+  <!----- ######## AUTH CARD ########----->
+  <div *ngIf="profile && adminMode && !loading" class="accommodations-wrapper">
+    <hr class="details-divider">
+    <ion-row class="accommodation-row">
+      <ion-col size="12">
+
+        <h5 *ngIf="profile?.email && adminMode" style="margin-top: 3px;margin-bottom:3px;">
+          <ion-icon class="accommodation-icon" style="display:inline-block;vertical-align:middle;" src="./assets/sample-icons/side-menu/map-pin.svg"></ion-icon>
+          <app-text-shell class="accommodation-name" style="display:inline-block;vertical-align:middle;" animation="bouncing" [data]="''+profile?.email"></app-text-shell>
+        </h5>
+
+        
+        <h5 *ngIf="profile?.mobile && adminMode" style="margin-top: 3px;margin-bottom:3px;">
+          <ion-icon class="accommodation-icon" style="display:inline-block;vertical-align:middle;" src="./assets/sample-icons/side-menu/phone.svg"></ion-icon> 
+          <app-text-shell class="accommodation-name" style="display:inline-block;vertical-align:middle;" animation="bouncing" [data]="'Mobile: '+profile?.mobile"></app-text-shell>
+        </h5>
+      
+        <h5 *ngIf="profile?.date_created" style="margin-top: 3px;margin-bottom:3px;">
+          <ion-icon class="accommodation-icon" style="display:inline-block;vertical-align:middle;" src="./assets/sample-icons/side-menu/calendar.svg"></ion-icon> 
+          <app-text-shell class="accommodation-name" style="display:inline-block;vertical-align:middle;" animation="bouncing" [data]="'Joined '+profile?.date_created"></app-text-shell>
+        </h5>
+
+        <h5 style="margin-top: 3px;margin-bottom:3px;">
+          <ion-icon class="accommodation-icon" style="display:inline-block;vertical-align:middle;" src="./assets/sample-icons/side-menu/timer.svg"></ion-icon> 
+          <app-text-shell class="accommodation-name" style="display:inline-block;vertical-align:middle;" animation="bouncing" [data]="profile?.last_active ?'Last Seen: '+profile?.last_active:'Last Seen: N/A'"></app-text-shell>
+        </h5>
+
+      </ion-col>
+    </ion-row>
+    </div>
+
+  <!------- GRAFTER STATS STARTS HERE ------->
+  <ion-row class="user-stats-section" *ngIf="!loading && profile?.role_id === 3">
+    <ion-col class="user-stats-wrapper" size="4">
+      <span class="stat-value">
+        <app-text-shell [data]="profile?.jobDone > 0?''+profile?.jobDone:'0'"></app-text-shell>
+      </span>
+      <span class="stat-name">JOBS DONE</span>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="4">
+      <span class="stat-value">
+        <app-text-shell [data]="profile?.avgRating > 0?''+profile?.avgRating:'0'"></app-text-shell>
+      </span>
+      <span class="stat-name">RATING</span>
+    </ion-col>
+    <ion-col class="user-stats-wrapper" size="4">
+      <span class="stat-value">
+        <app-text-shell [data]="profile?.numReviews > 0?''+profile?.numReviews:'0'"></app-text-shell>
+      </span>
+      <span class="stat-name">REVIEWS</span>
+    </ion-col>
+  </ion-row>
+
+  <div class="user-about-section" *ngIf="!loading && (selfView || profile?.description)">
+    <ion-row class="heading-row">
+      <h3 class="details-section-title">ABOUT</h3>
+      <a class="heading-call-to-action" style="cursor: pointer;" *ngIf="profile && selfView" (click)="openProfileDescDialog()" >{{ 'EDIT' }}</a>
+    </ion-row>
+
+    <p class="user-description"  *ngIf="profile?.description">
+      <app-text-shell animation="bouncing" lines="4" [data]="profile?.description"></app-text-shell>
+    </p>
+
+    <p class="user-description" *ngIf="selfView && !profile?.description">
+      Tell us something about you. A short intro can help you find more opportunities. Hit the edit button above to add something about you.
+    </p>
+  </div>
+
+
+   
+  <!-- <hr class="details-divider"> -->
+
+  <ion-row class="actions-row" style="text-align: center;" *ngIf="!loading && profile?.role_id === 3">
+    <ion-col class="main-actions">
+      <ion-button *ngIf="profile" [routerLink]="['/relocation-fees', {user_id: profile?.id}]" class="call-to-action-btn" size="small" color="primary">VIEW FEES</ion-button>
+      <ion-button *ngIf="profile" [routerLink]="['/list-documents', profile?.id]" class="call-to-action-btn" size="small" color="primary">DOCUMENTS</ion-button>
+      <ion-button *ngIf="profile" [routerLink]="['/relocation-fees', profile?.id]" class="call-to-action-btn" size="small" color="primary">CHAT</ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <!---- DISPLAY JOB SKILLS -->
+  <div class="user-photos-section" *ngIf="!loading && profile?.role_id === 3 && (selfView || adminMode || (!selfView && profile?.skills.length > 0))">
+    <ion-row class="heading-row">
+      <h3 class="details-section-title">SKILLS</h3>
+      <a class="heading-call-to-action" *ngIf="profile && selfView && profile?.skills.length <= 0" [routerLink]="['/people/assign-skills', profile?.id]" >{{ 'ADD' }}</a>
+      <a class="heading-call-to-action" *ngIf="profile && profile?.skills.length > 0" [routerLink]="['/skill-set', profile?.id]" >{{ 'DETAIL' }}</a>
+    </ion-row>
+   
+     <!----Empty view-->
+     <ion-grid class="roundHolder" *ngIf="(selfView || adminMode) && (profile?.skills.length <= 0)" style="width:100%;height: 100%;display:block;align-content: center;">
+      <hr class="details-divider">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/construct.svg" style="display: block;font-size:48px;"></ion-icon>
+        <h5 style="text-align: center;color: #444444;">No Job Skills?</h5>
+        <p *ngIf="selfView" class="user-description" style="text-align:center;padding:10px;">
+          Add your job skills to discover relevant work opportunities around you.
+        </p>
+        <ion-button *ngIf="profile && selfView" [routerLink]="['/people/assign-skills', profile?.id]" style="display:block;text-align: center;" class="upload-picture-btn" color="dark" expand="cover" fill="outline">
+          Add Skills</ion-button>
+        </ion-row>
+      </ion-grid>
+  <!----Empty view-->
+
+    <ion-row class="details-tags"  *ngIf="profile?.skills.length > 0 ">
+      <ion-col class="tag-wrapper" *ngFor="let tag of profile?.skills">
+        <span class="item-tag">
+          {{tag.title}} <span style="margin-left:2px;margin-right:2px;" *ngIf="tag.numEndorsement > 0">| <ion-icon name="thumbs-up"></ion-icon> {{tag.numEndorsement}}</span>
+        </span>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+<!--------------- Experience Details --------------->
+<div class="user-photos-section" *ngIf="!loading && profile?.role_id === 3 && (selfView || (!selfView && profile?.work_experiences.length > 0))">
+  <ion-row class="heading-row">
+    <h3 class="details-section-title">WORK EXPERIENCES</h3>
+
+    <a *ngIf="selfView && profile" class="heading-call-to-action" [routerLink]="['/work-experiences/listing', profile?.id]">{{ 'SEE ALL' }}</a>
+  </ion-row>
+ 
+   <ion-row class="details-tags padding" style="text-align: center;" *ngIf="profile?.work_experiences.length <=0">
+   
+     <!----Empty view-->
+     <ion-grid class="roundHolder" *ngIf="selfView && profile?.work_experiences.length <= 0" style="width:100%;height: 100%;display:block;align-content: center;">
+      <hr class="details-divider">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/briefcase.svg" style="display: block;font-size:48px;"></ion-icon>
+        <h5 style="text-align: center;color: #444444;">No Work Experience yet!</h5>
+        <ion-button *ngIf="profile" [routerLink]="['/work-experiences/listing', profile?.id]" style="display:block;text-align: center;" class="upload-picture-btn" color="dark" expand="cover" fill="outline">
+          Add Work Experience</ion-button>
+        </ion-row>
+      </ion-grid>
+  <!----Empty view-->
+  </ion-row>
+
+  <div *ngIf="profile?.work_experiences.length > 0">
+  <ion-row class="playlist-item-row" *ngFor="let item of profile?.work_experiences">
+    <ion-col size="12" class="video-info-wrapper">
+      <h4 class="image-title" *ngIf="item.company">
+        <app-text-shell animation="gradient" [data]="item.company"></app-text-shell>
+      </h4>
+      <h3 class="image-description" *ngIf="item.designation">
+        <app-text-shell animation="bouncing" [data]="'Designation: '+item.designation"></app-text-shell>
+      </h3>
+
+      <h5 class="image-description" *ngIf="item.current">
+        <app-text-shell animation="bouncing" [data]="'Duration: '+item.startDate?.concat(' to Current')"></app-text-shell>
+      </h5>
+      
+      <h5 class="image-description" *ngIf="!item.current">
+        <app-text-shell animation="bouncing" [data]="'Duration: '+item.startDate?.concat(' - ').concat(item.endDate)"></app-text-shell>
+      </h5>
+
+      <h5 class="image-description" *ngIf="item.role">
+        <app-text-shell animation="bouncing" [data]="'Role: '+item.role"></app-text-shell>
+      </h5>
+
+    </ion-col>
+  </ion-row>
+</div></div>
+<!------ Ends Experience Detail ------->
+
+<hr class="details-divider">
+
+<!--------------- Education Details --------------->
+<div class="user-photos-section" *ngIf="!loading && profile?.role_id === 3 && (selfView || (!selfView && profile?.education_details.length > 0))">
+  <ion-row class="heading-row">
+    <h3 class="details-section-title">EDUCATION DETAILS</h3>
+    <a *ngIf="selfView && profile" class="heading-call-to-action" [routerLink]="['/education-details/listing', profile?.id]">{{ 'SEE ALL' }}</a>
+  </ion-row>
+ 
+   <ion-row class="details-tags padding" style="text-align: center;" *ngIf="profile?.education_details.length <=0">
+   
+   <!----Empty view-->
+    <ion-grid class="roundHolder" *ngIf="selfView" style="width:100%;height: 100%;display:block;align-content: center;">
+      <hr class="details-divider">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/study_areas.svg" style="display: block;font-size:48px;"></ion-icon>
+        <h5 style="text-align: center;columns: #444444;">No education detail found</h5>
+        <ion-button (click)="addNewEducationItem()" style="display:block;text-align: center;" class="upload-picture-btn" color="dark" expand="cover" fill="outline">
+          Add Details</ion-button>
+        </ion-row>
+      </ion-grid>
+  <!----Empty view-->
+  </ion-row>
+
+  <div *ngIf="profile?.education_details.length > 0">
+  <ion-row class="playlist-item-row" *ngFor="let video of profile?.education_details">
+    <ion-col size="12" class="video-info-wrapper">
+      <h4 class="image-title">
+        <app-text-shell animation="gradient" [data]="video.title"></app-text-shell>
+      </h4>
+      <h5 class="image-description">
+        <app-text-shell lines="1" animation="gradient" [data]="video.organization"></app-text-shell>
+      </h5>
+
+      <h5 class="image-description">
+        <app-text-shell lines="1" animation="gradient" [data]="'Duration: '+video.yoj+' - '+video.yop"></app-text-shell>
+      </h5>
+
+      <h5 class="image-description" *ngIf="video.score_type == 'Percent'">
+        <app-text-shell lines="1" animation="gradient" [data]="'Score: '+video.score+' %'"></app-text-shell>
+      </h5>
+
+      <h5 class="image-description" *ngIf="video.score_type == 'Grade'">
+        <app-text-shell lines="1" animation="gradient" [data]="'Grade: '+video.score"></app-text-shell>
+      </h5>
+
+    </ion-col>
+  </ion-row>
+</div>
+</div>
+<!------- Ends Education Detail ------->
+
+
+<!---Display Reviews-->
+<hr class="details-divider">
+<div class="reviews-wrapper" *ngIf="!loading && profile?.role_id === 3 && (selfView || (!selfView && profile?.reviews.length > 0))">
+
+  <ion-row class="heading-row">
+    <h3 class="details-section-title">REVIEWS</h3>
+    <a *ngIf="profile && profile?.reviews.length > 3" class="heading-call-to-action" [routerLink]="['/people/reviews', profile?.id]">{{ 'SEE ALL' }}</a>
+  </ion-row>
+
+    <!----Empty view-->
+    <ion-grid class="roundHolder" *ngIf="selfView && profile?.reviews.length === 0" style="width:100%;height: 100%;display:block;align-content: center;">
+      <hr class="details-divider">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/thumbs-up.svg" style="display: block;font-size:48px;"></ion-icon>
+        <h5 style="text-align: center;color: #444444;">No Rated yet</h5>
+        <p class="user-description" style="margin-top:4px;padding:10px;">
+          A great review is all you need to stand out. Earn a good reputation by delivering expected work in time.
+        </p>
+        </ion-row>
+      </ion-grid>
+  <!----Empty view-->
+
+  <div class="reviews-list" *ngIf="profile?.reviews.length > 0">
+    <div class="review-item" *ngFor="let review of profile?.reviews| slice:0:3">
+      <app-work-review [review]="review"></app-work-review>
+    </div>
+  </div> </div>
+  <!---Display Reviews-->
+
+
+   <!------- Loading View ------->
+   <ion-grid style="height: 100%" *ngIf="loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+      <h5 style="text-align: center;color: #555555;">Loading Profile ...</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Loading View ------->
+
+</ion-content>

@@ -1,0 +1,165 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "slug": "50-off-lindt",
+      "code": "FOODINSPECTOR",
+	  "title": "Food Inspector Required",
+	  "job_type": "Permanent",
+	  "job_status": "Pending",
+	  "job_location": "Oxford, United Kingdom",
+	  "min_salary": 5000,
+	  "max_salary": 5500,
+      "currency": "USD",
+	  "salary_type": 1,
+	  "salary_type_name": "Full Time",
+	  "min_experience": 0,
+	  "max_experience": 3,
+	  "distance": 5,
+	  "job_area": "IT Programming",
+	  "job_area_id": 1,
+	  "skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			],
+      "description": "We are looking for a food inspector with at least 2 years of experience for our company Choco Treat Pvt. Ltd. ",
+	  "job_details": [{
+					"id": 1,
+					"title": "Job Roles",
+					"description": "Due to business expansion, a City based subsidiary of an overseas bank has an immediate opportunity for a credit analyst role in their Credit function which will focus predominantly on the processing of credit proposals sent from the branch network in the UK."
+				},
+				{
+					"id": 2,
+					"title": "Job Responsibility",
+					"description": "The vast majority of proposals will involve real estate transactions such as buy to let (residential and commercial) and development loans, although some corporate/ commercial business may feature from time to time."
+				}
+			],
+	  "postDate": "08/01/2020",
+      "expirationDate": "12/01/2020",
+      "logo": "./assets/sample-images/deals/Deals1-4.1.png"
+    }, {
+      "id": 2,
+      "slug": "20-off-landscape-lighting",
+      "code": "20LIGHT25",
+	  "title": "Carpenter Required",
+	  "job_type": "Contract",
+	   "job_status": "Pending",
+	  "job_location": "Oxford, United Kingdom",
+	  "min_salary": 150,
+	  "max_salary": 250,
+	  "currency": "USD",
+	  "salary_type": 1,
+	  "salary_type_name": "Full Time",
+	  "min_experience": 0,
+	  "max_experience": 3,
+	  "distance": 5,
+	  "job_area": "IT Programming",
+	  "job_area_id": 1,
+	  "skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			],
+      "description": "This is a dummy job description. More details about the job can be found in the job description page.",
+      "postDate": "08/01/2020",
+      "expirationDate": "12/01/2020",
+      "logo": "./assets/sample-images/deals/Deals2-4.1.png"
+    }, {
+      "id": 3,
+      "slug": "3-months-free-trial",
+      "code": "MORETVPLZ3",
+	  "title": "Web Developer (PHP/Laravel)",
+	  "job_type": "Part-time",
+	   "job_status": "Pending",
+	  "job_location": "HSR Sector 2, Bangalore, Karnataka",
+	  "min_salary": 500,
+	  "max_salary": 700,
+	   "currency": "USD",
+	  "salary_type": 1,
+	  "salary_type_name": "Full Time",
+	  "min_experience": 0,
+	  "max_experience": 3,
+	  "distance": 5,
+	  "job_area": "IT Programming",
+	  "job_area_id": 1,
+	  "skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			],
+      "description": "This is a dummy job description. More details about the job can be found in the job description page.",
+      "postDate": "05/01/2020",
+      "expirationDate": "18/01/2020",
+      "logo": "./assets/sample-images/deals/Deals3-4.1.png"
+    }, {
+      "id": 4,
+      "slug": "cat-limited-time-offer",
+      "code": "GETTHATPHONE212",
+	  "title": "Graphics Designer Required",
+	  "job_type": "Contract",
+	   "job_status": "Pending",
+	  "job_location": "Anekal, Bangalore, Karnataka",
+	  "min_salary": 1500,
+	  "max_salary": 2100,
+	   "currency": "USD",
+	  "salary_type": 1,
+	  "salary_type_name": "Full Time",
+	  "min_experience": 0,
+	  "max_experience": 3,
+	  "distance": 5,
+	  "job_area": "IT Programming",
+	  "job_area_id": 1,
+	  "skills": [
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			],
+      "description": "This is a dummy job description. More details about the job can be found in the job description page.",
+      "postDate": "08/12/2019",
+      "expirationDate": "15/02/2020",
+      "logo": "./assets/sample-images/deals/Deals4-4.1.png"
+    }
+  ]
+}

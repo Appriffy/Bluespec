@@ -1,0 +1,313 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Job Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="deals-details-content" [ngClass]="{'ended': ((details?.expirationDate | appTimeDifference) < 0), 'imminent-end': ((details?.expirationDate | appTimeDifference) > 0 && (details?.expirationDate | appTimeDifference) <= 2), 'ends-soon': ((details?.expirationDate | appTimeDifference) > 0 && (details?.expirationDate | appTimeDifference) > 2 && (details?.expirationDate | appTimeDifference) < 10), 'distant-end': ((details?.expirationDate | appTimeDifference) >= 10)}">
+  <ion-row class="expiration-countdown" style="padding: 8px;" *ngIf="((details?.expirationDate | appTimeDifference) > 0 && (details?.expirationDate | appTimeDifference) <= 3)">
+    <span class="expiration-lead">Job expires in:</span>
+    <app-countdown-timer class="item-countdown" fill="countdown" [end]="details?.expirationDate" [units]="{from: 'hour', to: 'second'}"></app-countdown-timer>
+  </ion-row>
+
+
+  <!--------ADMIN PANEL -------->
+  <div class="details-wrapper" *ngIf="selfView || adminMode">
+
+  <ion-row class="details-scores review-scores description-row">
+ 
+    <ion-col class="score-item review-score">
+      <div style="vertical-align: middle;">
+        <ion-icon class="score-icon" style="text-align:left;position: relative;vertical-align: middle;display: inline-block;" name="people"></ion-icon>
+        <div style="display: inline-block;vertical-align: middle;">
+          <h2 class="score-title"><app-text-shell animation="bouncing" [data]="details?.numApplications ? details?.numApplications : '0'"></app-text-shell></h2>
+          <h6 class="score-value">APPLICANTS</h6>
+        </div>
+      </div>
+    </ion-col>
+    <ion-col class="score-item review-score">
+      <div style="vertical-align: middle;">
+        <ion-icon class="score-icon" style="text-align:left;position: relative;vertical-align: middle;display: inline-block;" name="funnel"></ion-icon>
+        <div style="display: inline-block;vertical-align: middle;">
+          <h2 class="score-title"><app-text-shell animation="bouncing" [data]="details?.numShortlists ? details?.numShortlists : '0'"></app-text-shell></h2>
+          <h6 class="score-value">SHORTLISTED</h6>
+        </div>
+      </div>
+    </ion-col>
+    <ion-col class="score-item review-score">
+      <div style="vertical-align: middle;">
+        <ion-icon class="score-icon" style="text-align:left;position: relative;vertical-align: middle;display: inline-block;" name="eye"></ion-icon>
+        <div style="display: inline-block;vertical-align: middle;">
+          <h2 class="score-title"><app-text-shell animation="bouncing" [data]="details?.numTotalViews ? details?.numTotalViews : '0'"></app-text-shell></h2>
+          <h6 class="score-value">TOTAL VIEWS</h6>
+        </div>
+      </div>
+    </ion-col>
+
+  </ion-row>
+
+
+
+  </div>
+
+  <!--------ADMIN PANEL -------->
+
+
+  <div class="details-wrapper">
+
+    <!-- <ion-row class="slider-row" *ngIf="details?.showcaseImages.length > 0">
+      <ion-slides class="details-slides" pager="true" [options]="slidesOptions">
+        <ion-slide class="" *ngFor="let image of details?.showcaseImages">
+          <ion-row class="slide-inner-row">
+            <app-aspect-ratio [ratio]="{w: 56, h: 40}">
+              <app-image-shell [src]="image" [alt]="'deals details'" class="showcase-image" animation="spinner"></app-image-shell>
+            </app-aspect-ratio>
+          </ion-row>
+        </ion-slide>
+      </ion-slides>
+    </ion-row> -->
+
+    <ion-row class="description-row">
+      <ion-col class="logo-col" size="4" *ngIf="details?.company?.logo">
+        <app-image-shell [src]="details?.company.logo" [alt]="'company details'" class="logo-image" animation="spinner"></app-image-shell>
+      </ion-col>
+
+      <ion-col class="info-col" size="12">
+        <h1 class="details-name">
+          <app-text-shell animation="bouncing" [data]="details?.title"></app-text-shell>
+        </h1>
+        <p class="details-description">
+          <app-text-shell animation="bouncing" lines="3" [data]="details?.job_description"></app-text-shell>
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <div class="amenities-wrapper" *ngIf="details?.jobSkills.length > 0">
+      <h3 class="detail-title">Required Job Skills</h3>
+      <ion-row class="amenities-tags">
+        <ion-col class="tag-wrapper" *ngFor="let amenity of details?.jobSkills">
+          <span class="amenity-tag">
+            <app-text-shell [data]="amenity.title"></app-text-shell>
+          </span>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- <div class="description-wrapper">
+      <span class="details-price">
+        <app-text-shell animation="gradient" [data]="'Days Left: '+details?.expirationDate | appTimeDifference"></app-text-shell>
+      </span>
+    </div> -->
+
+
+  </div>
+
+<!-------- 3. JOB STAT TABLE--------->
+<div class="details-wrapper">
+ <div class="accommodations-wrapper">
+  <h3 class="detail-title">Job Specification</h3>
+  <ion-row class="accommodation-row" *ngIf="details?.salary_type">
+    <ion-col class="icon-wrapper">
+      
+      <ion-icon name="cash"  class="accommodation-icon"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Salary</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value" *ngIf="details?.salary_type == 'monthly'">
+        <app-text-shell animation="bouncing" [data]="details?.currency+' '+details?.job_salary+'/Month'"></app-text-shell>
+      </span>
+      <span class="accommodation-value" *ngIf="details?.salary_type == 'hourly'">
+        <app-text-shell animation="bouncing" [data]="details?.currency+' '+details?.job_salary+'/Hr'"></app-text-shell>
+      </span>
+      <span class="accommodation-value" *ngIf="details?.salary_type == 'fixed'">
+        <app-text-shell animation="bouncing" [data]="details?.currency+' '+details?.job_salary+''"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+  
+  <ion-row class="accommodation-row" *ngIf="details?.distance">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="locate"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Distance</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.distance+' Km away'"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row class="accommodation-row" *ngIf="details?.minExp && details?.maxExp">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="briefcase"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Required Experience</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.minExp+' - '+details?.maxExp+' Years'"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row class="accommodation-row">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="ios-briefcase"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Job Area</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.job_area_name"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="accommodation-row">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="pricetag"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Job Type</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.job_type_name"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="accommodation-row">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="calendar"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Date Posted</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.date_created"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="accommodation-row" *ngIf="details?.date_closing">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="alarm"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Closing Date</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell animation="bouncing" [data]="details?.date_closing"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+</div>
+</div>
+<!-------- END OF JOB STAT TABLE--------->
+
+<!-------- TEST--------->
+<div class="details-wrapper">
+  <!-- <p>{{details|json}}</p> -->
+  <div class="accommodations-wrapper">
+    <h3 class="detail-title">How to apply?</h3>
+    <p>Go through the job description carefully. If you meet the required criteria click accept job button below to share your interest. We will notify once your profile is shortlisted by the employer.</p>
+    <p>We will notify once your profile is shortlisted by the employer.</p>
+  </div>
+</div>
+<!-------- END TEST--------->
+
+  <!-------- MAP HERE --------->
+  <div class="location-wrapper" *ngIf="details?.address && details?.latitude && details?.longitude">
+    <div class="location-header">
+      <h3 class="detail-title"> <ion-icon class="accommodation-icon" name="locate"></ion-icon> Hiring Location</h3>
+      <span class="location-address">
+        <app-text-shell animation="bouncing" [data]="details?.address"></app-text-shell>
+      </span>
+    </div>
+  
+    <div id="map">
+      <google-map [mapOptions]="mapOptions"></google-map>
+    </div>
+
+  </div>
+<!-------- MAP HERE --------->
+
+  <ion-row class="promo-row ion-text-center" *ngIf="!selfView">
+    <ion-col size="12">
+      <ion-button (click)="startChat()" class="promo-code-btn" expand="cover" shape="round" fill="outline" color="success">
+        <span class="promo-code">
+          <ion-icon name="chatboxes"></ion-icon> START CHAT
+        </span>
+      </ion-button>
+    </ion-col>
+    <ion-col size="12">
+      <p class="promo-instructions">
+        You can enter into chat with the recruiter after accepting this job. 
+      </p>
+    </ion-col>
+  </ion-row>
+
+
+  <div class="availability-wrapper" style="text-align: center;" *ngIf="!selfView && details?.jobPrefs.enableCustomOffer">
+    <ion-button class="book-now-btn" color="dark" expand="cover" fill="outline">MAKE A CUSTOM OFFER</ion-button>
+  </div>
+
+  <div class="related-deals-wrapper" *ngIf="details?.company && details?.company.logo">
+    <ion-row class="related-deal">
+      <ion-col class="deal-logo-wrapper" size="3">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell [src]="'assets/images/tut-grafter2.png'" [alt]="'deals logo'" class="related-deal-logo" animation="spinner"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="deal-info-wrapper" size="9">
+        <h4 class="related-deal-title">
+          <app-text-shell [data]="'Company Name'"></app-text-shell>
+        </h4>
+        <p class="related-deal-description">
+          <app-text-shell [data]="'A little intro'"></app-text-shell>
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+</ion-content>
+
+<ion-footer>
+
+  <ion-row class="expiration-countdown" *ngIf="details?.hasApplied">
+    <span class="expiration-lead" style="padding: 10px;">
+     You have applied for this job. Your application is {{details?.applicationStatus}}.
+    </span>
+  </ion-row>
+
+  <ion-row *ngIf="!selfView">
+    <ion-col size="12" style="display: none;">
+      <ion-button class="select-variant-btn" color="medium" expand="block" fill="outline" (click)="rejectJob()">REJECT</ion-button>
+    </ion-col>
+    <ion-col size="12" *ngIf="details && !details?.hasApplied && (details?.expirationDate | appTimeDifference) >= 0">
+      <ion-button class="select-variant-btn" color="dark" expand="block" fill="solid" (click)="acceptJob()">ACCEPT JOB</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="details && (selfView || adminMode)">
+    <ion-col size="12">
+      <ion-button class="select-variant-btn" color="primary" expand="block" fill="solid" *ngIf="details" [routerLink]="['/jobs/applications', details?.qcode]">View Applications</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>

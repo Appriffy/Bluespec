@@ -1,0 +1,72 @@
+<form class="update-user-form ion-page" [formGroup]="updateEduDetailForm" (ngSubmit)="updateUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{page_title}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="update-user-content">
+   
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+        <!-- <p>{{updateEduDetailForm.value|json}}</p> -->
+
+         <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Company *</ion-label>
+          <ion-input type="text" formControlName="company" placeholder="Company name" ></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Designation *</ion-label>
+          <ion-input type="text" formControlName="designation" placeholder="Your designation or Job title" ></ion-input>
+        </ion-item>
+       
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Joining Date *</ion-label>
+            <ion-datetime display-format="MMM DD, YYYY" picker-format="YYYY-MM-DD" formControlName="startDate" required></ion-datetime>
+          </ion-item>
+  
+          <ion-item class="input-item">
+            <ion-label class="toggle-label">{{studyStatus}}</ion-label>
+            <ion-toggle color="secondary" formControlName="current" (ionChange)="onCurrentOptionSelected($event)"></ion-toggle>
+          </ion-item>
+  
+          <ion-item class="input-item" *ngIf="!currentlyWorking">
+            <ion-label color="secondary" position="floating">Worked Untill * </ion-label>
+            <ion-datetime display-format="MMM DD, YYYY" picker-format="YYYY-MM-DD" formControlName="endDate" required></ion-datetime>
+          </ion-item>
+
+        <ion-input *ngIf="currentlyWorking" type="hidden" formControlName="endDate" [value]="" ></ion-input>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Role</ion-label>
+          <ion-input formControlName="role" placeholder="Describe your role at this company" ></ion-input>
+        </ion-item>
+
+        <!------------------>
+        <ion-input type="hidden" formControlName="id"></ion-input>
+        <ion-input type="hidden" formControlName="user_id"></ion-input>
+        <ion-input type="hidden" formControlName="responsibility"></ion-input>
+        <!------------------>
+      </ion-list>
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="delete-btn" expand="block" color="danger" fill="outline" (click)="deleteUser()">DELETE</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!updateEduDetailForm.valid">UPDATE</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

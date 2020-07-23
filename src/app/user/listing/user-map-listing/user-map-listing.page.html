@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-buttons slot="start">
+      
+      <ion-buttons  (click)="prevStep()">
+        <ion-button fill="outline" color="facebook">Back</ion-button>
+      </ion-buttons>
+
+    </ion-buttons>
+    <ion-title slot="">Select Location</ion-title>
+    <ion-buttons slot="end">
+     
+      <ion-buttons  (click)="nextStep()">
+        <ion-button fill="outline" color="facebook">FILTER</ion-button>
+      </ion-buttons>
+
+    </ion-buttons>
+    
+  </ion-toolbar>
+
+  <!-- <ion-toolbar>
+    <ion-searchbar [(ngModel)]="query" (ionInput)="searchPlace()"></ion-searchbar>
+</ion-toolbar> -->
+
+</ion-header>
+
+<ion-content class="create-user-content">
+  <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords"></app-map>
+  
+</ion-content>
+
+<ion-footer>
+  <!-- <div class="users-pictures-wrapper">
+    <h3 class="detail-title">Select a radius you can offer your service.</h3>
+    <ion-row class="pictures-row">
+     
+    </ion-row>
+    <ion-button class="upload-picture-btn" color="dark" expand="block" fill="outline">Set Default Location</ion-button>
+  </div> -->
+
+  <ion-item-group class="filters-content filters-group">
+  <ion-item-divider>
+    <ion-label>Lat: {{currentLat}}, Lat: {{currentLong}}</ion-label>
+  </ion-item-divider>
+  <!-- <form [formGroup]="filterUsersForm" class="range-list" (ngSubmit)="saveLocationPrefs()">
+
+    <ion-row class="range-item" style="display:none;">
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Latitude</ion-label>
+          <ion-input type="text" formControlName="latitude" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Longitude</ion-label>
+          <ion-input type="text" formControlName="longitude" required></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="range-item">
+      <ion-col size="12">
+        <div class="range-header">
+          <span class="range-label" style="margin-left:15px;">How far can you offer your service?</span>
+          <span class="range-value">{{ rangeForm.controls.radius.value }}</span>
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-range class="range-control" formControlName="radius" color="secondary" (ionChange)="rangeChange($event)" min="0" max="50" step="1"></ion-range>
+      </ion-col>
+    </ion-row>
+  </form> -->
+</ion-item-group>
+
+
+<ion-row class="details-purchase-options-row">
+ 
+  <ion-col size="6">
+    <ion-button class="select-variant-btn" color="medium" expand="block" fill="outline" (click)="addMarkerTest()">Add Marker</ion-button>
+  </ion-col>
+  <ion-col size="6" class="main-call-to-action-col">
+    <ion-button class="add-to-cart-btn" color="dark" expand="block" fill="solid">More Action</ion-button>
+  </ion-col>
+</ion-row>
+
+
+  <ion-row class="form-actions-wrapper">
+    <ion-col>
+      <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; LOCATE ON MAP</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>List Job Skills</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="openCreateItemModal()" *ngIf="localUser?.role_id == 1">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+     
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="filters-toolbar">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="Search skills..."></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Job Skills...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+   <!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="listing?.length <= 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      
+      <ion-icon src="./assets/sample-icons/side-menu/briefcase.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;color: #555555;">No Job Skill Found</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+      <ion-list class="items-list" *ngIf="listing?.length > 0 && !loading">     
+        <ion-item class="list-item" *ngFor="let item of listing" [routerLink]="['/job-skills/details', item.id]">
+   
+          <ion-row class="user-row">
+            <!-- <ion-col size="3" class="user-image-wrapper">
+              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+                <app-image-shell class="user-image" animation="spinner" [mode]="'cover'" [src]="item?.image" [alt]="'Company Logo'"></app-image-shell>
+              </app-aspect-ratio>
+            </ion-col> -->
+            <ion-col class="user-data-wrapper">
+              <div class="user-info">
+                <h3 class="user-name">
+                  <app-text-shell animation="bouncing" [data]="item?.title"></app-text-shell>
+                </h3>
+    
+      <div *ngIf="!item?.enabled">
+       <ion-badge class="schedule-closed" color="danger">Not Enabled</ion-badge>
+       </div>
+    
+              </div>
+            </ion-col>
+          </ion-row>
+     
+
+  </ion-item>
+     </ion-list>
+</ion-content>

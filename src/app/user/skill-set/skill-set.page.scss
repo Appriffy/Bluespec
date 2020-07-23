@@ -1,0 +1,80 @@
+@import "../../../theme/mixins/scrollbars";
+
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-fair-margin);
+  --page-background: var(--app-background);
+
+  --page-related-users-gutter: calc(var(--page-margin) / 2);
+}
+
+    .range-item {
+      --ion-grid-column-padding: 0px;
+
+      padding-top: var(--page-margin);
+      //padding-inline-start: var(--page-margin);
+      //padding-inline-end: var(--page-margin);
+      // box-shadow at the top
+      //box-shadow: inset 0 6px 3px -8px  var(--ion-color-darkest);
+
+      .range-header {
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: calc(var(--page-margin) / 2);
+
+        .range-value {
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.2px;
+          color: var(--ion-color-dark);
+        }
+
+        .range-label {
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: 0.2px;
+          color: var(--ion-color-dark);
+        }
+      }
+
+      .range-control {
+        // override the pin color
+        --ion-text-color: var(--ion-color-medium);
+
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+    }
+
+
+    .language-score {
+        --buffer-background: rgba(var(--ion-color-secondary-rgb), .20);
+        --progress-background: rgba(var(--ion-color-secondary-rgb), 1);
+
+        height: var(--page-margin);
+        border-radius: calc(var(--page-margin) / 2);
+      }
+
+  .user-languages-wrapper {
+    .language-item-row {
+      --ion-grid-column-padding: 0px;
+
+      margin-bottom: calc(var(--page-margin) / 2);
+
+    }
+  }
+
+.user-content {
+  --background: var(--page-background);
+  .content-section {
+    padding: var(--page-margin);
+    border-top: solid 1px var(--ion-color-light-shade);
+
+    .section-header {
+      margin-top: 0px;
+      margin-bottom: var(--page-margin);
+    }
+  }
+
+}

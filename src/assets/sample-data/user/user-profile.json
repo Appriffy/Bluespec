@@ -1,0 +1,54 @@
+{
+  "id": 1,
+  "name": "Aman Singh",
+  "user_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+  "role_id": 3,
+  "grafter_type": 1,
+  "city":"Bangalore,",
+  "country":"India",
+  "tagline":"Highly Experienced Illustrator and Graphics Designer",
+  "online_status":"Online",
+  "jobDone": "17",
+  "avgRating": "4.4",
+  "numReviews": "15",
+  "about": "I am a Graphics designer based in Bangalore, India. I have 7+ experience of experience in designing logo, illustration and creative digital media.",
+  "skills": [
+          {"id": 1, "title":"HTML"},
+          {"id": 2, "title":"CSS"},
+		  {"id": 3, "title":"JavaScript"},
+		  {"id": 4, "title":"Python"}
+      ],
+   "education_details": [
+          {"id": 1, "title":"Matriculation", "organization":"Holy Mission School", "yoj":"2003", "yop":"2005", "score":"85", "score_type":"%"},
+          {"id": 1, "title":"Senior Secondary", "organization":"R.K Mission School", "yoj":"2005", "yop":"2007", "score":"87", "score_type":"%"},
+		  {"id": 1, "title":"Graduation",  "organization":"Ambition Institute of Technology", "yoj":"2007", "yop":"2011", "score":"82", "score_type":"%"}
+      ],
+   "languages": [
+          {"id": 1, "title":"English", "votesCount": "8"},
+          {"id": 1, "title":"Hindi", "votesCount":"9"},
+		  {"id": 1, "title":"French",  "votesCount":"7"}
+      ],
+    "reviews": [
+        {
+          "image": "./assets/sample-images/food/user-image-1.png",
+          "name": "John Smith",
+          "avgRating": 5,
+          "publishedAt": "2018, May 6",
+          "message": "This review is long overdue but memories still vivid. It was a great experience getting my company logo."
+        },
+        {
+          "image": "./assets/sample-images/food/user-image-1.png",
+          "name": "John Smith",
+          "avgRating": 5,
+          "publishedAt": "2018, Apr 22",
+          "message": "One of the best sellers here on Bluspec. Would look forward to work again with him."
+        },
+        {
+          "image": "./assets/sample-images/food/user-image-1.png",
+          "name": "John Smith",
+          "avgRating": 3.8,
+          "publishedAt": "2018, Jan 10",
+          "message": "He is creative and the delivery was as expected. He exceeded my expectations in terms of deadline and was average at design quality. Will recommend him to anyone."
+        }
+      ]   
+}

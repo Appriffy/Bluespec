@@ -1,0 +1,123 @@
+{
+  "job_requests": [
+    {
+       "title": "Looking for a Security Guard",
+       "job_description": "",
+       "job_area": "Household",
+       "job_type": "Full-time",
+       "salary": "$1800",
+             "salary_type": "Per Month",
+       "status": "Pending",
+       "date_requested": "7 days ago",
+       "numOffers": 7
+    },
+    {
+      "title": "House Cleaner Required",
+      "job_description": "",
+      "job_area": "Household",
+      "job_type": "Cleaning",
+      "salary": "$100 - 120",
+             "salary_type": "Contract",
+      "status": "Pending",
+      "date_requested": "3 days ago",
+      "numOffers": 4
+    },
+    {
+      "title": "Plumber Required for 4 Storeyed Building",
+      "job_description": "",
+      "job_area": "Household",
+      "job_type": "Cleaning",
+      "salary": "$400",
+             "salary_type": "Contract",
+      "status": "Pending",
+      "date_requested": "just now",
+      "numOffers": 0
+    },
+    {
+      "title": "Looking for Illustrator",
+      "job_description": "",
+      "job_area": "Designing",
+      "job_type": "Part-time",
+      "salary": "$950",
+             "salary_type": "Per Month",
+      "status": "Pending",
+      "date_requested": "11 days ago",
+      "numOffers": 2
+    },
+    {
+      "title": "Logo Designer Required",
+       "job_description": "",
+       "job_area": "Designing",
+       "job_type": "Part-time",
+       "salary": "$700",
+             "salary_type": "Per Month",
+       "status": "Pending",
+       "date_requested": "1 day ago",
+       "numOffers": 2
+    }
+  ],
+  "ongoing_jobs": [
+    {
+      "title": "Full-Time Linux Administrator",
+             "job_description": "",
+             "job_area": "Administrator",
+             "job_type": "Linux Admin",
+             "salary": "1800 $",
+             "salary_type": "Per Month",
+             "status": "In Progress",
+             "progress":"75",
+             "date_requested": "22-01-2019",
+             "date_approved": "25 Jan 2020",
+             "grafter_name": "Sandeep Kumar",
+             "grafter_image": "./assets/sample-images/user/person_4.jpg",
+             "expected_delivery": "24 March 2019"
+    },
+    {
+      "title": "PHP Developer with Laravel",
+      "job_description": "",
+      "job_area": "IT",
+      "job_type": "Programming",
+      "salary": "1800 $",
+      "salary_type": "Per Month",
+      "status": "In Progress",
+      "progress":"75",
+      "date_requested": "22-01-2019",
+      "date_approved": "27 Jan 2020",
+      "grafter_name": "Vimal Kumar",
+      "grafter_image": "./assets/sample-images/user/person_3.jpg",
+ "expected_delivery": "03 Feb 2019"
+    }
+  ],
+   "completed_jobs": [
+      {
+        "title": "Painter Required",
+               "job_description": "",
+               "job_area": "Household",
+               "job_type": "Painting",
+               "status": "Completed",
+               "date_requested": "22-01-2019",
+               "date_approved": "26-01-2019",
+               "date_completed":"6 days ago",
+               "grafter_name": "Sandeep Kumar",
+               "grafter_image": "./assets/sample-images/user/person_1.jpg",
+          "expected_delivery": "21 Jan 2019",
+          "is_rated": true,
+          "rating": "3.5"
+      },
+      {
+        "title": "Part-time Redhat Expert Required",
+        "job_description": "",
+        "job_area": "Administrator",
+        "job_type": "System Support",
+        "status": "Completed",
+        "date_requested": "15-01-2019",
+        "date_approved": "17-01-2019",
+        "date_completed":"4 days ago",
+        "grafter_name": "Mahendra Shah",
+        "grafter_image": "./assets/sample-images/user/person_2.jpg",
+   "expected_delivery": "",
+   "is_rated": false,
+   "rating": "5"
+      }
+  ]
+}

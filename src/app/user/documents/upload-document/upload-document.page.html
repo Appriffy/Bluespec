@@ -1,0 +1,93 @@
+<form class="create-user-form ion-page" [formGroup]="uploadFileForm" (ngSubmit)="createFile()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="people/profile"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Upload {{docType}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content">
+    <ion-row class="expiration-countdown">
+      <span class="expiration-lead" *ngIf="docType">
+        Upload your {{docType}} in PDF, PNG or JPEG Format.
+      </span>
+      <span class="expiration-lead" *ngIf="!docType" (click)="openSelectDocumentMaster()">
+        Click here to select a document type.
+      </span>
+    </ion-row>
+
+    <!-- <ion-button (click)="fileInput.click()">
+      <ion-icon slot="icon-only" name="close"></ion-icon> CLICK TEST
+    </ion-button>
+
+    <ion-button (click)="fileInput.onChange()">
+      <ion-icon slot="icon-only" name="close"></ion-icon> CHANGE TEST
+    </ion-button> -->
+
+    <ion-row class="select-user-image-row" *ngIf="docType">
+      <ion-col class="user-image-col" size="8" (click)="fileInput.click()">
+      
+        <!-- <app-aspect-ratio [ratio]="{w: 1, h: 1}" *ngIf="!localFileSrc && preview">
+          <app-image-shell [mode]="'cover'" class="user-image" animation="spinner" [src]="preview" [alt]="'Upload Document'"></app-image-shell>
+        </app-aspect-ratio> -->
+        <pdf-viewer *ngIf="localFileSrc" [src]="localFileSrc" [render-text]="true"
+        style="display: block;" [original-size]="false" [fit-to-page]="true"></pdf-viewer>
+
+         <img *ngIf="preview" class="user-image" [src]="preview" style="margin:0 auto;width:100%;height:auto;"/>
+        
+         <app-aspect-ratio [ratio]="{w: 1, h: 1}" *ngIf="!preview && !localFileSrc">
+          <app-image-shell class="user-image" [mode]="'cover'" animation="spinner" [src]="'./assets/images/bg.jpg'" [alt]="'Upload Document'"></app-image-shell>
+        </app-aspect-ratio>
+
+        <ion-button class="change-image-btn" color="primary" (click)="fileInput.click()">
+          <ion-icon class="btn-icon" slot="icon-only" src="./assets/sample-icons/side-menu/upload.svg"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+  </ion-content>
+
+  <ion-footer>
+
+  <section class="user-details-fields fields-section">
+  <ion-list class="inputs-list" lines="full">
+
+  <!-- Progress Bar -->
+  <div class="progress form-group" *ngIf="percentDone">
+    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+      [style.width.%]="percentDone">
+    </div>
+  </div>
+
+  <!-- File Input -->
+  <div class="form-group" style="display:block;text-align: center;">
+    <input #fileInput type="file" accept=".pdf, .png, .jpeg" (change)="uploadBinaryFile($event)">
+  </div>
+
+
+        <ion-item class="input-item" style="display:none;">
+          <ion-label color="primary" position="floating">Select Document Type *</ion-label>
+          <ion-input type="text" (click)="openSelectDocumentMaster()" formControlName="doc_type"></ion-input>
+        </ion-item>
+        <ion-input type="hidden" formControlName="doc_type_id"></ion-input>
+        <ion-input type="hidden" formControlName="user_id" required></ion-input>
+</ion-list>
+    </section>
+
+
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!uploadFileForm.valid">
+          <ion-icon slot="icon-only" src="./assets/sample-icons/side-menu/upload.svg"></ion-icon> &nbsp;&nbsp;UPLOAD</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

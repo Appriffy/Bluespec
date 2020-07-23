@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Bluspec</string>
+    <string name="title_activity_main">Bluspec</string>
+    <string name="package_name">com.bluspec.jobs</string>
+    <string name="fileprovider_authority">com.bluspec.jobs.fileprovider</string>
+    <string name="custom_url_scheme">com.bluspec.jobs</string>
+</resources>

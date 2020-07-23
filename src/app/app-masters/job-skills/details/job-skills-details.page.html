@@ -1,0 +1,196 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="job-skills/listing"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Job Skill Detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openItemUpdateModal()" *ngIf="user && localUser?.role_id === 1">
+        Edit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-content" color="primary">
+ <!------ Top Header Main ---->
+ <div class="recipes-wrapper" style="background-color:#ffffff;clear: both;margin-bottom:0px;">
+  <div class="recipes-list">
+    <div class="recipe-item">
+      <!----- SECTION 1: BASIC ITEM DETAILS ----->
+      <app-image-shell class="recipe-cover-image" [mode]="'cover'" [src]="'./assets/images/bg.jpg'">
+        <app-aspect-ratio [ratio]="{w:12, h:3}">
+        </app-aspect-ratio>
+      </app-image-shell>
+      <div class="chef-picture-wrapper">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell class="chef-picture-image" [src]="user?.image" [alt]="'Job Area Image'"></app-image-shell>
+        </app-aspect-ratio>
+      </div>
+   
+      <div class="recipe-call-to-action">
+       
+        <h3 class="recipe-name" style="margin-bottom:2px;">
+          <app-text-shell [data]="user?.title"></app-text-shell>
+        </h3>
+
+        <h5 class="user-name" *ngIf="user?.parent_name" style="margin-top:2px;">
+          <app-text-shell animation="bouncing" [data]="user?.parent_name"></app-text-shell>
+        </h5>
+
+         <span class="recipe-author" *ngIf="user?.skill_desc">
+          <app-text-shell [data]="user?.skill_desc"></app-text-shell>
+        </span>
+      </div>
+<!----- SECTION 1: BASIC ITEM DETAILS ----->
+
+
+
+      <!----- SECTION 2: STAT BOX -----
+      <hr class="details-divider">
+      <ion-row class="details-scores recipe-attributes">
+        <ion-col class="score-item attribute-score">
+          <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/briefcase.svg"></ion-icon>
+          <div class="score-value">
+            <app-text-shell [data]="user?.numJobs+' Jobs'"></app-text-shell>
+          </div>
+        </ion-col>
+        <ion-col class="score-item attribute-score">
+          <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/glasses-outline.svg"></ion-icon>
+          <div class="score-value">
+            <app-text-shell [data]="user?.numProfessionals+' Professionals'"></app-text-shell>
+          </div>
+        </ion-col>
+        <ion-col class="score-item attribute-score">
+          <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/people.svg"></ion-icon>
+          <div class="score-value">
+            <app-text-shell [data]="user?.numFavourites+' Likes'"></app-text-shell>
+          </div>
+        </ion-col>
+      </ion-row>
+      <hr class="details-divider">
+      ---- SECTION 2: STAT BOX ----->
+
+
+
+<hr class="details-divider">
+<ion-row class="user-stats-section">
+  
+  <ion-col class="user-stats-wrapper" size="4">
+    <span class="stat-value">
+      <app-text-shell [data]="user?.numJobs > 0?''+user?.numJobs:'0'"></app-text-shell>
+    </span>
+    <span class="stat-name"> JOBS</span>
+    <!-- <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/briefcase.svg"></ion-icon>  -->
+  </ion-col>
+  <ion-col class="user-stats-wrapper" size="4">
+    <span class="stat-value">
+      <app-text-shell [data]="user?.numProfessionals > 0?''+user?.numProfessionals:'0'"></app-text-shell>
+    </span>
+    <span class="stat-name"> PROFESSIONALS</span>
+    <!-- <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/glasses-outline.svg"></ion-icon> -->
+  </ion-col>
+  <ion-col class="user-stats-wrapper" size="4">
+    <span class="stat-value">
+      <app-text-shell [data]="user?.numFavourites > 0?''+user?.numFavourites:'0'"></app-text-shell>
+    </span>
+    <span class="stat-name">SUBSCRIBERS</span>
+    <!-- <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/people.svg"></ion-icon> -->
+  </ion-col>
+</ion-row>
+<!-- <hr class="details-divider"> -->
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="user-friends-section" *ngIf="user?.professionals.length > 0 && (localUser?.role_id == 2 || localUser?.role_id == 1)">
+  <ion-row class="heading-row">
+    <h5 class="details-section-title">HIRE PROFESSIONALS</h5>
+    <a class="heading-call-to-action" style="color:white;" [routerLink]="['/people/listing/grafters']">SEE ALL</a>
+  </ion-row>
+  <ion-row class="friends-row">
+    <ion-col class="friend-item" size="2" *ngFor="let friend of user?.professionals">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}" [routerLink]="['/people/details', friend.user_name]">
+        <app-image-shell class="friend-picture" [src]="friend.user_image"></app-image-shell>
+      </app-aspect-ratio>
+      <span class="friend-name">
+        <app-text-shell [data]="friend.first_name"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+</div>
+
+
+
+<!----- SECTION FOR GRAFTER : PROMO BOX ----->
+<ion-row class="promo-row" style="background-color: #eeeeee;" *ngIf="user && (localUser?.role_id == 3 || localUser?.role_id == 1)">   
+  <ion-col size="10">
+    <h3><ion-icon name="notifications" style="font-size: 64px;color: #555555;"></ion-icon></h3>
+    <!-- <h3><ion-icon name="notifications-off" style="font-size: 80px;"></ion-icon></h3> -->
+    
+    <h4 style="color: var(--ion-color-medium-tint);">
+      Are you a {{user?.title}}?
+    </h4>
+    <h4 class="promo-description">
+      Subscribe to get notified of the best job opportunities in areas of your preference.
+    </h4>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim">
+      <span class="promo-code">
+        <app-text-shell [data]="'SUBSCRIBE'"></app-text-shell>
+      </span>
+    </ion-button>
+  </ion-col>
+</ion-row>
+<!----- SECTION: PROMO BOX ----->
+
+<!----- SECTION FOR EMPLOYER : PROMO BOX ----->
+<ion-row class="promo-row" style="background-color: #dddddd;" *ngIf="user && (localUser?.role_id == 2 || localUser?.role_id == 1)">   
+  <ion-col size="10">
+    <h3><ion-icon name="rocket" style="font-size: 64px;color: #555555;"></ion-icon></h3>
+    <h4 style="color: var(--ion-color-medium-tint);">
+      Looking to hire a {{user?.title}}?
+    </h4>
+    <h4 class="promo-description">
+      Post a job to find the best professionals in your area.
+    </h4>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button [routerLink]="['/post-new-job']" class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim">
+      <span class="promo-code">
+        <app-text-shell [data]="'POST JOB'"></app-text-shell>
+      </span>
+    </ion-button>
+     
+    <ion-button [routerLink]="['/people/listing/grafters']" style="display:block;margin-top:20px;" class="promo-code-btn" expand="block" shape="round" fill="solid" color="primary">
+      <span class="promo-code">
+        <app-text-shell [data]="'FIND GRAFTERS'"></app-text-shell>
+      </span>
+    </ion-button>
+<!-- 
+    <ion-button style="margin-top:20px;" expand="block" shape="round" fill="solid" color="primary">
+      <ion-icon name="search" style="font-size: 24px;"></ion-icon> FIND GRAFTERS
+    </ion-button> -->
+
+  </ion-col>
+</ion-row>
+<!----- SECTION: PROMO BOX ----->
+
+
+</ion-content>
+
+<ion-footer style="background-color:#eeeeee;">
+  <ion-row class="details-purchase-options-row">
+    <ion-col size="12" *ngIf="localUser?.role_id == 3 || localUser?.role_id == 1">
+      <ion-button class="select-variant-btn" color="secondary" expand="block" fill="solid" [routerLink]="['/job-requests', {skillID:user?.id}]">FIND JOBS</ion-button>
+    </ion-col>
+    <ion-col size="12" class="main-call-to-action-col" *ngIf="localUser?.role_id == 2 || localUser?.role_id == 1">
+      <ion-button [routerLink]="['/post-new-job']" class="add-to-cart-btn" color="primary" expand="block" fill="solid">HIRE {{user?.title|uppercase}}</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>

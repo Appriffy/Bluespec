@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Coming Soon
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="not-found-content">
+  <div class="illustration-wrapper" style="height:100%;text-align: center;vertical-align: middle;">
+   
+    <img [src]="'./assets/images/comingsoon.png'" [alt]="'Under development'" style="width:100px;margin:0 auto;">
+    <div class="not-found-title">Coming Soon</div>
+    <div class="not-found-text">This screen is under development. Get back in the next release to see what we come out with.</div>
+    <ion-button class="go-home-btn" [routerLink]="['/app/categories']" expand="block" fill="outline">Back to Home page</ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,199 @@
+<form class="update-user-form ion-page" [formGroup]="updateUserForm" (ngSubmit)="updateUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Update Company</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="update-user-content">
+    <ion-row class="expiration-countdown" *ngIf="user && !user.logo">
+      <span class="expiration-lead">Upload the company logo.</span>
+    </ion-row>
+
+    <!-- <ion-row class="expiration-countdown" *ngIf="countReady && getSelectedJobAreasCount() <= 0">
+      <span class="expiration-lead">Select suitable job areas related to your company.</span>
+    </ion-row> -->
+
+    <ion-row class="select-user-image-row">
+      <ion-col class="user-image-col" size="5">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell [mode]="'cover'" class="user-image" [src]="user.logo"></app-image-shell>
+        </app-aspect-ratio>
+        <ion-button class="change-image-btn" color="primary" (click)="fileInput.click()" *ngIf="!user.logo">
+          <ion-icon class="btn-icon" slot="icon-only" name="cloud-upload"></ion-icon>
+        </ion-button>
+        <ion-button class="change-image-btn" color="danger" (click)="removeFile()" *ngIf="user.logo">
+          <ion-icon class="btn-icon" slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+          <div class="form-group" style="display: none;">
+          <input type="file" accept=".png, .jpg, .jpeg" (change)="uploadFile($event)" #fileInput>
+        </div>
+        
+        <ion-item class="input-item">
+          <ion-label color="primary" position="floating">Company Name *</ion-label>
+          <ion-input type="text" formControlName="title" required></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.title">
+            <div class="error-message" *ngIf="updateUserForm.get('title').hasError(validation.type) && (updateUserForm.get('title').dirty || updateUserForm.get('title').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label color="primary" position="floating">Tagline *</ion-label>
+          <ion-input type="text" formControlName="tagline" required></ion-input>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.tagline">
+            <div class="error-message" *ngIf="updateUserForm.get('tagline').hasError(validation.type) && (updateUserForm.get('tagline').dirty || updateUserForm.get('tagline').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+        
+        <ion-item class="input-item">
+          <ion-label color="primary" position="floating">Description</ion-label>
+          <ion-textarea rows="3" formControlName="description" required></ion-textarea>
+        </ion-item>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.description">
+            <div class="error-message" *ngIf="updateUserForm.get('description').hasError(validation.type) && (updateUserForm.get('description').dirty || updateUserForm.get('description').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+          <!--------- Start of social links -------->
+          <ion-item class="input-item">
+            <ion-label class="toggle-label">{{websiteInfo}}</ion-label>
+            <ion-toggle color="primary" (ionChange)="onWebsiteOptionSelected($event)" [checked]="hasWebsite"></ion-toggle>
+          </ion-item>
+  
+          <ion-item class="input-item"  *ngIf="hasWebsite">
+            <ion-label color="primary" position="floating">Website</ion-label>
+            <ion-input type="url" formControlName="website"></ion-input>
+          </ion-item>
+          <ion-input *ngIf="!hasWebsite" type="hidden" formControlName="website" value=""></ion-input>
+  
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validations.website">
+              <div class="error-message" *ngIf="updateUserForm.get('website').hasError(validation.type) && (updateUserForm.get('website').dirty || updateUserForm.get('website').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+  
+  
+          <ion-item class="input-item">
+            <ion-label class="toggle-label">{{linkedInInfo}}</ion-label>
+            <ion-toggle color="primary" (ionChange)="onLinkedInOptionSelected($event)" [checked]="hasLinkedIn"></ion-toggle>
+          </ion-item>
+  
+          <ion-item class="input-item" *ngIf="hasLinkedIn">
+            <ion-label color="primary" position="floating">LinkedIn URL</ion-label>
+            <ion-input type="url" formControlName="linkedin"></ion-input>
+          </ion-item>
+          <ion-input *ngIf="!hasLinkedIn" type="hidden" formControlName="linkedin" value=""></ion-input>
+  
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validations.linkedin">
+              <div class="error-message" *ngIf="updateUserForm.get('linkedin').hasError(validation.type) && (updateUserForm.get('linkedin').dirty || updateUserForm.get('linkedin').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+  
+  
+          
+          <ion-item class="input-item">
+            <ion-label class="toggle-label">{{fbPageInfo}}</ion-label>
+            <ion-toggle color="primary" (ionChange)="onFacebookOptionSelected($event)" [checked]="hasFbPage"></ion-toggle>
+          </ion-item>
+          <ion-item class="input-item" *ngIf="hasFbPage">
+            <ion-label color="primary" position="floating">Facebook Page URL</ion-label>
+            <ion-input type="url" formControlName="fb_link"></ion-input>
+          </ion-item>
+          <ion-input *ngIf="!hasFbPage" type="hidden" formControlName="fb_link" value=""></ion-input>
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validations.fb_link">
+              <div class="error-message" *ngIf="updateUserForm.get('fb_link').hasError(validation.type) && (updateUserForm.get('fb_link').dirty || updateUserForm.get('fb_link').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+          
+          <ion-item class="input-item">
+            <ion-label class="toggle-label">{{twitterInfo}}</ion-label>
+            <ion-toggle color="primary" (ionChange)="onTwitterOptionSelected($event)" [checked]="hasTwitter"></ion-toggle>
+          </ion-item>
+  
+          <ion-item class="input-item" *ngIf="hasTwitter">
+            <ion-label color="primary" position="floating">Twitter URL</ion-label>
+            <ion-input type="url" formControlName="twitter_link"></ion-input>
+          </ion-item>
+          <ion-input *ngIf="!hasTwitter" type="hidden" formControlName="twitter_link" value=""></ion-input>
+  
+          <div class="error-container">
+            <ng-container *ngFor="let validation of validations.twitter_link">
+              <div class="error-message" *ngIf="updateUserForm.get('twitter_link').hasError(validation.type) && (updateUserForm.get('twitter_link').dirty || updateUserForm.get('twitter_link').touched)">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <span>{{ validation.message }}</span>
+              </div>
+            </ng-container>
+          </div>
+  
+  <!-----------End of Social Links --------->
+
+        <ion-input type="hidden" formControlName="user_id"></ion-input>
+        
+      </ion-list>
+    </section>
+
+   
+    <section class="user-experience-fields fields-section">
+      <h5 class="section-header">Selected Job Areas</h5>
+      <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ion-item formArrayName="jobAreas" lines="none" class="checkbox-tag rounded-tag" *ngFor="let skill of skillsFormArray.controls; let i = index;">
+          <ion-label class="tag-label">{{jobAreas[i].title}}</ion-label>
+          <ion-checkbox [formControlName]="i" (change)="getSelectedJobAreasCount()"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+
+    <ion-row class="expiration-countdown" *ngIf="getSelectedJobAreasCount() <= 0">
+      <span class="expiration-lead">Select suitable job areas related to your company.</span>
+    </ion-row>
+
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="delete-btn" expand="block" color="primary" fill="outline" (click)="deleteUser()">DELETE</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!updateUserForm.valid">UPDATE</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

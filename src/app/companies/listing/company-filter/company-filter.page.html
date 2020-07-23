@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="filterItems()">FILTER</ion-button>
+    </ion-buttons>
+    <ion-title>Filters</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="filters-content">
+  <ion-item-group class="filters-group">
+
+
+    <form class="validations-form" #f="ngForm" (ngSubmit)="onSubmit()" method="POST">
+
+      <ion-item-divider>
+        <ion-label style="color: white;">SELECT LOCATION</ion-label>
+      </ion-item-divider>
+  
+      <ion-item>
+        <ion-input [(ngModel)]="filterArr.pincode" name="address" id="search_input" placeholder="Select a location"></ion-input>
+      </ion-item>
+  
+      <!-- <ion-item>
+      <input #ramSelector name="ram" type="range" min="0" max="100" [(ngModel)]="filterArr.search_radius" (ngModelChange)="setSearchRadius($event)" value="0">
+    </ion-item> -->
+
+    <ion-row class="range-item" style="display: block;">
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Latitude</ion-label>
+          <ion-input type="text" formControlName="latitude" required></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Longitude</ion-label>
+          <ion-input type="text" formControlName="longitude" required></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
+    <ion-item-divider>
+      <ion-label style="color: white;">SEARCH COMPANIES 
+       <span class="" style="color:white;"> WITHIN {{ filterArr.search_radius }} K.m</span>
+    </ion-label>
+    </ion-item-divider>
+
+    <ion-row class="range-item">
+     
+      <ion-col size="12">
+        <ion-range class="range-control" name="search_radius" [(ngModel)]="filterArr.search_radius" color="secondary" (ngModelChange)="setSearchRadius($event)" min="0" max="100" step="1"></ion-range>
+      </ion-col>
+    </ion-row>
+
+     
+
+      <ion-item-divider>
+        <ion-label style="color: white;">FILTER BY JOB AREAS</ion-label>
+      </ion-item-divider>
+
+      <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ng-container *ngFor="let s of skill_types">
+          <ion-item lines="none" class="checkbox-tag rounded-tag">
+            <ion-label class="tag-label">{{ s.title }}  <span *ngIf="s.checked" style="vertical-align: middle;font-size: 18px;
+              font-weight: 500;"><ion-icon name="checkmark-circle-outline"></ion-icon></span> </ion-label>
+            <ion-checkbox [(ngModel)]="s.checked" name="skills" (click)="updateFilter(s)"></ion-checkbox>
+          </ion-item>
+        </ng-container>
+      </ion-row>
+
+      <ion-list class="counter-list" lines="full">
+
+<!--------- Sorting --------->
+      <ion-item-divider>
+        <ion-label style="color: white;">SORT BY {{filterArr.sort_by}}</ion-label>
+      </ion-item-divider>
+
+      <ion-radio-group [ngModel]="filterArr.sort_by" name="sort_by">
+        <ion-row class="radio-tags" style="background-color: white;padding:10px 0 10px 0;">
+         
+          <ng-container *ngFor="let s of sort_options">
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">
+                <span>{{ s }}</span>
+              </ion-label>
+              <ion-radio [ngModel]="s.checked" name="sort_by" (click)="sortingMethodSelected(s)"></ion-radio>
+            </ion-item>
+          </ng-container>
+
+        </ion-row>
+      </ion-radio-group>
+      <!-------ENDS SORTING ------>
+       
+      </ion-list>
+
+      <ion-button padding class="submit-btn" type="submit" expand="block" fill="outline" style="margin-bottom: 20px;">Filter Companies</ion-button>
+      
+    </form>
+    
+  </ion-item-group>
+</ion-content>

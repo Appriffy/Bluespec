@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Select Company</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="filters-toolbar">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="Search Job Areas"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Company...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+  <!------- Empty View ------->
+  <ion-grid style="width:100%;height: 100%;display:block;align-content: center;" *ngIf="listing?.length == 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-icon src="./assets/sample-icons/side-menu/business.svg" style="display: block;font-size:48px;"></ion-icon>
+      <h5 style="text-align: center;color: #555555;">No Company found</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+  <ion-list class="" *ngIf="listing?.length > 0 && !loading">     
+    <ion-item class="list-item" *ngFor="let item of listing" (click)="dismissModal(item)">
+      <ion-row class="user-row">
+        <ion-col size="3" class="user-image-wrapper">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+            <app-image-shell class="user-image" animation="spinner" [mode]="'cover'" [src]="item?.logo" [alt]="'Company Logo'"></app-image-shell>
+          </app-aspect-ratio>
+        </ion-col>
+        <ion-col class="user-data-wrapper" size="9">
+          <div class="user-info">
+            <h5 class="user-name">
+              <app-text-shell animation="bouncing" [data]="item?.title"></app-text-shell>
+            </h5>
+          </div>
+        </ion-col>
+      </ion-row>
+</ion-item>
+ </ion-list>
+</ion-content>
+
+<ion-footer style="background-color:#eeeeee;">
+  <ion-row class="details-purchase-options-row">
+    <ion-col size="12">
+      <ion-button class="select-variant-btn" color="primary" expand="block" fill="solid">SELECT</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>
+

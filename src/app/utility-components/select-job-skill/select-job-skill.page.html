@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select Job Skills</ion-title>
+    <ion-buttons slot="end">
+      <!-- <ion-button fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button> -->
+
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+     
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-row class="expiration-countdown" *ngIf="multiple">
+    <span class="expiration-lead">
+      Select Job Skill(s) to continue.
+    </span>
+  </ion-row>
+  
+  <ion-toolbar class="filters-toolbar">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="Search skills..."></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+  <h3>{{searchQuery}}</h3>
+
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Skills...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+<!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="listing?.length <= 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      
+      <ion-icon src="./assets/sample-icons/side-menu/briefcase.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;color: #555555;">No Job Skill Found</h5>
+      </ion-row>
+    </ion-grid>
+<!------- Empty View ------->
+<form class="create-user-form ion-page" [formGroup]="addSkillsForm" (ngSubmit)="processMultipleSelection()">
+<ion-list class="items-list" *ngIf="listing?.length > 0 && !loading">    
+  <div *ngIf="!multiple">
+    <ion-item class="list-item" *ngFor="let item of listing" tappable (click)="dismissModal(item)">
+      <ion-row class="user-row">
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+            <h3 class="user-name">
+              <app-text-shell animation="bouncing" [data]="item?.title"></app-text-shell>
+            </h3>
+          </div>
+        </ion-col>
+      </ion-row>
+</ion-item>
+
+  </div>
+
+  <div *ngIf="multiple">
+    <!-- <ion-item class="list-item" *ngFor="let item of listing" tappable (click)="onJobSkillSelected(item)">
+      <ion-row class="user-row">
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+            <h3 class="user-name">
+              <app-text-shell animation="bouncing" [data]="item?.title"></app-text-shell>
+            </h3>
+          </div>
+        </ion-col>
+
+        <ion-col size="1" *ngIf="isSkillSelected(item?.id)">
+          <div class="user-info">
+            <ion-icon src="./assets/sample-icons/side-menu/notifications.svg" style="font-size: 28px;"></ion-icon>
+          </div>
+        </ion-col>
+
+      </ion-row>
+  </ion-item> -->
+
+  
+<!------ CHECKBOX TYPE VIEW ------>
+<section class="user-experience-fields fields-section" *ngIf="listing?.length > 0 && !loading">
+<ion-row class="checkbox-tags rounded-checkbox-tags">
+  <ion-item lines="none" formArrayName="skills" class="checkbox-tag rounded-tag" *ngFor="let item of skillsFormArray.controls; let i = index;">
+    <ion-label class="tag-label">{{listing[i]?.title}}</ion-label>
+    <ion-checkbox [formControlName]="i" (click)="onJobSkillSelected(listing[i])"></ion-checkbox>
+  </ion-item>
+</ion-row>
+</section>
+<!------ CHECKBOX TYPE VIEW ------>
+
+  </div>
+
+     </ion-list>
+    </form>
+</ion-content>
+
+<ion-footer>
+
+  <section class="user-details-fields fields-section">
+      <ion-row class="form-actions-wrapper" *ngIf="multiple">
+        <ion-col>
+          <ion-button class="submit-btn" expand="block" color="primary" [disabled]="!addSkillsForm.valid" (click)="processMultipleSelection()" fill="solid">SELECT AND CONTINUE</ion-button>
+        </ion-col>
+      </ion-row>
+  </section>
+  
+</ion-footer>

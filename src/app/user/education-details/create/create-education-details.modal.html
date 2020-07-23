@@ -1,0 +1,87 @@
+<form class="update-user-form ion-page" [formGroup]="createEduDetailForm" (ngSubmit)="updateUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{page_title}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="update-user-content">
+   
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+      <ion-item class="input-item">
+        <ion-label color="secondary" position="floating">Select Education Level *</ion-label>
+        <ion-select placeholder="Choose a level" formControlName="level_id" cancelText="Cancel" okText="OK" (ionChange)="onEduLevelSelected($event)">
+          <ion-select-option *ngFor="let item of eduLevels" [value]="item.id" >{{item.title}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-input type="hidden" formControlName="study_area" value="0"></ion-input>
+
+      <ion-item class="input-item" *ngIf="createEduDetailForm.value.level_id">
+        <ion-label color="primary" position="floating">Select Study Area *</ion-label>
+        <ion-input (ionFocus)="selectStudyArea()" formControlName="study_area_name" inputmode="none" type="text" readonly></ion-input>
+      </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Examination Title *</ion-label>
+          <ion-input type="text" formControlName="title" placeholder="e.g. AISSCE, KSBE" required></ion-input>
+        </ion-item>
+        
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Organization *</ion-label>
+          <ion-input type="text" formControlName="organization" placeholder="School/College/University" required></ion-input>
+        </ion-item>
+        
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Year of Joining *</ion-label>
+          <ion-datetime display-format="YYYY" picker-format="YYYY" formControlName="yoj" required></ion-datetime>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label class="toggle-label">{{studyStatus}}</ion-label>
+          <ion-toggle color="secondary" formControlName="is_current" (ionChange)="onCurrentOptionSelected($event)"></ion-toggle>
+        </ion-item>
+
+        <ion-item class="input-item" *ngIf="!currentlyStudying">
+          <ion-label color="secondary" position="floating">Year of Passing *</ion-label>
+          <ion-datetime display-format="YYYY" picker-format="YYYY" formControlName="yop"></ion-datetime>
+        </ion-item>
+
+        <ion-input *ngIf="currentlyStudying" type="hidden" formControlName="yop" [value]="'Not yet'" ></ion-input>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Score *</ion-label>
+          <ion-input type="text" maxLength="4" formControlName="score" placeholder="Marks/Grade obtained" ></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Score Type *</ion-label>
+          <ion-select formControlName="score_type" cancelText="Cancel" okText="OK">
+            <ion-select-option *ngFor="let item of scoreTypes" [value]="item" >{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-input type="hidden" formControlName="user_id"></ion-input>
+        <!------------------>
+
+        
+      </ion-list>
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid" [disabled]="!createEduDetailForm.valid">SAVE DETAIL</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

@@ -1,0 +1,98 @@
+<ion-content class="firebase-listing-content" style="background-color: red;">
+  <!-- <div class="list" ng-repeat="things in countryLabels">
+    {{things}}
+  </div> -->
+
+
+  <div color="primary" class="ion-padding" *ngIf="appSettings && appSettings.devMode">
+    <ion-button class="delete-btn" expand="block" color="primary" fill="outline" (click)="reloadGraphs()">RELOAD GRAPHS</ion-button>
+  </div>
+
+  <ion-card class="stats-card" style="display: block;">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Total Users Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
+
+
+  <!-- Segment buttons with text and click listeners -->
+  <!-- <ion-segment mode="md" class="stats-segment" (ionChange)="segmentButtonClicked($event)">
+    <ion-segment-button value="all" checked="true">
+      <ion-label>OVERALL DISTRIBUTION</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="grafters">
+      <ion-label>GRAFTERS</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="employers">
+      <ion-label>EMPLOYERS</ion-label>
+    </ion-segment-button>
+  </ion-segment> -->
+
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Overall Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForCountry></canvas>
+    </ion-card-content>
+  </ion-card> 
+
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Grafters Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForGraftersCountry></canvas>
+    </ion-card-content>
+  </ion-card> 
+
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Employers Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForEmployersCountry></canvas>
+    </ion-card-content>
+  </ion-card> 
+
+
+  <!-- <ion-card class="stats-card" [hidden]="tabChoice != 'all'">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Overall Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForCountry></canvas>
+    </ion-card-content>
+  </ion-card> 
+
+  <ion-card class="stats-card" [hidden]="tabChoice != 'grafters'">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Grafters Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForGraftersCountry></canvas>
+    </ion-card-content>
+  </ion-card> 
+
+  <ion-card class="stats-card" [hidden]="tabChoice != 'employers'">
+    <ion-card-header>
+      <ion-card-title justify-content-center>Employers Distribution</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForEmployersCountry></canvas>
+    </ion-card-content>
+  </ion-card>  -->
+  
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading User Stats</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+</ion-content>

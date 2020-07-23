@@ -1,0 +1,59 @@
+<form class="create-user-form ion-page" [formGroup]="createUserForm" (ngSubmit)="createUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Add New Job Area</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content">
+    <ion-row class="select-user-image-row">
+      <ion-col class="user-image-col" size="3">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell [mode]="'cover'" class="user-image" [src]="preview" [alt]="'user image'"></app-image-shell>
+        </app-aspect-ratio>
+        <ion-button class="change-image-btn" color="secondary" (click)="fileInput.click()">
+          <ion-icon class="btn-icon" slot="icon-only" name="camera"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+        <div class="form-group" style="display:none;">
+          <input type="file" (change)="uploadFile($event)" #fileInput>
+        </div>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Job Area Name *</ion-label>
+          <ion-input type="text" formControlName="title" required></ion-input>
+        </ion-item>
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Short Description</ion-label>
+          <ion-textarea rows="3" formControlName="job_area_desc"></ion-textarea>
+        </ion-item>
+
+        
+
+        <ion-item class="input-item terms-item">
+          <ion-label>Make this job area active.</ion-label>
+          <ion-checkbox formControlName="enabled"></ion-checkbox>
+        </ion-item>
+
+      </ion-list>
+    </section>
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!createUserForm.valid">SAVE JOB AREA</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

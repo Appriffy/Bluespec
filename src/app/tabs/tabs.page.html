@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Bluspec Dashboard</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="getDataSummaryForDashboard()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+     
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+ <ion-tabs>
+  <ion-tab-bar slot="bottom">
+    
+    <!-- <ion-tab-button tab="categories">
+      <ion-icon src="./assets/sample-icons/side-menu/search.svg"></ion-icon>
+      <ion-label class="tab-title">My Skills</ion-label>
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="users-stats">
+      <ion-icon src="./assets/sample-icons/side-menu/people.svg"></ion-icon>
+      <ion-label class="tab-title">People</ion-label>
+    </ion-tab-button>
+   
+    <ion-tab-button tab="jobs-stats">
+      <ion-icon src="./assets/sample-icons/side-menu/briefcase.svg"></ion-icon>
+      <ion-label class="tab-title">Jobs</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="job-areas-stats">
+      <ion-icon src="./assets/sample-icons/side-menu/construct.svg"></ion-icon>
+      <ion-label class="tab-title">Job Areas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="dashboard">
+      <ion-icon src="./assets/sample-icons/tabs/analytics.svg"></ion-icon>
+      <ion-label class="tab-title">Summary</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notifications">
+      <ion-icon src="./assets/sample-icons/tabs/notifications.svg"></ion-icon>
+      <ion-label class="tab-title">Activities</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

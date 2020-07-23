@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "title": "Wipro",
+      "tagline": "Innovating Things",
+      "website": "www.wipro.com",
+      "description": "50-off-lindt is the being.",
+      "logo": "./assets/sample-images/deals/Deals4-4.1.png",
+      "video_url": "",
+      "qcode": "50989787551",
+      "is_published":true,
+      "numJobs":1,
+      "date_created": "05-02-2020",
+      "date_updated": "12-02-2020"    
+    },
+    {
+          "id": 2,
+          "title": "Azure Valley",
+          "tagline": "Making It Possible",
+          "website": "www.azurevalley.com",
+          "description": "50-off-lindt is the being.",
+          "logo": "./assets/sample-images/deals/Deals4-4.1.png",
+          "video_url": "",
+          "qcode": "50989787551",
+          "is_published":true,
+          "numJobs":0,
+          "date_created": "05-02-2020",
+          "date_updated": "12-02-2020"    
+    },
+    {
+          "id": 3,
+          "title": "Electronic Art",
+          "tagline": "Emerging into now",
+          "website": "www.eaarts.com",
+          "description": "This is a game development company.",
+          "logo": "./assets/sample-images/deals/Deals4-4.3.png",
+          "video_url": "",
+          "qcode": "50989787551",
+          "is_published":false,
+          "numJobs":11,
+          "date_created": "05-02-2020",
+          "date_updated": "12-02-2020"    
+    }
+  ]
+}

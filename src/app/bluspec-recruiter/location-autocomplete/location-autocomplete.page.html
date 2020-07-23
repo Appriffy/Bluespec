@@ -1,0 +1,56 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title>Enter address</ion-title>
+    <ion-searchbar [(ngModel)]="autocomplete.query" [showCancelButton]="true"   (ionInput)="updateSearch()" (ionCancel)="dismiss()"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of autocompleteItems" tappable   (click)="chooseItem(item)">
+      {{ item }}
+    </ion-item>
+  </ion-list>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="jobs-manager"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select Work Location</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar class="filters-toolbar">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="autocomplete.query" [showCancelButton]="true"   (ionInput)="updateSearch()" (ionCancel)="dismiss()" placeholder="Where?"></ion-searchbar>
+      </ion-col>
+     
+    </ion-row>
+   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+  <ion-list class="items-list" *ngIf="autocompleteItems?.length > 0">
+    <ion-item class="list-item" *ngFor="let item of autocompleteItems" tappable   (click)="chooseItem(item)">
+      <ion-row class="user-row">
+        <ion-col size="12" class="user-image-wrapper">
+          <p class="user-name">
+            {{item}}
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="autocompleteItems?.length == 0" class="empty-list-section">
+    <h3 class="empty-list-message text-center" style="text-align: center;">
+      Finding places near the selected location.
+    </h3>
+  </div>
+</ion-content>

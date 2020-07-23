@@ -1,0 +1,93 @@
+.recipes-wrapper {
+    padding: calc(var(--page-margin) * 3) 0px;
+
+    .recipes-header {
+      padding: 0px var(--page-margin) 0px;
+
+      .detail-title {
+        text-transform: capitalize;
+      }
+    }
+
+    .recipes-list {
+      .recipe-item {
+        .chef-picture-wrapper {
+          width: 20%;
+          margin: 0px auto;
+          margin-top: -10%;
+          margin-bottom: calc(var(--page-margin) / 2);
+        }
+
+        .details-divider {
+          margin-bottom: 0px;
+        }
+
+        .recipe-title {
+          text-align: center;
+          margin: 0px 0px calc(var(--page-margin) / 2);
+          font-weight: 400;
+          letter-spacing: 3px;
+          font-size: 18px;
+
+          &::before,
+          &::after {
+            content: '·';
+            color: var(--ion-color-dark-tint);
+            margin: 0px 2px;
+          }
+        }
+
+        .recipe-call-to-action {
+          text-align: center;
+          margin: var(--page-margin) calc(var(--page-margin) * 2);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .recipe-author {
+            display: block;
+            font-size: 16px;
+            min-width: 30%;
+            color: var(--ion-color-dark-tint);
+          }
+
+          .recipe-name {
+            text-transform: uppercase;
+            font-weight: 300;
+            letter-spacing: 1px;
+            margin: calc(var(--page-margin) / 2) 0px;
+            min-width: 90%;
+          }
+
+          .recipe-chef {
+            display: block;
+            font-size: 14px;
+            min-width: 60%;
+            color: var(--ion-color-dark-tint);
+          }
+        }
+
+        .recipe-attributes {
+          padding: 0px var(--page-margin);
+          margin-top: var(--page-margin);
+          justify-content: center;
+
+          .attribute-score {
+            justify-content: center;
+
+            &:not(:first-child) {
+              padding-left: calc(var(--page-margin) / 2);
+            }
+
+            &:not(:last-child) {
+              padding-right: calc(var(--page-margin) / 2);
+            }
+
+            .score-value {
+              text-transform: capitalize;
+            }
+          }
+        }
+      }
+    }
+  }

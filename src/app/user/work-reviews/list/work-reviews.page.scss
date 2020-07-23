@@ -1,0 +1,48 @@
+:host {
+    --page-margin: var(--app-narrow-margin);
+    --page-border-radius: var(--app-fair-radius);
+  
+    --page-actions-padding: 5px;
+  
+    --page-tags-vertical-gutter: calc(var(--page-margin) / 4);
+    --page-tags-horizontal-gutter: calc(var(--page-margin) / 2);
+  
+    --page-rating-5-color: #7ce198;
+    --page-rating-4-color: #a8e07c;
+    --page-rating-3-color: #cee07c;
+    --page-rating-2-color: #e0c77c;
+    --page-rating-1-color: #e07c7c;
+  
+    --page-dish-score-height: 6px;
+    --page-color: #ebbb00;
+    --page-color-rgb: 235,187,0;
+  }
+
+  .reviews-list {
+    margin-bottom: calc(var(--page-margin) / 2);
+  }
+
+      .review-item {
+        padding-left: var(--page-margin);
+        padding-right: var(--page-margin);
+        padding-top: var(--page-margin);
+        //padding-bottom: var(--page-margin);
+        background:#ffffff;
+        //border-radius:4px;
+        display: block;
+        //margin: 5px 10px;
+        &:not(:last-child) {
+          padding-bottom: var(--page-margin);
+  
+          &::after {
+            content: '';
+            display: block;
+            margin: 5px var(--page-margin);
+            border-top: 2px solid rgba(var(--ion-color-light-shade-rgb), .4);
+          }
+        }
+     }
+  
+    .details-divider {
+      margin: 5px 0px;
+    }

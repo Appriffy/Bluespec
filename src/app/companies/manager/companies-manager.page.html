@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Companies</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="loadCompanies()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="createNewCompany()" *ngIf="localUser?.role_id == 1 || localUser?.role_id == 2">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+     
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+   <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Companies...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+   <!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="listing && listing?.length <= 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-icon src="./assets/sample-icons/side-menu/business.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;columns: #555555;">Looks like you have not registered a company yet.</h5>
+      <ion-button class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim" (click)="createNewCompany()">
+        <span class="promo-code">
+         REGISTER COMPANY
+        </span>
+      </ion-button>
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+      <ion-list class="items-list" *ngIf="listing?.length > 0 && !loading">     
+        <ion-item class="list-item" *ngFor="let item of listing" [routerLink]="['/companies/details', item.id]">
+   
+          <ion-row class="user-row">
+            <ion-col size="2" class="user-image-wrapper">
+              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+                <app-image-shell class="user-image" animation="spinner" [mode]="'cover'" [src]="item?.logo" [alt]="'Company Logo'"></app-image-shell>
+              </app-aspect-ratio>
+            </ion-col>
+            <ion-col class="user-data-wrapper">
+              <div class="user-info">
+                <h3 class="user-name">
+                  <app-text-shell animation="bouncing" [data]="item?.title"></app-text-shell>
+                </h3>
+           
+       <h5 class="user-age" *ngIf="item?.tagline">
+        <app-text-shell animation="bouncing" [data]="item?.tagline"></app-text-shell>
+      </h5>
+
+      <!-- <h5 class="user-age" *ngIf="item?.website">
+        <app-text-shell animation="bouncing" [data]="item?.website"></app-text-shell>
+      </h5> -->
+    
+      <div *ngIf="!item.is_published">
+       <ion-badge class="schedule-closed" color="danger">Not Approved</ion-badge>
+       </div>
+
+       <!-- <div class="amenities-wrapper" style="margin-left: 0px;">
+        <ion-row class="amenities-tags" style="margin-left: 0px;">
+          <ion-col class="tag-wrapper" *ngFor="let skill of item?.jobAreas| slice:0:3">
+            <span class="amenity-tag" style="color:white;">
+              <app-text-shell [data]="skill.title"></app-text-shell>
+            </span>
+          </ion-col>
+          <ion-col class="tag-wrapper" *ngIf="item?.jobAreas.length > 3">
+            <span class="amenity-tag" style="color:white;font-weight: bold;">
+              <app-text-shell [data]="'.. + '+(item?.jobAreas.length -3)+' more'"></app-text-shell>
+            </span>
+          </ion-col>
+         
+        </ion-row>
+      </div> -->
+
+
+              </div>
+            </ion-col>
+          </ion-row>
+     
+
+  </ion-item>
+     </ion-list>
+     
+     
+</ion-content>

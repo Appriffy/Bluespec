@@ -1,0 +1,100 @@
+@import "../../../theme/mixins/inputs/checkbox-tag";
+
+:host {
+  --page-margin: var(--app-fair-margin);
+  --page-background: var(--app-background);
+  --page-background-shade: var(--app-background-shade);
+  --page-tags-gutter: 3px;
+}
+
+
+.expiration-countdown {
+  color: var(--ion-color-lightest);
+  background-color: var(--ion-color-danger);
+  padding: calc(var(--page-margin) / 2) var(--page-margin);
+
+  position: sticky;
+  top: 0;
+  z-index: 8;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  .expiration-lead {
+    padding: 0px calc(var(--page-margin) / 2);
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.create-user-content {
+  --background: var(--page-background-shade);
+}
+
+.fields-section {
+    //padding: var(--page-margin) 0px;
+    .section-header {
+      padding: 0px var(--page-margin);
+      margin-top: 0px;
+      margin-bottom: var(--page-margin);
+      color:#555555;
+    }
+  }
+
+  .user-details-fields {
+    .inputs-list {
+      padding: 0px var(--page-margin);
+    }
+
+    .input-item {
+      --padding-start: 0px;
+      --padding-end: 0px;
+      --inner-padding-start: 0px;
+      --inner-padding-end: 0px;
+    }
+  }
+
+  .user-experience-fields {
+    --background: var(--page-background-shade);
+    //background-color: #dddddd;
+    .checkbox-tags {
+      padding: 0px calc(var(--page-margin) - var(--page-tags-gutter));
+
+      @include checkbox-tag();
+
+      .checkbox-tag {
+        padding: 0px var(--page-tags-gutter);
+        margin: var(--page-tags-gutter) 0px;
+      }
+
+      // Add a deeper selector to override default colors
+      &.rounded-checkbox-tags {
+        //background-color: var(--ion-color-lightest);
+
+        .checkbox-tag {
+          --border-width: 2px;
+          --border-style: solid;
+          --border-color: var(--ion-color-medium-shade);
+          --checkbox-tag-color: #444444;
+          --checkbox-tag-background: #ffffff;
+          --checkbox-tag-active-color: var(--ion-color-lightest);
+          --checkbox-tag-active-background: var(--ion-color-darkest);
+
+          &.item-checkbox-checked {
+            --border-color: var(--ion-color-darkest);
+          }
+        }
+      }
+    }
+  }
+
+.form-actions-wrapper {
+  --ion-grid-column-padding: calc(var(--page-margin) / 2);
+
+  padding: calc(var(--page-margin) / 2);
+
+  .submit-btn {
+    margin: 0px;
+  }
+}

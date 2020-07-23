@@ -1,0 +1,28 @@
+{
+    "notifications":[
+      {
+        "name": "George",
+        "image": "./assets/images/avatar.jpg",
+        "message": "Welcome George! Thank you for joining Bluspec. Please complete your profile to get started.",
+        "date": "9:11 pm"
+      },
+      {
+        "name": "Sandeep Singh",
+        "image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+        "message": "Your Bluspec profile has been approved successfully. Just turn ON your availability and start accepting jobs you can complete.",
+        "date": "1 day ago"
+      },
+      {
+        "name": "Phillip",
+        "image": "./assets/sample-images/notifications/100x100Notification6.jpg",
+        "message": "Congrats! Your order with Rajesh has been confirmed. You have a deadline of 10 days to finish this job.",
+        "date": "3 days ago"
+      },
+      {
+        "name": "Diane",
+        "image": "./assets/sample-images/notifications/100x100Notification7.jpg",
+        "message": "Welcome Diane! Thank you for joining Bluspec. Please complete your profile to get started.",
+        "date": "5 days ago"
+      }
+  ]
+}

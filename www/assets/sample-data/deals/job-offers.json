@@ -1,0 +1,32 @@
+{
+	"error": false,
+	"result": [{
+			"id": 1,
+			"grafter_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+			"grafter_name": "Aman Singh",
+			"grafter_id": 6,
+			"job_id": 2,
+			"job_name":"Plumber Required in Anekal",
+			"date_created": "14 Feb 2020",
+			"start_date": "15 Feb 2020",
+			"end_date": "17 Feb 2020",
+			"amount": "$450",
+			"offer_detail": "I can get this job done within the deadline."
+		},
+
+		{
+			"id": 2,
+			"grafter_image": "./assets/sample-images/notifications/100x100Notification1.jpg",
+			"grafter_name": "Durgesh",
+			"grafter_id": 6,
+			"job_id": 2,
+			"job_name":"Part-time System Support Executive",
+			"date_created": "14 Feb 2020",
+			"start_date": "15 Feb 2020",
+			"end_date": "17 Feb 2020",
+			"amount": "$450",
+			"offer_detail": "I can get this job done within the deadline."
+		}
+	]
+
+}

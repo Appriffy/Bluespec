@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "user_id": 1,
+  "title": "Wipro",
+  "tagline": "Innovating Things",
+  "website": "www.wipro.com",
+  "description": "50-off-lindt is the being.",
+  "logo": "./assets/sample-images/deals/Deals4-4.1.png",
+  "video_url": "",
+  "qcode": "50989787551",
+  "is_published":true,
+  "numJobs":"1",
+  "video_url":"",
+  "video_url":"",
+  "fb_link": "",
+  "twitter_link": "",
+  "linkedin": "",
+  "date_created": "05-02-2020",
+  "date_updated": "12-02-2020"    
+}

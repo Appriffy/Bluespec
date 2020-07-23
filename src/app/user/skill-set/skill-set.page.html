@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start" color="light">
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button defaultHref="people/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="addMoreSkills()" *ngIf="selfView || localUser?.role_id ==1" fill="solid" color="danger"> 
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+        ADD SKILL</ion-button>
+
+
+    </ion-buttons>
+    <ion-title>Skill Set</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-content">
+   <!------- Loading View ------->
+   <ion-grid style="height: 100%" *ngIf="loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+      <h5 style="text-align: center;columns: #555555;">Loading Skills</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Loading View ------->
+
+    <!------- Empty View ------->
+    <ion-grid style="width:100%;height: 100%;display:block;align-content: center;" *ngIf="skillsHolder?.length == 0 && !loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+
+        <ion-icon src="./assets/sample-icons/side-menu/construct.svg" style="display: block;font-size:48px;"></ion-icon>
+        <h5 style="text-align: center;color: #555555;">No Skill Detail Available</h5>
+        </ion-row>
+      </ion-grid>
+     <!------- Empty View ------->
+
+  <section class="content-section user-languages-wrapper" *ngIf="skillsHolder.length > 0 && !loading">
+    <ion-row class="range-item" *ngFor="let skill of skillsHolder" style="border-bottom:2px solid #999;">
+      <ion-col size="10">
+        <div class="range-header">
+          <span class="range-label">
+            {{skill.skill_type_name}} </span>
+            <!-- <span class="range-label"> {{skill.proficiency*20}}% </span> -->
+          <span class="range-value">{{ getProficiencyVal(skill.proficiency)}}</span>
+        </div>
+        <ion-progress-bar *ngIf="showControls && (selfView || !selfView)" class="language-score" type="determinate" [value]="(skill.proficiency/5)"></ion-progress-bar>
+        <ion-range  *ngIf="showControls && selfView" class="range-control" color="secondary" [(ngModel)]= "skill.proficiency" (ionChange)="rangeChange(skill, $event)" min="0" max="5" step="1"></ion-range>
+      </ion-col>
+
+      <ion-col size="2" float-right>
+        <div (click)="endorseUser(skill)" class="ion-text-end" item-end style="font-size: 24px;color:grey;display: block;cursor: pointer;">
+          {{skill.numEndorsement}} <ion-icon name="thumbs-up"></ion-icon>
+          <p *ngIf="!selfView && skill.isEndorsed" style="font-size:11px;color:#444444;margin-top:2px;margin-bottom:5px;">Already Endorsed</p> 
+          <p *ngIf="!selfView && !skill.isEndorsed" style="font-size:11px;color:#444444;margin-top:2px;margin-bottom:5px;">Click to Endorse</p>     
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <hr class="details-divider">
+      </ion-col>
+    </ion-row>
+
+
+  </section>
+
+</ion-content>
+<ion-footer>
+  <ion-row class="form-actions-wrapper" style="background-color: 0A5392;"  *ngIf="selfView">
+    <ion-col>
+      <ion-button class="submit-btn" (click)="submitForm()" expand="block" color="primary" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SAVE SKILLS</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

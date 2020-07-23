@@ -1,0 +1,35 @@
+<ion-content class="firebase-listing-content">
+
+<!---------- CHART OPTIONS ------------->
+
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <!-- <ion-card-subtitle>Job Posts</ion-card-subtitle> -->
+      <ion-card-title>Job Posts</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChart></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="stats-card">
+    <ion-card-header>
+      <ion-card-title>Job Offers</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #barChartForJobOffers></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Job Metrics</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+
+</ion-content>

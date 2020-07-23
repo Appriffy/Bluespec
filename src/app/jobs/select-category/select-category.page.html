@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Select Job Category</ion-title>
+    <ion-buttons slot="end">
+
+      <ion-button (click)="dismissModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-content">
+
+ 
+<!----------- CARD BANNER ---------->
+<div class="listing-item">
+  <ion-row class="image-row" style="height:50%;">
+    <ion-col size="12">
+      <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slidebg3.jpg'" [routerLink]="['/post-new-job']">
+        <app-aspect-ratio [ratio]="{w:5, h:2}">
+          <div class="content-inside-item-image">
+            <div class="slideText">
+              <h1>INSTANT JOBS</h1>
+              <h5 style="color: white;text-align: center;">Post a Job, Receive Offers, Call, Chat and Hire Grafters. Track the job updates, Mark as complete and Review.</h5>
+            </div>
+            <div class="item-cta" (click)="onCategorySelected(1)">
+              <span>GET STARTED</span>
+              <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+            </div>
+          </div>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="image-row" style="height:50%;">
+    <ion-col size="12">
+      <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slidebg4.jpg'" [routerLink]="['/post-new-job']">
+        <app-aspect-ratio [ratio]="{w:5, h:2}">
+          <div class="content-inside-item-image">
+            <div class="slideText">
+              <h1>REGULAR JOBS</h1>
+              <h5 style="color: white;text-align: center;">Post a Job, Receive Applications, Call, Chat and Shortlist Profiles.</h5>
+            </div>
+            <div class="item-cta" (click)="onCategorySelected(0)">
+              <span>GET STARTED</span>
+              <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+            </div>
+          </div>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-col>
+  </ion-row>
+</div>
+  <!----------- CARD BANNER ---------->
+
+
+
+</ion-content>
+
+<!-- <ion-footer style="background-color:#eeeeee;">
+  <ion-row class="details-purchase-options-row">
+    <ion-col size="12" class="main-call-to-action-col">
+      <ion-button *ngIf="localUser !== null && localUser?.role_id == 3" class="action-btn" color="secondary" expand="block" fill="solid" (click)="openSizeChooser()">WORK</ion-button>
+    </ion-col>
+    <ion-col size="12" class="main-call-to-action-col">
+      <ion-button *ngIf="localUser !== null && localUser?.role_id == 2" class="action-btn" color="dark" expand="block" fill="solid">HIRE</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer> -->

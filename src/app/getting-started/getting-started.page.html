@@ -1,0 +1,193 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <!-- <ion-buttons slot="end">
+      <ion-button class="skip-getting-started-button" fill="clear" [routerLink]="['/auth/login']">skip</ion-button>
+    </ion-buttons> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- We need the form wrapping the slides so all the inputs in the different slides are part of the same form -->
+  <form class="getting-started-form" [formGroup]="gettingStartedForm">
+    <ion-slides class="getting-started-slides" pager="false">
+      <!-- <ion-slide class="browsing-categories-slide question-slide">
+        <ion-row class="slide-inner-row">
+          <ion-col class="question-options-col" size="12">
+            <h2 class="slide-title">I am a</h2>
+
+
+            <ion-row>
+              <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
+                <ion-card color="secondary" class="selectionCard" (click)="roleSelected(1)">
+                  <ion-card-content>
+                    <ion-row class="related-deal">
+                      <ion-col class="deal-logo-wrapper" size="3">
+                        <img src="assets/images/tut-grafter1.png"/>
+                      </ion-col>
+                      <ion-col class="deal-info-wrapper" size="7">
+                        <h2 class="related-deal-title">RECUITER</h2>
+                        <p class="related-deal-description">
+                         Find professionals anytime. Anywhere.
+                        </p>
+                      </ion-col>
+                    </ion-row>
+                  </ion-card-content>
+                </ion-card></ion-col>
+
+
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
+          <ion-card color="success" (click)="roleSelected(2)">
+              <ion-card-content>
+                <ion-row class="related-deal">
+                  <ion-col class="deal-logo-wrapper" size="3">
+                    <img src="assets/images/tut-grafter3.png"/>
+                  </ion-col>
+                  <ion-col class="deal-info-wrapper ion-align-items-start" size="7">
+                    <h2 class="related-deal-title">
+                      GRAFTER
+                    </h2>
+                    <p class="related-deal-description">
+                     Discover work opportunities in a wide range of skills.
+                    </p>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+    
+              </ion-col>
+            </ion-row>
+
+          </ion-col>
+        </ion-row>
+
+
+      </ion-slide> -->
+
+
+      <!--- Slide 2 -->
+      <ion-slide class="browsing-categories-slide question-slide">
+
+        <!-- <ion-row class="select-user-image-row padding" style="align-items: center;
+        text-align: center;">
+          <ion-col class="user-image-col" size="5">
+            <img [src] ="image" style="width:120px;height:120px;margin:0 auto;">
+            <ion-button class="change-image-btn" color="secondary" (click)="takePhoto()">
+              <ion-icon class="btn-icon" slot="icon-only" name="camera"></ion-icon>
+            </ion-button>
+          </ion-col>
+    
+        </ion-row> -->
+
+        <ion-row class="slide-inner-row" style="align-items: center;
+        text-align: center;">
+
+          <ion-col class="question-options-col" size="12">
+
+
+            <h2 class="slide-title">I AM</h2>
+
+            <ion-list class="question-options-list">
+              <ion-radio-group formControlName="role_id">
+                
+                <ion-item class="question-option">
+                  <ion-label>LOOKING TO HIRE</ion-label>
+                  <ion-radio value="LOOKING TO HIRE" (click)="roleSelected(1)">
+                  </ion-radio>
+                </ion-item>
+
+                <ion-item class="question-option">
+                  <ion-label>LOOKING FOR JOBS</ion-label>
+                  <ion-radio value="LOOKING FOR JOBS" (click)="roleSelected(2)"></ion-radio>
+                </ion-item>
+               
+              </ion-radio-group>
+            </ion-list>
+          </ion-col>
+        </ion-row>
+
+
+      </ion-slide>
+      <!--Slide 2 Ends-->
+      <ion-slide class="interests-to-follow-slide question-slide">
+        <ion-row class="slide-inner-row">
+          <ion-col class="heading-col">
+            <h2 class="slide-title">Select Role</h2>
+            <!-- <p class="slide-subtitle">
+              Select your professional label
+            </p> -->
+          </ion-col>
+          <ion-col class="question-options-col">
+            <ion-row class="options-list-row related-deal card-selection">
+             
+             
+              <ion-col size-sm="12" size-md="12" size-lg="6">
+                <ion-card text-center padding (onclick)="grafterTypeSelected(1)">     
+                  <ion-row>
+                    <ion-col size="3" align-self-center style="vertical-align:middle;">
+                      <ion-icon name="arrow-round-forward" color="white"></ion-icon>
+                    </ion-col>
+                    <ion-col align-self-center style="text-align:left;">
+                      <h4>WHITE COLLAR</h4>
+                    </ion-col>
+                  </ion-row>
+            </ion-card>
+            </ion-col>
+
+            
+
+             
+            <ion-col size-sm="12" size-md="12" size-lg="6">
+              <ion-card text-center padding (onclick)="grafterTypeSelected(2)">     
+                <ion-row>
+                  <ion-col size="3" align-self-center style="vertical-align:middle;">
+                    <ion-icon name="arrow-round-forward" color="white"></ion-icon>
+                  </ion-col>
+                  <ion-col align-self-center style="text-align:left;">
+                    <h4>BLUE COLLAR</h4>
+                  </ion-col>
+                </ion-row>
+          </ion-card>
+          </ion-col>
+            
+
+            </ion-row>
+          </ion-col>
+          <ion-col class="call-to-action-col">
+            <ion-button class="signup-button" color="secondary" expand="block" [routerLink]="['/auth/signup']">TAKE A TOUR</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-slide>
+
+      <!------------->
+        <!--Slide 2 Ends-->
+        <ion-slide class="interests-to-follow-slide question-slide">
+          <ion-row class="slide-inner-row">
+            <ion-col class="heading-col">
+              <h2 class="slide-title">Which job areas interests you?</h2>
+              <!-- <p class="slide-subtitle">
+                You can add or change them later.
+              </p> -->
+            </ion-col>
+            <ion-col class="">
+              <ion-row class="">
+               
+
+                <ion-virtual-scroll [items]="jobAreas">
+                  <ion-item *virtualItem="let item">
+                    {{ item.title }}
+                  </ion-item>
+                </ion-virtual-scroll>
+
+                
+              </ion-row>
+            </ion-col>
+            <ion-col class="call-to-action-col">
+              <ion-button class="signup-button" color="secondary" expand="block" [routerLink]="['/auth/signup']">TAKE A TOUR</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-slide>
+        <!---------------->
+
+    </ion-slides>
+  </form>
+</ion-content>

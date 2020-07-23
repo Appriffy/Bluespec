@@ -1,0 +1,45 @@
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Page Not Found
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="not-found-content" padding>
+  <div class="illustration-wrapper" style="width:70%;max-width:280px;margin:0 auto;text-align: center;">
+    <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+      <app-image-shell [src]="'./assets/images/page-not-found.svg'" [alt]="'not found page'"></app-image-shell>
+    </app-aspect-ratio>
+  </div>
+  <div class="not-found-title" style="color: #444444;margin-top: 20px;">YOU ARE LOST</div>
+  <div class="not-found-text" style="color: #666666;margin:20px;">Looks like the content you are trying to access is not available at this moment.</div>
+  
+</ion-content>
+
+<ion-footer style="background-color: #ffffff;">
+  <div style="margin:15px;">
+
+    <ion-row>
+      <ion-col size="6" *ngIf="(roleID == 1 || roleID == 2)">
+        <ion-button class="go-home-btn" (click)="goToDashboard()" expand="block" fill="solid">
+          <ion-icon src="./assets/sample-icons/side-menu/analytics.svg"></ion-icon> &nbsp;&nbsp;My Dashboard</ion-button>
+      </ion-col>
+      
+      <ion-col size="6" *ngIf="(roleID == 0 || roleID == 3)">
+        <ion-button class="go-home-btn" (click)="goToHome()" expand="block" fill="outline">
+          <ion-icon src="./assets/sample-icons/side-menu/home.svg"></ion-icon> &nbsp;&nbsp;Bluspec Home</ion-button>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-button class="go-home-btn" (click)="goToMyProfile()" expand="block" fill="solid">
+          <ion-icon src="./assets/sample-icons/side-menu/contact-card.svg"></ion-icon> &nbsp;&nbsp;My Profile</ion-button>
+      </ion-col>
+    </ion-row>
+   
+
+  </div>
+</ion-footer>

@@ -1,0 +1,187 @@
+<form class="create-user-form ion-page" [formGroup]="createUserForm" (ngSubmit)="createUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Create New Account</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content">
+    <ion-row class="select-user-image-row">
+      <ion-col class="user-image-col" size="3">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+  
+          <app-image-shell *ngIf="preview ===''" [mode]="'cover'" class="user-image" [src]="'./assets/images/avatar.jpg'"></app-image-shell>
+          <app-image-shell *ngIf="preview !=''" [mode]="'cover'" class="user-image" [src]="preview"></app-image-shell>
+        </app-aspect-ratio>
+        <ion-button class="change-image-btn" color="secondary" (click)="fileInput.click()">
+          <ion-icon class="btn-icon" slot="icon-only" name="camera"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+        <div class="form-group" style="display:none;">
+          <input type="file" (change)="uploadFile($event)" #fileInput>
+        </div>
+
+  <!------------ Progress Bar ----------->
+  <div class="progress form-group" *ngIf="percentDone">
+    <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+      [style.width.%]="percentDone">
+    </div>
+  </div>
+
+  <!-- File Input -->
+  <div class="form-group" style="display: none;">
+    <input type="file" accept="image/*" (change)="uploadFile($event)" #fileInput>
+  </div>
+
+  <ion-item class="input-item">
+    <ion-label position="floating">Select User Role *</ion-label>
+    <ion-select formControlName="role_id" cancelText="Cancel" okText="OK">
+      <ion-select-option *ngFor="let item of user_roles" [value]="item?.id" >{{item?.title}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item class="input-item">
+    <ion-label color="secondary" position="floating">First Name *</ion-label>
+    <ion-input type="text" formControlName="first_name" required></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label color="secondary" position="floating">Last Name</ion-label>
+    <ion-input type="text" formControlName="last_name"></ion-input>
+  </ion-item>
+  <ion-item class="input-item">
+    <ion-label color="secondary" position="floating">Date of Birth *</ion-label>
+    <ion-datetime [max]="maxDOBYear" display-format="DD/MM/YYYY" picker-format="DD MMMM YYYY" formControlName="dob"></ion-datetime>
+  </ion-item>
+
+  <div class="error-container">
+    <ng-container *ngFor="let validation of validations.email">
+      <div class="error-message" *ngIf="createUserForm.get('dob').hasError(validation.type) && (createUserForm.get('dob').dirty || createUserForm.get('dob').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>{{ validation.message }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <ion-item class="input-item">
+    <ion-label color="secondary" position="floating">Mobile number *</ion-label>
+    <ion-input type="tel" formControlName="mobile" required></ion-input>
+  </ion-item>
+
+  <div class="error-container">
+    <ng-container *ngFor="let validation of validations.mobile">
+      <div class="error-message" *ngIf="createUserForm.get('mobile').hasError(validation.type) && (createUserForm.get('mobile').dirty || createUserForm.get('mobile').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>{{ validation.message }}</span>
+      </div>
+    </ng-container>
+  </div>
+  
+  <ion-item class="input-item">
+    <ion-label color="secondary" position="floating">Email *</ion-label>
+    <ion-input type="email" formControlName="email" required></ion-input>
+  </ion-item>
+
+  <div class="error-container">
+    <ng-container *ngFor="let validation of validations.email">
+      <div class="error-message" *ngIf="createUserForm.get('email').hasError(validation.type) && (createUserForm.get('email').dirty || createUserForm.get('email').touched)">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        <span>{{ validation.message }}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <ion-item class="input-item">
+    <ion-label position="floating">Select Country *</ion-label>
+    <ion-input type="text" formControlName="country" (click)="openSelectCountry()" readonly></ion-input>
+  </ion-item>
+
+
+  <ion-input type="hidden" formControlName="status"></ion-input>
+  <ion-input type="hidden" formControlName="city"></ion-input>
+  <ion-input type="hidden" formControlName="address"></ion-input>
+  <ion-input type="hidden" formControlName="latitude"></ion-input>
+  <ion-input type="hidden" formControlName="longitude"></ion-input>
+
+
+  <ion-item class="input-item terms-item">
+    <ion-label>Auto-generate my password.</ion-label>
+    <ion-checkbox formControlName="autogen_pass"></ion-checkbox>
+  </ion-item>
+
+
+  
+           <!-------- Password Optional------>
+           <div *ngIf="!isAutogeneratePassword" style="margin:20px 0 8px 0;">
+            <ion-label class="header-title" style="margin:8px 0 8px 0;color:#444444;">Enter a password to login into your account.</ion-label>
+        
+            
+              <div formGroupName="matching_passwords">
+                <ion-item class="input-item">
+                  <ion-label position="floating">Password</ion-label>
+                  <ion-input type="password" formControlName="password"></ion-input>
+                </ion-item>
+                <div class="error-container">
+                  <ng-container *ngFor="let validation of validations.password">
+                    <div class="error-message" *ngIf="createUserForm.get('matching_passwords').get('password').hasError(validation.type) && (createUserForm.get('matching_passwords').get('password').dirty || createUserForm.get('matching_passwords').get('password').touched)">
+                      <ion-icon name="information-circle-outline"></ion-icon>
+                      <span>{{ validation.message }}</span>
+                    </div>
+                  </ng-container>
+                </div>
+        
+                <ion-item class="input-item">
+                  <ion-label position="floating">Confirm Password</ion-label>
+                  <ion-input type="password" formControlName="confirm_password"></ion-input>
+                </ion-item>
+                <div class="error-container">
+                  <ng-container *ngFor="let validation of validations.confirm_password">
+                    <div class="error-message" *ngIf="createUserForm.get('matching_passwords').get('confirm_password').hasError(validation.type) && (createUserForm.get('matching_passwords').get('confirm_password').dirty || createUserForm.get('matching_passwords').get('confirm_password').touched)">
+                      <ion-icon name="information-circle-outline"></ion-icon>
+                      <span>{{ validation.message }}</span>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validations.matching_passwords">
+                  <div class="error-message" *ngIf="createUserForm.get('matching_passwords').hasError(validation.type) && (createUserForm.get('matching_passwords').get('confirm_password').dirty || createUserForm.get('matching_passwords').get('confirm_password').touched)">
+                    <ion-icon name="information-circle-outline"></ion-icon>
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          <!------- Ends Password Entry ------>
+
+  <ion-item class="input-item terms-item">
+    <ion-label>Notify user about this new account via Email.</ion-label>
+    <ion-checkbox formControlName="notify_account"></ion-checkbox>
+  </ion-item>
+
+      </ion-list>
+    
+      
+      
+
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid" [disabled]="!createUserForm.valid">REGISTER ACCOUNT</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

@@ -1,0 +1,50 @@
+<ion-row class="review-user">
+    <ion-col size="2" class="user-image-wrapper">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+        <app-image-shell class="review-user-image" [src]="review.reviewerImg" [alt]="'review user image'"></app-image-shell>
+      </app-aspect-ratio>
+    </ion-col>
+   
+    <ion-col class="user-brief-wrapper">
+     
+      <ion-row class="details-scores user-scores">
+        <ion-col class="score-item user-score">
+
+          <!-- <span style="display:inline-block;text-align: left;">
+            <app-rating-input max="{{review.rating}}" readOnly="true" style="margin-bottom:1px;"></app-rating-input>       
+          </span>
+          <span class="review-date" style="display:inline-block;text-align: right;">
+            <app-text-shell [data]="review.publishedAt"></app-text-shell>
+          </span> -->
+
+         
+          <app-rating-input max="{{review.rating}}" readOnly="true" style="margin-top:1px;margin-bottom:1px;padding:1px;"></app-rating-input>
+         
+          <h5 class="review-message" style="margin-top:1px;margin-bottom:1px;">
+            <app-text-shell [data]="review.review" lines="2"></app-text-shell>
+          </h5>
+
+          <h5 class="review-user-name" style="margin-top:1px;margin-bottom:1px;">
+            <app-text-shell [data]="'- '+review.reviewerName"></app-text-shell>
+          </h5>
+  
+          <span class="review-date" style="display:block;text-align: right; font-size: 13px;">
+            <app-text-shell [data]="review.publishedAt"></app-text-shell>
+          </span>
+
+        </ion-col>
+        
+      </ion-row>
+    </ion-col>
+    <!-- <ion-col class="review-info-wrapper">
+    
+    </ion-col> -->
+  </ion-row>
+
+  <!-- <ion-row class="details-scores user-scores">
+    <ion-col size="12">
+    <h5 class="review-message" style="margin-top:2px;">
+      <app-text-shell [data]="review.review" lines="5"></app-text-shell>
+    </h5>
+  </ion-col>
+  </ion-row>  -->

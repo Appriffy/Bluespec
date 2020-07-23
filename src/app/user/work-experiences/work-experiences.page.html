@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/people/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Work Experiences</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openAddItemModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+  <ion-row class="expiration-countdown" *ngIf="!loading && items?.length > 0 && totalExpInfo">
+    <span class="expiration-lead">{{totalExpInfo}}</span>
+  </ion-row>
+
+  <ion-list class="items-list" *ngIf="items?.length > 0  && !loading">
+    <ion-item tappable class="list-item" *ngFor="let item of items" (click)="onItemSelected(item)">
+
+      <ion-row class="user-row">
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+
+            <h3 class="user-name" *ngIf="item.designation">
+              <app-text-shell animation="bouncing" [data]="item.designation"></app-text-shell>
+            </h3>
+
+            <h5 class="user-age">
+              <app-text-shell animation="bouncing" [data]="item.company"></app-text-shell>
+            </h5>
+
+            <h5 class="user-age" *ngIf="item.current">
+              <app-text-shell animation="bouncing" [data]="item.startDate?.concat(' to Current')"></app-text-shell>
+            </h5>
+            
+            <h5 class="user-age" *ngIf="!item.current">
+              <app-text-shell animation="bouncing" [data]="item.startDate?.concat(' - ').concat(item.endDate)"></app-text-shell>
+            </h5>
+
+            <h5 class="user-age" *ngIf="item.role">
+              <app-text-shell animation="bouncing" [data]="'Role: '+item.role"></app-text-shell>
+            </h5>
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <!------- Empty View ------->
+  <ion-grid style="height: 100%" *ngIf="items?.length == 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-icon src="./assets/sample-icons/side-menu/business.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;color: #555555;font-size:20px;font-weight:500;"> No Work Experience</h5>
+      <h5 *ngIf="selfView" style="text-align: center;color: #555555;font-size:16px;margin-top: 3px;padding-left:20px;padding-right:20px;"> Have you worked in any company before? List all your work experiences to get better job opportunities. Your experience matters!.</h5>
+      <ion-button  *ngIf="selfView" (click)="openAddItemModal()" style="text-align: center;" class="upload-picture-btn" color="primary" expand="cover" fill="outline">
+        GET STARTED</ion-button>
+
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+     <!------- Loading View ------->
+     <ion-grid style="height: 100%" *ngIf="loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+        <h5 style="text-align: center;color: #555555;">Loading...</h5>
+        </ion-row>
+      </ion-grid>
+     <!------- Loading View ------->
+
+</ion-content>

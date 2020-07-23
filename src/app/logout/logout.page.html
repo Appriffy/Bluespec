@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Log Out
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="not-found-content" style="height:100%;display:block;">
+
+   <!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="listing?.length <= 0">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-spinner name="bubbles" style="width:40px;height:40px;margin:0 auto;stroke:#444;fill:#444;text-align: center;"></ion-spinner>
+      <h4 style="text-align: center;color:#444444;margin-top:10px;margin-bottom:3px;">Logging You Out</h4>
+      <h5 style="text-align: center;color:#555555;margin-top:5px;">Please wait...</h5>
+
+<!-- <ion-button class="go-home-btn" (click)="logout()" color="primary" expand="block" fill="solid">EXIT</ion-button> -->
+
+
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+</ion-content>

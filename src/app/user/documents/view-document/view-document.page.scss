@@ -1,0 +1,69 @@
+:host {
+  --page-margin: var(--app-broad-margin);
+  --detail-sections-margin: var(--app-fair-margin);
+  --page-background: var(--app-background-shade);
+}
+
+.create-user-content {
+  --background: var(--app-background);
+}
+
+.doc-card{
+    background-color: white;
+    width: 100%;
+}
+
+.iframe-fix iframe {
+    -webkit-overflow-scrolling: touch !important;
+    overflow: scroll !important;
+    width: 100%;
+    height: 100%;
+    border: none;
+    margin-top: 2px;
+  }
+  
+  .iframe-fix {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #fff;
+  }
+
+.form-actions-wrapper{
+  text-align: center;
+  align-content: center;
+}
+  .promo-code-btn {
+    margin: 0px;
+  }
+
+  .promo-code {
+    display: block;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .expiration-countdown {
+    color: var(--ion-color-lightest);
+    background-color: var(--ion-color-danger);
+    padding: calc(var(--page-margin) / 2) var(--page-margin);
+
+    position: sticky;
+    top: 0;
+    z-index: 8;
+
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    .expiration-lead {
+      padding: 0px calc(var(--page-margin) / 2);
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }  
+
+  .approved{
+    background-color: var(--ion-color-success);
+  }

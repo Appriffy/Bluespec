@@ -1,0 +1,135 @@
+<ion-app dir="{{textDir}}">
+  <ion-split-pane>
+    <ion-menu class="app-sidemenu">
+      <ion-header>
+        <ion-toolbar>
+          <ion-row class="user-details-wrapper" *ngIf="localUser !== null && localUser !== undefined">
+            <ion-col size="3">
+              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+                <app-image-shell (click)="showMyProfile()" class="user-avatar" animation="spinner" [src]="localUser?.user_image"></app-image-shell>
+              </app-aspect-ratio>
+            </ion-col>
+            <ion-col size="8" class="user-info-wrapper">
+              <h4 class="user-name" *ngIf="localUser?.first_name">Welcome {{localUser?.first_name}}</h4>
+              <h5 class="user-handle" *ngIf="localUser?.role_name">{{localUser?.role_name}}</h5>
+              <h5 class="user-handle" *ngIf="localUser?.date_created">Joined {{localUser?.date_created}}</h5>
+            </ion-col>
+          </ion-row>
+
+
+          <ion-row class="user-details-wrapper" *ngIf="localUser === null || localUser === undefined">
+            <ion-col size="4">
+              <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+                <app-image-shell class="user-avatar" animation="spinner" [src]="'./assets/images/icon.png'"></app-image-shell>
+              </app-aspect-ratio>
+            </ion-col>
+            <ion-col size="8" class="user-info-wrapper">
+              <h3 class="user-name">BLUSPEC</h3>
+              <h5 class="user-handle" style="color: white;">DELIVERING YOUR FUTURE</h5>
+             
+            </ion-col>
+          </ion-row>
+
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+
+   <!---- Admin Main Menu -->
+        <div *ngIf="localUser !== null && localUser?.role_id === 1">
+          <ion-list>
+            <ion-list-header>Administration</ion-list-header>
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of adminPages; let i = index">
+              <ion-item [routerLink]="p.url">
+                <ion-icon slot="start" [src]="p.icon"></ion-icon>
+                <ion-label>
+                  {{p.title}}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list></div>
+   <!---- End of Admin Main Menu -->
+
+<!---- Recruiter Main Menu -->
+ <div *ngIf="localUser !== null && localUser?.role_id === 2">
+  <ion-list>
+    <ion-menu-toggle auto-hide="false" *ngFor="let p of recuiterPages; let i = index">
+      <ion-item [routerLink]="p.url">
+        <ion-icon slot="start" [src]="p.icon"></ion-icon>
+        <ion-label>
+          {{p.title}}
+        </ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-list>
+</div>
+<!---- End of Recruiter Main Menu -->
+
+ <!---- Grafter Main Menu -->
+ <div *ngIf="localUser !== null && localUser?.role_id === 3">
+  <ion-list>
+    <ion-item>
+      <ion-label>{{workStatusInfo}}</ion-label>
+      <ion-toggle color="success" (click)="toggleState()" checked></ion-toggle>
+    </ion-item>
+
+    <ion-menu-toggle auto-hide="false" *ngFor="let p of grafterPages; let i = index">
+      <ion-item [routerLink]="p.url">
+        <ion-icon slot="start" [src]="p.icon"></ion-icon>
+        <ion-label>
+          {{p.title}}
+        </ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-list>
+</div>
+<!---- End of Grafter Main Menu -->
+
+        <ion-list >
+          <ion-list-header>Account</ion-list-header>
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of accountPages; let i = index">
+            <ion-item [routerLink]="p.url">
+              <ion-icon slot="start" [src]="p.icon"></ion-icon>
+              <ion-label>
+                {{p.title}}
+              </ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+
+        <!--- OTHER TESTS 
+        <div *ngIf="localUser?.role_id === 1">
+          <ion-list>
+            <ion-list-header>Other Screens (In Dev)</ion-list-header>
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of otherPages; let i = index">
+              <ion-item [routerLink]="p.url">
+                <ion-icon slot="start" [src]="p.icon"></ion-icon>
+                <ion-label>
+                  {{p.title}}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list> </div>
+----->
+
+
+          <!---#####  VISITOR ROUTES #####--->
+          <ion-list *ngIf="localUser === null || localUser === undefined">
+            <ion-list-header>Visitor Menu </ion-list-header>
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of visitorPages; let i = index">
+              <ion-item [routerLink]="p.url">
+                <ion-icon slot="start" [src]="p.icon"></ion-icon>
+                <ion-label>
+                  {{p.title}}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </ion-list>
+<!---#####  VISITOR ROUTES #####--->
+
+      </ion-content>
+    </ion-menu>
+    <!-- Main app content gets rendered in this router-outlet -->
+    <ion-router-outlet main></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,24 @@
+.walkthrough-slides {
+    --bullet-background: var(--ion-color-dark);
+    --bullet-background-active: var(--ion-color-dark);
+  
+    height: 100%;
+  
+    .slide-inner-row {
+      height: 100%;
+      width: 100%;
+      padding: 0px;
+      // Header space
+      padding-top: var(--app-header-height);
+      // .swiper-pagination space
+      border-bottom: var(--page-swiper-pagination-space) solid transparent;
+      background-clip: padding-box;
+      background-color: var(--page-vector-decoration-fill);
+    }
+  }
+
+  .vertical-align-content > *
+{
+     align-content: center!important;
+     align-items: center!important;
+}

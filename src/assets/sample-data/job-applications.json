@@ -1,0 +1,64 @@
+{
+    "pending": [
+      {
+        "id": 2,
+        "applicant_id": 4,
+        "applicant_name": "Avinash Kumar",
+        "applicant_image": "https://bluspec.app/uploads/images/users/person_4.jpg",
+        "user_name": "g2y70sc6",
+        "amount": 18000,
+        "salary_type": "",
+        "delivery_date": "",
+        "status": "Pending",
+        "qcode": "3751206261917376",
+        "comment": "Hello..I have more than 2 years of experience in java and j2EE.",
+        "job_id": 15,
+        "currency": "USD",
+        "jobTitle": "Need a Java Trainer",
+        "jobCode": "2081211616069803",
+        "date_created": "16 May 2020"
+      }
+    ],
+    "shortlisted": [
+      {
+        "id": 2,
+            "applicant_id": 4,
+            "applicant_name": "Vishal Kumar",
+            "applicant_image": "https://bluspec.app/uploads/images/users/person_2.jpg",
+            "user_name": "g2y70sc6",
+            "amount": 18000,
+            "salary_type": "",
+            "delivery_date": "",
+            "status": "Pending",
+            "qcode": "3751206261917376",
+            "comment": "Hello..I have more than 2 years of experience in java and j2EE.",
+            "job_id": 15,
+            "currency": "USD",
+            "jobTitle": "Need a Java Trainer",
+            "jobCode": "2081211616069803",
+            "date_created": "16 May 2020"
+      }
+    ],
+     "rejected": [
+        {
+            "id": 2,
+            "applicant_id": 4,
+            "applicant_name": "Abhay Kumar",
+            "applicant_image": "https://bluspec.app/uploads/images/users/person_4.jpg",
+            "user_name": "g2y70sc6",
+            "amount": 18000,
+            "salary_type": "",
+            "delivery_date": "",
+            "status": "Pending",
+            "qcode": "3751206261917376",
+            "comment": "Hello..I have more than 2 years of experience in java and j2EE.",
+            "job_id": 15,
+            "currency": "USD",
+            "jobTitle": "Need a Java Trainer",
+            "jobCode": "2081211616069803",
+            "date_created": "16 May 2020"
+        }
+   
+    ]
+  }
+  

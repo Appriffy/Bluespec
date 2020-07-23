@@ -1,0 +1,47 @@
+<form [formGroup]="takePhotoForm" class="create-user-form ion-page" (ngSubmit)="submitPhoto()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-buttons  (click)="prevStep()">
+          <ion-button fill="solid" color="secondary">BACK</ion-button>
+        </ion-buttons>
+      </ion-buttons>
+      <ion-title slot="">Take Photo</ion-title>
+      <ion-buttons slot="end">
+      
+        <ion-buttons  (click)="nextStep()">
+          <ion-button fill="outline" color="facebook">NEXT</ion-button>
+        </ion-buttons>
+      </ion-buttons>
+      
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content vertical-align-content">
+ <div style="height: 100%;align-items: center;
+ text-align: center;vertical-align: middle;">
+
+  <ion-row class="select-user-image-row padding">
+    <ion-col class="user-image-col" size="5">
+      <img [src] ="image" style="width:120px;height:120px;margin:0 auto;">
+      <ion-button class="change-image-btn" color="secondary" (click)="takePhoto()">
+        <ion-icon class="btn-icon" slot="icon-only" name="camera"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-item class="input-item" style="margin:20px;">
+    <ion-label color="secondary" position="floating">Describe yourself</ion-label>
+    <ion-input type="text" formControlName="about" maxLength="30" required placeholder="A short line about you"></ion-input>
+  </ion-item>
+   </div>
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper" style="background-color: 0A5392;">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid" [disabled]="!takePhotoForm.valid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; CONTINUE</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

@@ -1,0 +1,158 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["dashboard-job-areas-summary-job-areas-summary-module"],{
+
+/***/ "./node_modules/raw-loader/dist/cjs.js!./src/app/dashboard/job-areas-summary/job-areas-summary.page.html":
+/*!***************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader/dist/cjs.js!./src/app/dashboard/job-areas-summary/job-areas-summary.page.html ***!
+  \***************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-content class=\"firebase-listing-content\">\n\n  <ion-card class=\"stats-card\">\n    <ion-card-header>\n      \n      <ion-card-title>Bluspec Job Areas</ion-card-title>\n    </ion-card-header>\n    <ion-card-content>\n      <canvas #barChart></canvas>\n    </ion-card-content>\n  </ion-card>\n\n  \n <!------- Loading View ------->\n <ion-grid style=\"height: 100%\" *ngIf=\"loading\">\n  <ion-row justify-content-center align-items-center style=\"height: 100%; flex-direction: column\">\n    <ion-spinner name=\"bubbles\" style=\"width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;\"></ion-spinner>\n    <h5 style=\"text-align: center;columns: #555555;\">Loading Job Areas Stats</h5>\n    </ion-row>\n  </ion-grid>\n <!------- Loading View ------->\n\n\n</ion-content>\n");
+
+/***/ }),
+
+/***/ "./src/app/dashboard/job-areas-summary/job-areas-summary.module.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/dashboard/job-areas-summary/job-areas-summary.module.ts ***!
+  \*************************************************************************/
+/*! exports provided: JobAreasSummaryPageModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JobAreasSummaryPageModule", function() { return JobAreasSummaryPageModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/dist/fesm5.js");
+/* harmony import */ var _job_areas_summary_page__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./job-areas-summary.page */ "./src/app/dashboard/job-areas-summary/job-areas-summary.page.ts");
+
+
+
+
+
+
+
+const routes = [
+    {
+        path: '',
+        component: _job_areas_summary_page__WEBPACK_IMPORTED_MODULE_6__["JobAreasSummaryPage"]
+    }
+];
+let JobAreasSummaryPageModule = class JobAreasSummaryPageModule {
+};
+JobAreasSummaryPageModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+        imports: [
+            _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+            _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["IonicModule"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forChild(routes)
+        ],
+        declarations: [_job_areas_summary_page__WEBPACK_IMPORTED_MODULE_6__["JobAreasSummaryPage"]]
+    })
+], JobAreasSummaryPageModule);
+
+
+
+/***/ }),
+
+/***/ "./src/app/dashboard/job-areas-summary/job-areas-summary.page.scss":
+/*!*************************************************************************!*\
+  !*** ./src/app/dashboard/job-areas-summary/job-areas-summary.page.scss ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2Rhc2hib2FyZC9qb2ItYXJlYXMtc3VtbWFyeS9qb2ItYXJlYXMtc3VtbWFyeS5wYWdlLnNjc3MifQ== */");
+
+/***/ }),
+
+/***/ "./src/app/dashboard/job-areas-summary/job-areas-summary.page.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/dashboard/job-areas-summary/job-areas-summary.page.ts ***!
+  \***********************************************************************/
+/*! exports provided: JobAreasSummaryPage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "JobAreasSummaryPage", function() { return JobAreasSummaryPage; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/Chart.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(chart_js__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+let JobAreasSummaryPage = class JobAreasSummaryPage {
+    constructor() { }
+    ngOnInit() {
+    }
+    ionViewDidEnter() {
+        this.createBarChart();
+    }
+    createBarChart() {
+        this.bars = new chart_js__WEBPACK_IMPORTED_MODULE_2__["Chart"](this.barChart.nativeElement, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Engineering', 'Banking', 'Teaching', 'Digital Marketing', 'Plumbing', 'Data Entry', 'Electrician'],
+                datasets: [{
+                        label: 'Number of Grafters',
+                        data: [17, 7, 25, 11, 6, 4, 19],
+                        backgroundColor: 'rgb(38, 194, 129)',
+                        borderColor: 'rgb(38, 194, 129)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Job Posts',
+                        data: [3, 17, 1, 11, 26, 4, 4],
+                        backgroundColor: 'rgb(225, 0, 0)',
+                        borderColor: 'rgb(38, 194, 129)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Job Skills',
+                        data: [11, 3, 26, 14, 26, 14, 33],
+                        backgroundColor: 'rgb(125, 110, 200)',
+                        borderColor: 'rgb(38, 194, 129)',
+                        borderWidth: 1
+                    },]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                }
+            }
+        });
+    }
+};
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('barChart', { static: false }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:type", Object)
+], JobAreasSummaryPage.prototype, "barChart", void 0);
+JobAreasSummaryPage = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-job-areas-summary',
+        template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./job-areas-summary.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/dashboard/job-areas-summary/job-areas-summary.page.html")).default,
+        styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./job-areas-summary.page.scss */ "./src/app/dashboard/job-areas-summary/job-areas-summary.page.scss")).default]
+    }),
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+], JobAreasSummaryPage);
+
+
+
+/***/ })
+
+}]);
+//# sourceMappingURL=dashboard-job-areas-summary-job-areas-summary-module-es2015.js.map

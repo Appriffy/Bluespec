@@ -1,0 +1,278 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Relocation Fees</ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button *ngIf="feesListed && !editMode" fill="outline" (click)="switchEditMode()" color="light">EDIT</ion-button>
+
+      <ion-button *ngIf="editMode" fill="outline" (click)="switchDisplayMode()" color="light">VIEW</ion-button>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="video-playlist-content" style="background-color: #cccccc;background: chartreuse;">
+  
+  <ion-row class="expiration-countdown" *ngIf="editMode && !loading">
+    <span class="expiration-lead">
+      Set up your job preference profile. List expected salary for applicable entries. Click submit to save your fee listing.
+    </span>
+  </ion-row>
+
+  <ion-row class="expiration-countdown" *ngIf="displayResponse && responseMsg && !loading">
+    <span class="expiration-lead">
+     {{responseMsg}}
+    </span>
+  </ion-row>
+
+  <!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="!editMode && !feesListed && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <img [src]="'./assets/images/fees.png'" style="margin:0 auto;width:128px;height: auto;"/>
+      
+      <h4 *ngIf="selfView" style="font-size:22px;text-align: center;color: #444444;margin-bottom:5px;"> LIST YOUR FEES</h4>
+      <h5 *ngIf="selfView" style="font-size:18px;text-align: center;color: #555555;margin-top:5px;margin-left:30px;margin-right:30px;"> Are you willing to relocate? Set up a relocation profile and let employers know about your salary expectations and job preferences. </h5>
+      <ion-button *ngIf="selfView" style="text-align: center;" (click)="switchEditMode()" fill="solid" color="primary"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; GET STARTED</ion-button>
+
+      <h4 *ngIf="!selfView" style="font-size:22px;text-align: center;color: #444444;margin-bottom:5px;"> FEES NOT LISTED</h4>
+      <h5 *ngIf="!selfView" style="font-size:18px;text-align: center;color: #555555;margin-top:5px;margin-left:30px;margin-right:30px;"> Looks like relocation preference and expected salary is not listed. </h5>
+    
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+     <!------- Loading View ------->
+     <ion-grid style="height: 100%" *ngIf="loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+        <h5 style="text-align: center;color: #444444;">{{loadingMsg}}</h5>
+        <h5 style="font-size:15px;text-align: center;color: #555555;margin-top:8px;">Please wait..</h5>
+        </ion-row>
+      </ion-grid>
+     <!------- Loading View ------->
+
+  <section class="video-playlist-section" *ngIf="!editMode && feesListed && !loading">
+    <ion-row class="playlist-item-row" style="margin-top: 20px;">
+      <ion-col size="6" class="video-info-wrapper">
+        <h4 class="image-title" style="display: inline-block;text-align: start;">
+          Salary Input
+        </h4>
+      </ion-col>
+      <ion-col size="6" class="video-info-wrapper">
+        <h4 class="image-title" style="display: inline-block;text-align: end;">
+           Amount
+        </h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="playlist-item-row" *ngFor="let video of relocation_fees">
+      <ion-col size="6" class="video-info-wrapper">
+        <h4 class="image-title">
+          <app-text-shell animation="gradient" [data]="video.relocation_name"></app-text-shell>
+        </h4>
+        
+      </ion-col>
+      <ion-col size="6" class="video-info-wrapper">
+       
+        <p class="image-description" style="font-weight: 500;color:#333333;">
+          <app-text-shell animation="gradient" [data]="video.fee+' '+video.fee_type"></app-text-shell>
+        </p>
+       
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="playlist-item-row" style="margin-top: 10px;">
+    <ion-col size="6" class="video-info-wrapper">
+      <h4 class="image-title" style="display: inline-block;text-align: start;">
+        Total Salary
+      </h4>
+    </ion-col>
+    <ion-col size="6" class="video-info-wrapper">
+      <h4 class="image-title" style="display: inline-block;text-align: end;">
+         {{totalSalary}} {{currency}} {{payMode}}
+      </h4>
+    </ion-col>
+  </ion-row>
+
+  </section>
+
+
+    <!------------- FEES FORM --------------->
+<div no-padding *ngIf="editMode && !loading" style="margin: 0 !important;
+padding: 0 !important;">
+  <div style="padding:0px;margin:10px;">
+    <form [formGroup]="form" (ngSubmit)="saveFormChanges()">
+
+      <ion-list margin-bottom class="feesFormArea" style="background: #eeeeee;">
+        <ion-input type="hidden" formControlName="name" value="Relocation Fee Structure"></ion-input>
+     
+        <ion-row align-items-center>
+          <ion-col size="12">
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Enable Relocation Mode</ion-label>
+          <ion-toggle color="primary" formControlName="canRelocate" value="1"></ion-toggle>
+        </ion-item>
+        </ion-col>
+        </ion-row>
+
+        <div class="error-container" style="margin-left: 20px;">          
+          <ng-container *ngFor="let validation of validations.canRelocate">
+            <div class="error-message" *ngIf="form.get('canRelocate').hasError(validation.type)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+
+      <ion-row align-items-center *ngIf="enableRelocationFees">
+        <ion-col size-sm="12" size-md="12" size-lg="4">
+          <ion-item class="input-item">
+            <ion-label position="floating">Select Currency *</ion-label>
+            <ion-input type="hidden" formControlName="currency"></ion-input>
+        <ion-input type="text" formControlName="currency_name" (click)="openCurrencyChooser()" readonly></ion-input>
+          </ion-item>
+        </ion-col>
+       
+        <ion-col size-sm="12" size-md="12" size-lg="4">
+          <ion-item class="input-item">
+            <ion-label position="floating">Select Payroll Type *</ion-label>
+            <ion-select formControlName="payMode" cancelText="Cancel" okText="OK">
+              <ion-select-option *ngFor="let item of paymentModes" [value]="item" >{{item}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size-sm="12" size-md="12" size-lg="4">
+          <ion-item class="input-item">
+          <ion-label color="primary" position="floating">Notice Period (in Days)*</ion-label>
+          <ion-input type="number" formControlName="notice_period"></ion-input>
+          </ion-item>
+        </ion-col>
+
+        <div class="error-container" style="margin-left: 20px;">
+          <ng-container *ngFor="let validation of validations.payMode">
+            <div class="error-message" *ngIf="form.get('payMode').hasError(validation.type)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let validation of validations.notice_period">
+            <div class="error-message" *ngIf="form.get('notice_period').hasError(validation.type)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+          <ng-container *ngFor="let validation of validations.currency">
+            <div class="error-message" *ngIf="form.get('currency').hasError(validation.type)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </ion-row>
+
+
+  <!---- List Form Array -->
+      <div formArrayName="fee_entries" margin-bottom *ngIf="enableRelocationFees">
+           <section
+              [formGroupName]="i" *ngFor="let feeInput of feeEntriesFormArray.controls; let i = index;">
+              <ion-item-group>
+               
+                <ion-row class="searchbar-row" align-items-center>
+                  <ion-col size="2" style="display: none;">
+                    <ion-item class="input-item">
+                    <ion-label color="primary" position="floating">Relocation Input</ion-label>
+                    <ion-input type="text" formControlName="relocation_input" readonly></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-item class="input-item">
+                    <ion-label color="primary" position="floating">Salary Item</ion-label>
+                    <ion-input type="text" formControlName="relocation_name" readonly></ion-input>
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-item class="input-item">
+                    <!-- <ion-label color="primary" position="floating">Your Fee </ion-label> -->
+                    <ion-label position="floating"> Fee (in {{currency}})</ion-label>
+                    <ion-input type="number" formControlName="fee"></ion-input>
+                    </ion-item>
+                  </ion-col>
+                </ion-row>
+                
+                <!-- <ion-item-divider color="light">{{ tech.relocation_name }}</ion-item-divider> -->
+              </ion-item-group>    
+           </section>
+        </div>
+  <!---- List Form Array -->
+   
+  <!---- Remove Prefs -->
+  <ion-item-group *ngIf="!enableRelocationFees">  
+    <ion-row align-items-center *ngIf="feesListed">
+      <ion-col size="12">  
+    <ion-item class="input-item terms-item">
+      <ion-label>I want to delete my relocation preferences.</ion-label>
+      <ion-checkbox formControlName="confirmDelete" value="true"></ion-checkbox>
+    </ion-item>
+    </ion-col></ion-row>
+
+    <div class="error-container" style="margin-left: 8px;margin-top: 5px;margin-bottom: 5px;">          
+      <ng-container *ngFor="let validation of validations.confirmDelete">
+        <div class="error-message" *ngIf="form.get('confirmDelete').hasError(validation.type)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+
+    <ion-row align-items-center *ngIf="feesListed && relocation_fees.length > 0">
+      <ion-col size="12">  
+    <ion-item class="input-item terms-item">
+      <ion-label>Delete all existing fee entries.</ion-label>
+      <ion-checkbox formControlName="deleteFees" value="true"></ion-checkbox>
+    </ion-item></ion-col></ion-row>
+  </ion-item-group>
+ <!---- Remove Prefs -->
+
+     </ion-list>
+   
+        <ion-button style="padding-top:20px;padding-bottom:20px;" class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!form.valid">Submit</ion-button>
+  
+      </form>
+    </div>
+</div>
+
+<!------------- END OF FEES FORM ------------->
+</ion-content>
+
+<ion-footer>
+  <ion-row *ngIf="editMode && !loading" class="form-actions-wrapper" style="background-color: 0A5392;">
+    <ion-col>
+      <ion-button (click)="saveFormChanges()" [disabled]="!form.valid" class="submit-btn" expand="block" color="primary" type="submit" fill="solid"> <ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SUBMIT</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="form-actions-wrapper" style="background-color: 0A5392;" *ngIf="selfView && !editMode && !feesListed && !loading">
+    <ion-col>
+      <ion-button [routerLink]="['/people/profile']" class="submit-btn" expand="block" color="primary" fill="solid"> <ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SKIP FEE LISTING</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="form-actions-wrapper" style="background-color: 0A5392;" *ngIf="!selfView && !editMode && !feesListed && !loading && user_name">
+    <ion-col>
+      <ion-button [routerLink]="['/people/details', user_name]" class="submit-btn" expand="block" color="primary" fill="solid"> <ion-icon name="arrow-round-back" style="color:white;"></ion-icon>&nbsp; BACK </ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer>
+

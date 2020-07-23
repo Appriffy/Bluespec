@@ -1,0 +1,35 @@
+:host {
+  --page-margin: var(--app-fair-margin);
+}
+
+.not-found-content {
+  //--background:#333;
+  --background:var(--app-background-shade);
+  --padding-start: var(--page-margin);
+  --padding-end: var(--page-margin);
+  --padding-top: var(--page-margin);
+  --padding-bottom: var(--page-margin);
+
+  .illustration-wrapper {
+    margin: 0px 10%;
+  }
+
+  .not-found-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 500;
+  }
+
+  .not-found-text {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 2px;
+    margin-bottom: 40px;
+    font-weight: 500;
+    color:#444444;
+  }
+
+  .go-home-btn {
+    margin: 0px;
+  }
+}

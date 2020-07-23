@@ -1,0 +1,28 @@
+{
+    "items": [
+      {
+        "id": 1,
+        "title": "Matriculation",
+        "organization": "Pristine Academy",
+        "yoj": "2001",
+        "yop": "2007",
+        "score": "88",
+        "score_type": "%",
+        "study_area": "Science",
+        "date_created": "2 days ago"      
+      },
+      {
+        "id": 2,
+        "title": "Higher Secondary",
+        "organization": "Holy Mission Academy",
+        "yoj": "2008",
+        "yop": "2009",
+        "score": "91",
+        "score_type": "%",
+        "study_area": "Science",
+        "date_created": "2 days ago"      
+      }
+
+    ]
+  }
+  

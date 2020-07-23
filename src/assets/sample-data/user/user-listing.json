@@ -1,0 +1,120 @@
+{
+	"error": false,
+	"result": [{
+			"id": 1,
+			"user_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+			"name": "Aman Singh",
+			"role_id": 3,
+			"grafter_type": 1,
+			"country": "India",
+			"online_status": "Online",
+			"jobDone": "17",
+			"avgRating": "4.4",
+			"numReviews": "15",
+			"skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			]
+		},
+
+		{
+			"id": 1,
+			"user_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+			"name": "Vikram Shah",
+			"role_id": 3,
+			"grafter_type": 1,
+			"country": "India",
+			"online_status": "Online",
+			"jobDone": "11",
+			"avgRating": "4.4",
+			"numReviews": "10",
+			"skills": [{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			]
+		},
+
+		{
+			"id": 1,
+			"user_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+			"name": "Abhay Singh",
+			"role_id": 3,
+			"grafter_type": 1,
+			"country": "India",
+			"online_status": "Online",
+			"jobDone": "17",
+			"avgRating": "4.4",
+			"numReviews": "15",
+			"skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			]
+		},
+
+		{
+			"id": 1,
+			"user_image": "./assets/sample-images/notifications/100x100Notification4.jpg",
+			"name": "Test Oberoi",
+			"role_id": 3,
+			"grafter_type": 1,
+			"country": "Brazil",
+			"online_status": "Online",
+			"jobDone": "17",
+			"avgRating": "4.4",
+			"numReviews": "15",
+			"skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			]
+		}
+	]
+
+}

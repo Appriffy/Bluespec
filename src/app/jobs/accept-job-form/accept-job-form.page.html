@@ -1,0 +1,176 @@
+<form class="create-user-form ion-page" [formGroup]="applyJobForm" (ngSubmit)="submitForm()"> 
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title slot="">Apply for Job</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="create-user-content"  style="position: relative;">
+
+   <!---------STATIC TEST------>
+   <div class="listing-item" style="margin:10px;padding:10px;border-bottom-style:none;" *ngIf="showJobThumbnail">
+    <ion-row class="middle-row">
+      <ion-col class="info-col">
+        <h4 class="item-name">
+          <app-text-shell animation="bouncing" [data]="job?.title"></app-text-shell>
+        </h4>
+      
+        <p class="item-code"><ion-icon name="locate" style="display:inline-block;font-size:16px;vertical-align: middle;"></ion-icon> <app-text-shell style="display:inline-block;vertical-align: middle;" animation="bouncing" [data]="'Whitefield, Bangalore'">
+        </app-text-shell></p>       
+        <p class="item-description" style="margin-top:10px;">
+          <app-text-shell animation="bouncing" lines="3" [data]="job?.job_description"></app-text-shell>
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="bottom-row">
+      <ion-col class="code-wrapper">
+        <span class="item-code">
+          <app-text-shell [data]="job?.job_type_name"></app-text-shell>
+        </span>
+  
+      </ion-col>
+      <ion-col class="time-left-wrapper" size="5">
+        <ion-button class="bookmark-button" fill="clear" color="claim">
+         
+          <span class="accommodation-value" *ngIf="job?.salary_type == 'monthly'">
+            <app-text-shell animation="bouncing" [data]="job?.jobSalary.min_salary+' - '+job?.jobSalary.max_salary+' '+job?.currency+'/Month'"></app-text-shell>
+          </span>
+          <span class="accommodation-value" *ngIf="job?.salary_type == 'hourly'">
+            <app-text-shell animation="bouncing" [data]="job?.jobSalary.min_rate_per_hour+' - '+job?.jobSalary.min_rate_per_hour+' '+job?.currency+'/Hour'"></app-text-shell>
+          </span>
+          <span class="accommodation-value" *ngIf="job?.salary_type == 'fixed'">
+            <app-text-shell animation="bouncing" [data]="job?.jobSalary.fixed_fee+' '+job?.currency+' (Fixed)'"></app-text-shell>
+          </span>
+
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    
+  </div>
+  <!--------END STATIC TEST --------->
+
+  <!-- <p>{{applyJobForm.value|json}}</p>  -->
+
+<!----------- Start Prefs Detail Group ------->
+<ion-item-group class="filters-content filters-group">
+
+  <ion-item class="input-item" style="--background: #333333;" *ngIf="showJobThumbnail">
+    <ion-label style="color: #ffffff;" class="toggle-label">Job Application Form</ion-label>
+  </ion-item>
+
+  <ion-list class="toggle-list" lines="full">
+
+    <ion-item class="toggle-item">
+      <ion-label class="toggle-label" color="primary">Share My Phone number with employer.</ion-label>
+      <ion-toggle color="primary" formControlName="share_phone"></ion-toggle>
+    </ion-item>
+
+    <ion-item class="toggle-item" *ngIf="job?.jobPrefs.enableCustomOffer">
+      <ion-label class="toggle-label" color="primary">I will share my custom offer</ion-label>
+      <ion-toggle color="primary" formControlName="enableCustomOffer" (ionChange)="onCustomOfferEnabled($event)"></ion-toggle>
+    </ion-item>
+
+    <div style="--padding-start: var(--page-margin);
+    --padding-end: var(--page-margin);"></div>
+
+  </ion-list>
+
+    <!----- CUSTOM OFFER SECTION ------>
+    <div class="filters-content filters-group" *ngIf="shareCustomOffer">
+      <ion-item-divider>
+        <ion-label class="range-label">SHARE YOUR CUSTOM OFFER</ion-label>
+      </ion-item-divider>
+  
+      <ion-row class="form-actions-wrapper">
+        <p style="margin-left:10px;margin-top: 0px;font-size: smaller;"> Enable this option only if you want to share your custom offer for this job.</p>
+      </ion-row>
+
+      <ion-row align-items-center>
+        <ion-col size-sm="12" size-md="12" size-lg="4">
+          <ion-item class="input-item">
+            <ion-label position="floating" color="primary">{{priceTagLabel}} <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span>*</ion-label>
+          <ion-input type="number" formControlName="amount"></ion-input>
+          </ion-item>
+        </ion-col>
+        </ion-row>
+        <div class="error-container">
+          <ng-container *ngFor="let validation of validations.amount">
+            <div class="error-message" *ngIf="applyJobForm.get('amount').hasError(validation.type) && (applyJobForm.get('amount').dirty || applyJobForm.get('amount').touched)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              <span>{{ validation.message }}</span>
+            </div>
+          </ng-container>
+        </div>
+  
+  
+        <ion-row align-items-center *ngIf="job?.salary_type=='fixed'">
+          <ion-col size="12">
+            <ion-item class="input-item">
+              <ion-label color="primary" position="floating">Expected Delivery Date</ion-label>
+              <ion-datetime [min]="minDeliveryDate" display-format="DD/MM/YYYY" picker-format="DD MMMM YYYY" formControlName="delivery_date"></ion-datetime>
+            </ion-item>
+          </ion-col>
+          </ion-row>
+  
+          <ion-row align-items-center>
+            <ion-col size="12">
+              <ion-item class="input-item">
+                <ion-label color="primary" position="floating">Describe your offer</ion-label>
+                <ion-textarea rows="4" formControlName="comment" placeholder="Write a short description about your offer (Optional)"></ion-textarea>
+              </ion-item>
+            </ion-col>
+            </ion-row>
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validations.comment">
+                <div class="error-message" *ngIf="applyJobForm.get('comment').hasError(validation.type) && (applyJobForm.get('comment').dirty || applyJobForm.get('comment').touched)">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  <span>{{ validation.message }}</span>
+                </div>
+              </ng-container>
+            </div>
+  
+          </div>
+        <!---------- END OF OFFER SECTION -------->  
+        <ion-list class="toggle-list" lines="full">
+    <ion-item class="toggle-item">
+      <ion-label class="toggle-label" color="primary">I Agree that I meet the Job Requirements.</ion-label>
+      <ion-toggle color="primary" formControlName="agree" value="true"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+    <div class="error-container">
+      <ng-container *ngFor="let validation of validations.agree">
+        <div class="error-message" *ngIf="applyJobForm.get('agree').hasError(validation.type) && (applyJobForm.get('agree').dirty || applyJobForm.get('agree').touched)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <ion-input type="hidden" formControlName="applicant_id"></ion-input>
+    <ion-input type="hidden" formControlName="job_id"></ion-input>
+    <ion-input type="hidden" formControlName="currency"></ion-input>
+    <ion-input type="hidden" formControlName="salary_type"></ion-input>
+
+</ion-item-group>
+<!----------- Ends Prefs Detail Group ------->
+
+</ion-content>
+<ion-footer>
+
+  <ion-row class="form-actions-wrapper">
+    <ion-col>
+      <ion-button class="submit-btn" expand="block" color="primary" type="submit" [disabled]="!applyJobForm.valid" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SUBMIT APPLICATION</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
+</form>

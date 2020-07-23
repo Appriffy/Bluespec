@@ -1,0 +1,117 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard/summary"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{page_title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="createNewItem()" *ngIf="localUser?.role_id === 1">
+        <ion-icon slot="icon-only" name="person-add"></ion-icon>
+      </ion-button>
+
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="showUserFilterScreen()" *ngIf="localUser?.role_id === 2">
+        <ion-icon slot="icon-only" name="options"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+   <ion-toolbar class="filters-toolbar" *ngIf="localUser?.role_id === 1">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="Filter by name..."></ion-searchbar>
+      </ion-col>
+      <ion-col class="call-to-action-col">
+        <ion-button fill="clear" color="primary" class="filters-btn" (click)="showUserFilterScreen()">
+          <ion-icon slot="icon-only" name="options"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+
+  <!-- <p>{{filterArr|json}}</p> -->
+  
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+     <!------- Empty View ------->
+     <ion-grid style="height: 100%" *ngIf="items?.length <= 0 && !loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <h3 class="empty-list-message" style="margin-bottom:10px;">
+          <ion-icon name="ios-people" style="margin:0px;font-size: 60px;"></ion-icon>
+        </h3>
+        <h4 class="empty-list-message" style="margin-top:10px;">
+          No user found for the applied filter.
+        </h4>
+
+        </ion-row>
+      </ion-grid>
+     <!------- Empty View ------->
+
+  <ion-list class="items-list" *ngIf="items?.length > 0 && !loading">
+   
+      <ion-item class="list-item" *ngFor="let item of items" [routerLink]="['/people/details', item.user_name]">
+      <ion-row class="user-row">
+        <ion-col size="2" class="user-image-wrapper">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+            <app-image-shell class="user-image" animation="spinner" [mode]="'cover'" [src]="item.user_image" [alt]="'item image'"></app-image-shell>
+          </app-aspect-ratio>
+        </ion-col>
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+            <h3 class="user-name">
+              <app-text-shell animation="bouncing" [data]="item?.first_name+' '+item?.last_name"></app-text-shell>
+            </h3>
+           
+            <div *ngIf="item?.online_status=='Online'">
+              <ion-badge class="schedule-closed" color="primary"><ion-icon name="checkmark-circle-outline" style="vertical-align: middle;"></ion-icon> {{item.online_status}}</ion-badge>
+            </div>
+
+<div *ngIf="item?.online_status=='Offline'">
+  <ion-badge class="schedule-closed" color="danger">{{item?.online_status}}</ion-badge>
+</div>
+
+          
+<h5 class="user-age" *ngIf="item?.tagline">
+              <app-text-shell animation="bouncing" [data]="item?.tagline"></app-text-shell>
+            </h5>
+
+<h5 class="user-age" *ngIf="item?.country">
+              <app-text-shell animation="bouncing" [data]="item?.country"></app-text-shell>
+            </h5>
+
+            <div class="amenities-wrapper">
+              <ion-row class="amenities-tags">
+                <ion-col class="tag-wrapper" *ngFor="let skill of item?.skills| slice:0:3">
+                  <span class="amenity-tag">
+                    <app-text-shell [data]="skill.title"></app-text-shell>
+                  </span>
+                </ion-col>
+                <ion-col class="tag-wrapper" *ngIf="item?.skills.length > 3">
+                  <span class="amenity-tag">
+                    <app-text-shell [data]="'and '+(item?.skills.length -3)+' more'"></app-text-shell>
+                  </span>
+                </ion-col>
+               
+              </ion-row>
+            </div>
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

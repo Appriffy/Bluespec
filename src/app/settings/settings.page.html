@@ -1,0 +1,88 @@
+<form class="create-user-form ion-page" [formGroup]="switchersForm" (ngSubmit)="saveSettings()">
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="filters-content">
+  <ion-row class="expiration-countdown">
+    <span class="expiration-lead">For Development Purpose Only</span>
+  </ion-row>
+
+  <ion-item-group class="filters-group">
+      <ion-list class="toggle-list" lines="full">
+
+        <ion-item-divider>
+          <ion-label>Debugging Mode Settings</ion-label>
+        </ion-item-divider>
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Debug Mode</ion-label>
+          <ion-toggle color="primary" formControlName="debugMode"></ion-toggle>
+        </ion-item>
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Development Mode</ion-label>
+          <ion-toggle color="primary" formControlName="devMode"></ion-toggle>
+        </ion-item>
+
+        <ion-item-divider>
+          <ion-label>Advanced Settings</ion-label>
+        </ion-item-divider>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Enable Push Notifications</ion-label>
+          <ion-toggle color="primary" formControlName="enablePush"></ion-toggle>
+        </ion-item>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Enable Lazy Loading</ion-label>
+          <ion-toggle color="primary" formControlName="enableLoading"></ion-toggle>
+        </ion-item>
+
+        <ion-item class="toggle-item">
+          <ion-label class="toggle-label">Strict Mode</ion-label>
+          <ion-toggle color="primary" formControlName="strictMode"></ion-toggle>
+        </ion-item>
+
+
+        <ion-item-divider>
+          <ion-label>Sync Duration Period</ion-label>
+        </ion-item-divider>
+        <ion-radio-group formControlName="syncTimer">
+          <ion-row class="radio-tags">
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">Hourly</ion-label>
+              <ion-radio value="1"></ion-radio>
+            </ion-item>
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">
+                <span>Daily</span>
+              </ion-label>
+              <ion-radio value="24"></ion-radio>
+            </ion-item>
+           
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">
+                <span>Never</span>
+              </ion-label>
+              <ion-radio value="0"></ion-radio>
+            </ion-item>
+          </ion-row>
+        </ion-radio-group>
+
+      </ion-list>
+    
+  </ion-item-group>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="form-actions-wrapper">
+    <ion-col>
+      <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!switchersForm.valid">SAVE SETTINGS</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
+</form>

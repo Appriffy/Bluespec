@@ -1,0 +1,34 @@
+<!-- This is the proper way if you have submit button outside your ion-content form (typically in the ion-header or ion-footer) -->
+<!-- (ref: https://github.com/ionic-team/ionic/issues/16661) -->
+<form class="create-user-form ion-page" [formGroup]="verifyAccountForm" (ngSubmit)="nextStep()">
+  <ion-content text-center class="vertical-align-content">
+
+    <ion-grid style="height:100%;">
+      <ion-row class="walkthrough-slides slide-inner-row" style="align-items: center;
+      text-align: center;">
+        <ion-col class="illustration-col" style="vertical-align: middle;margin-top:40px;">
+          <img src="assets/images/success.png" position="center" style="width:110px;height:110px;display:block;margin:0 auto;"/>
+          <h3 class="info-title ion-text-center">VERIFY ACCOUNT</h3>
+          <h4 class="info-paragraph ion-text-center">
+            Enter the OTP we have sent to your registered email address. Please check your JUNK folder as well.
+          </h4>
+
+          <ion-item class="input-item" style="margin:25px;">
+            <ion-label color="secondary" position="floating">ENTER OTP</ion-label>
+            <ion-input type="number" class="info-title" formControlName="otp" placeholder="Enter your OTP here" required></ion-input>
+          </ion-item>
+
+        </ion-col>
+        </ion-row>
+     
+</ion-grid>
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid" [disabled]="!verifyAccountForm.valid"> <ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SUBMIT OTP</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

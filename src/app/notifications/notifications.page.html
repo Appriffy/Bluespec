@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Notifications
+    </ion-title>
+
+    <ion-buttons slot="end">
+    <ion-button fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+      <ion-icon slot="icon-only" name="refresh"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="notifications-content">
+
+
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Updates</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+     <!------- Empty View ------->
+     <ion-grid style="height: 100%" *ngIf="notifications?.length <= 0 && !loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/notifications.svg" style="color:#555555;margin:0px;font-size: 48px;"></ion-icon>
+        <h4 class="empty-list-message" style="color:#555555;margin-top:10px;margin-left:20px;margin-right:20px;text-align: center;">
+          No notification yet. Check back again.
+        </h4>
+        </ion-row>
+      </ion-grid>
+     <!------- Empty View ------->
+
+  <ng-container *ngIf="notifications && !loading">
+    <ion-item-group>
+      <ion-item class="notification-item" lines="none" *ngFor="let notification of notifications" [routerLink]="['/'+notification.link]">
+        <ion-row class="notification-item-wrapper">
+          <ion-col size="1" class="ion-align-items-center">
+            <!-- <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+              <app-image-shell class="notification-image" [src]="notification.image" [alt]="'user image'"></app-image-shell>
+            </app-aspect-ratio> -->
+            <ion-icon src="./assets/sample-icons/side-menu/notifications.svg" style="font-size: 28px;"></ion-icon>
+          </ion-col>
+          <ion-col class="details-wrapper">
+            <h2 class="details-name">{{ notification.title }}</h2>
+            <p class="details-description">{{ notification.message }}</p>
+            <!-- <p class="details-description">{{ notification.data_title }} : {{ notification.link }}{{ notification.data_id }}</p> -->
+          </ion-col>
+          <ion-col size="2" class="date-wrapper">
+            <h3 class="notification-date">{{ notification.date_created }}</h3>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-item-group>
+   
+  </ng-container>
+</ion-content>

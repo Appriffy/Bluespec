@@ -1,0 +1,8 @@
+{
+  "name": "Bluspec",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

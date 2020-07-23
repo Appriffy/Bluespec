@@ -1,0 +1,72 @@
+{
+  "id": 1,
+  "showcaseImages": [
+  ],
+  "previewImage": "./assets/sample-images/deals/Deal-Details-preview.png",
+  "logo": "./assets/sample-images/deals/Deals1-4.1.png",
+  "code": "CHOC4LIFE",
+  
+  "title": "Credit Analyst Required",
+	  "job_type": "Permanent",
+	  "job_status": "Pending",
+	  "job_location": "Oxford, United Kingdom",
+	  "min_salary": 5000,
+	  "max_salary": 5500,
+	  "currency": "USD",
+	  "salary_type": 1,
+	  "salary_type_name": "Full Time",
+	  "min_experience": 0,
+	  "max_experience": 3,
+	  "distance": 5,
+	  "job_area": "IT Programming",
+	  "job_area_id": 1,
+	  "skills": [{
+					"id": 1,
+					"title": "HTML"
+				},
+				{
+					"id": 2,
+					"title": "CSS"
+				},
+				{
+					"id": 3,
+					"title": "JavaScript"
+				},
+				{
+					"id": 4,
+					"title": "Python"
+				}
+			],
+			
+  "description": "Strong credit analysis skills. Preferably gained over 5+ years of experience in the UK market, with strong emphasis towards real estate transactions, although some experience in corporate/ commercial transactions would be an added bonus.",
+   "job_details": [{
+					"id": 1,
+					"title": "Job Roles",
+					"description": "Due to business expansion, a City based subsidiary of an overseas bank has an immediate opportunity for a credit analyst role in their Credit function which will focus predominantly on the processing of credit proposals sent from the branch network in the UK."
+				},
+				{
+					"id": 2,
+					"title": "Job Responsibility",
+					"description": "The vast majority of proposals will involve real estate transactions such as buy to let (residential and commercial) and development loans, although some corporate/ commercial business may feature from time to time."
+				}
+			],
+	  "postDate": "08/01/2020",		
+  "expirationDate": "12/01/2018",
+  "relatedDeals": [
+    {
+      "logo": "./assets/sample-images/deals/Deal-Details-related-1.jpg",
+      "name": "35% off",
+      "description": "Candy buffet!"
+    },
+    {
+      "logo": "./assets/sample-images/deals/Deal-Details-related-2.jpg",
+      "name": "15% off",
+      "description": "Breakfast"
+    },
+    {
+      "logo": "./assets/sample-images/deals/Deal-Details-related-3.jpg",
+      "name": "60% off",
+      "description": "Speciality bars"
+    }
+  ]
+}

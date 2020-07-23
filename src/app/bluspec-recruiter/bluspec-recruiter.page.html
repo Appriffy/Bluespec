@@ -1,0 +1,67 @@
+<form class="create-user-form ion-page" [formGroup]="gettingStartedForm"> 
+  <ion-header no-border>
+    <ion-toolbar color="primary">
+      <ion-title slot="">Select Location</ion-title>
+      <ion-buttons slot="end">
+       
+        <ion-buttons  (click)="loadCurrentLocation()">
+          <ion-button fill="outline" color="facebook">LOCATE</ion-button>
+        </ion-buttons>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="create-user-content">
+  <google-map [mapOptions]="mapOptions"></google-map>
+</ion-content>
+<ion-footer>
+  
+  <ion-item-group class="filters-content filters-group" style="display: block;">
+    <ion-item-divider>
+      <ion-label class="range-label">SELECT JOB LOCATION</ion-label>
+    </ion-item-divider>
+   
+      <ion-row class="range-item">
+        <ion-col size="12">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Choose hiring address</ion-label>
+            <ion-input (click)="showAddressModal()" type="text" formControlName="address"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="range-item" style="display: none;">
+        <ion-col size="6">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Latitude</ion-label>
+            <ion-input type="text" formControlName="latitude"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Longitude</ion-label>
+            <ion-input type="text" formControlName="longitude"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="range-item">
+        <ion-col size="12">
+          <div class="range-header">
+            <span class="range-label" style="margin-left:15px;">Accept Job Offers Within </span>
+            <span class="range-value">{{ gettingStartedForm.controls.radius.value }} K.m</span>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <ion-range class="range-control" formControlName="radius" color="secondary" (ionChange)="rangeChange($event)" min="0" max="50" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+  </ion-item-group>
+
+  <ion-row class="form-actions-wrapper">
+    <ion-col>
+      <ion-button class="submit-btn" expand="block" color="secondary" type="submit" [disabled]="!gettingStartedForm.valid" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; NEXT</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
+</form>

@@ -1,0 +1,660 @@
+@import "../../theme/mixins/scrollbars";
+
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-fair-margin);
+  --page-background: var(--app-background);
+
+  --page-border-radius: var(--app-fair-radius);
+
+  --page-actions-padding: 5px;
+  --page-friends-gutter: calc(var(--page-margin) / 2);
+
+  --page-tags-gutter: 5px;
+  --page-related-users-gutter: calc(var(--page-margin) / 2);
+  --page-tags-vertical-gutter: calc(var(--page-margin) / 4);
+  --page-tags-horizontal-gutter: calc(var(--page-margin) / 2);
+  --page-users-pictures-gutter: calc(var(--page-margin) / 4);
+  --page-dish-score-height: 6px;
+  --page-deal-color: var(--ion-color-medium);
+  --page-expired-color: var(--ion-color-medium-tint);
+}
+
+/*********** CENTERED CONTENTS ************/
+.bluspec-centered-spin{
+  position:fixed;
+  display: block;
+  top:50%;
+  left:50%;
+  margin:auto;
+  transform:translate(-50%, -50%);
+  text-align: center;
+  justify-content: center;
+}
+
+.normalText{
+  text-align: center;
+        margin: 0px 0px calc(var(--page-margin) / 2);
+        font-weight: 400;
+        //letter-spacing: 3px;
+        font-size: 16px;
+        color:#444444;
+}
+
+.user-stats-section {
+  --ion-grid-column-padding: 0px;
+
+  margin: calc(var(--page-margin) * 2) var(--page-margin) var(--page-margin);
+  padding-bottom: var(--page-margin);
+  border-bottom: 1px solid var(--ion-color-light-shade);
+
+  .user-stats-wrapper {
+    text-align: center;
+
+    .stat-value {
+      display: block;
+      padding-bottom: 5px;
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ion-color-dark-shade);
+    }
+
+    .stat-name {
+      font-size: 14px;
+      font-weight: 500;
+      //color: var(--ion-color-medium);
+      color: var(--ion-color-dark-shade);
+    }
+  }
+}
+
+.details-tags {
+  --ion-grid-column-padding: 0px;
+
+  padding: 0px var(--page-margin) var(--page-margin);
+  justify-content: center;
+  margin-top: calc(var(--page-tags-vertical-gutter) * 2 * -1);
+
+  .tag-wrapper {
+    padding: calc(var(--page-tags-vertical-gutter) * 2) var(--page-tags-horizontal-gutter) 0px 0px;
+    flex-grow: 0;
+    min-width: fit-content;
+
+    &:last-child {
+      padding-right: 0px;
+    }
+  }
+
+  .item-tag {
+    display: block;
+    border-radius: var(--app-narrow-radius);
+    border: 1px solid var(--ion-color-medium-tint);
+    padding: var(--page-tags-vertical-gutter) var(--page-tags-horizontal-gutter);
+    font-size: 14px;
+    color: var(--ion-color-medium-tint);
+  }
+}
+
+.details-divider {
+  margin: 0px var(--page-margin) calc(var(--page-margin) * 2);
+  border-top: 2px solid rgba(var(--ion-color-light-shade-rgb), .4);
+}
+
+
+.reviews-wrapper {
+  padding: 0px var(--page-margin) var(--page-margin);
+
+  .reviews-list {
+    margin-bottom: calc(var(--page-margin) / 2);
+
+    .review-item {
+      &:not(:last-child) {
+        padding-bottom: var(--page-margin);
+
+        &::after {
+          content: '';
+          display: block;
+          margin: 5px var(--page-margin);
+          border-top: 2px solid rgba(var(--ion-color-light-shade-rgb), .4);
+        }
+      }
+
+      .review-user {
+        --ion-grid-columns: 10;
+        --ion-grid-column-padding: 0px;
+
+        .user-image-wrapper {
+          padding-right: calc(var(--page-margin) / 2);
+        }
+
+        .user-brief-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: left;
+
+          padding-right: calc(var(--page-margin) / 2);
+
+          .review-user-name {
+            font-size: 16px;
+            margin: 0px;
+            font-weight: 400;
+          }
+
+          .user-scores {
+            .user-score {
+              .score-title {
+                color: var(--ion-color-medium-tint);
+                font-size: 12px;
+                //margin-left: 4px;
+              }
+            }
+          }
+        }
+
+        .review-info-wrapper {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-end;
+          min-width: 20%;
+          min-width: fit-content;
+          flex-grow: 0;
+
+          .review-date {
+            color: var(--ion-color-medium-tint);
+            font-size: 11px;
+            display: block;
+            width: 100%;
+            text-align: right;
+          }
+        }
+      }
+
+      .review-message {
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 18px;
+        margin: var(--page-margin) 0px;
+      }
+
+      .review-scores {
+        padding: 0px var(--page-margin) var(--page-margin);
+        justify-content: space-between;
+
+        .review-score {
+          justify-content: center;
+
+          &:not(:first-child) {
+            padding-left: calc(var(--page-margin) / 2);
+          }
+
+          &:not(:last-child) {
+            padding-right: calc(var(--page-margin) / 2);
+            border-right: 1px solid var(--ion-color-light-shade);
+          }
+        }
+      }
+    }
+  }
+
+  .details-divider {
+    margin: 5px 0px;
+  }
+
+  .all-reviews-btn {
+    margin: 5px 0px;
+  }
+
+  .write-reviews-btn {
+    margin: var(--page-margin) 0px 0px;
+  }
+}
+
+
+/************* THE CAROSELL ***********/
+.user-friends-section {
+  margin: calc(var(--page-margin)) var(--page-margin) var(--page-margin);
+  //padding-bottom: var(--page-margin);
+  //border-bottom: 1px solid var(--ion-color-light-shade);
+
+  .heading-row {
+    margin-bottom: var(--page-margin);
+    justify-content: space-between;
+    align-items: center;
+
+    .details-section-title {
+      margin: 0px;
+    }
+
+    .heading-call-to-action {
+      padding: calc(var(--page-margin) / 2) calc(var(--page-margin) / 4);
+      text-decoration: none;
+      color: var(--ion-color-secondary);
+    }
+  }
+
+  .friends-row {
+    --ion-grid-columns: 8; // We want to show three friends and a half. Each friend fills 2 cols => (3.5 * 2 = 7 cols)
+    --ion-grid-column-padding: 0px;
+
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    will-change: scroll-position;
+    margin-left: calc(var(--page-margin) * -1);
+    margin-right: calc(var(--page-margin) * -1);
+
+    @include hide-scrollbars();
+
+    &::before,
+    &::after {
+      content: '';
+      // .friend-item has 8px of side padding, we need an extra 4px at the beginning and end to fill the 12px side margin of the view
+      flex: 0 0 calc(var(--page-margin) - var(--page-friends-gutter));
+    }
+
+    .friend-item {
+      padding: 0px var(--page-friends-gutter);
+
+      .friend-name {
+        display: block;
+        text-align: center;
+        margin: var(--page-margin) 0px;
+        font-size: 14px;
+      }
+    }
+  }
+
+
+
+  .bluspeccarosell-row {
+    --ion-grid-columns: 8; // We want to show three friends and a half. Each friend fills 2 cols => (3.5 * 2 = 7 cols)
+    --ion-grid-column-padding: 0px;
+
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    will-change: scroll-position;
+    margin-left: calc(var(--page-margin) * -1);
+    margin-right: calc(var(--page-margin) * -1);
+
+    @include hide-scrollbars();
+
+    &::before,
+    &::after {
+      content: '';
+      // .friend-item has 8px of side padding, we need an extra 4px at the beginning and end to fill the 12px side margin of the view
+      flex: 0 0 calc(var(--page-margin) - var(--page-friends-gutter));
+    }
+
+    .friend-item {
+      padding: 0px var(--page-friends-gutter);
+
+      .friend-name {
+        display: block;
+        text-align: center;
+        margin: var(--page-margin) 0px;
+        font-size: 14px;
+      }
+    }
+  }
+
+
+}
+
+
+.details-scores {
+  margin-bottom:15px;
+  .score-item {
+    display: flex;
+    align-items: center;
+
+    .score-icon {
+      color: var(--ion-color-medium-tint);
+      font-size: 26px;
+    }
+
+    .score-value {
+      color: var(--ion-color-medium-tint);
+      font-size: 14px;
+      margin-left: 4px;
+    }
+  }
+}
+
+
+.bluspecrow{
+  --ion-grid-column-padding: 0px;
+  padding: var(--page-margin);
+  clear: both;
+}
+
+.promo-row {
+  --ion-grid-column-padding: 0px;
+
+  padding: var(--page-margin);
+  text-align: center;
+  justify-content: center;
+
+  .promo-title {
+    font-size: 22px;
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: var(--ion-color-dark-tint);
+    margin: 0px;
+
+    &::before,
+    &::after {
+      content: '·';
+      color: var(--ion-color-dark-tint);
+    }
+  }
+
+  .promo-description {
+    margin: var(--page-margin) 0px;
+    color: var(--ion-color-medium-tint);
+    font-size: 14px;
+  }
+
+  .promo-code-btn {
+    margin: 0px;
+  }
+
+  .promo-code {
+    display: block;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .promo-instructions {
+    margin: var(--page-margin) 0px 0px;
+    color: var(--ion-color-medium-tint);
+    font-size: 12px;
+    line-height: 1.4;
+
+    .instructions-anchor {
+      color: var(--page-color);
+      text-decoration: none;
+    }
+  }
+}
+
+
+.recipes-wrapper {
+  //padding: calc(var(--page-margin) * 3) 0px;
+
+  .recipes-header {
+    padding: 0px var(--page-margin) 0px;
+
+    .detail-title {
+      text-transform: capitalize;
+    }
+  }
+
+  .recipes-list {
+    .recipe-item {
+      .chef-picture-wrapper {
+        width: 20%;
+        margin: 0px auto;
+        margin-top: -10%;
+        margin-bottom: calc(var(--page-margin) / 2);
+        border-radius: 10px;
+        //border : 1px solid #555555;
+      }
+
+      .details-divider {
+        margin-bottom: 0px;
+      }
+      .recipe-title {
+        text-align: center;
+        margin: 0px 0px calc(var(--page-margin) / 2);
+        font-weight: 400;
+        letter-spacing: 3px;
+        font-size: 18px;
+
+        &::before,
+        &::after {
+          content: '·';
+          color: var(--ion-color-dark-tint);
+          margin: 0px 2px;
+        }
+      }
+
+      .recipe-call-to-action {
+        text-align: center;
+        margin: var(--page-margin) calc(var(--page-margin) * 2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .recipe-author {
+          display: block;
+          font-size: 16px;
+          min-width: 30%;
+          color: var(--ion-color-dark-tint);
+        }
+
+        .recipe-name {
+          text-transform: uppercase;
+          font-weight: 500;
+          letter-spacing: 1px;
+          font-size: 18px;
+          //margin: calc(var(--page-margin) / 2) 0px;
+          min-width: 90%;
+        }
+
+        .recipe-chef {
+          display: block;
+          font-size: 14px;
+          min-width: 60%;
+          color: var(--ion-color-dark-tint);
+        }
+      }
+
+      .recipe-attributes {
+        padding: 0px var(--page-margin);
+        margin-top: var(--page-margin);
+        justify-content: center;
+
+        .attribute-score {
+          justify-content: center;
+
+          &:not(:first-child) {
+            padding-left: calc(var(--page-margin) / 2);
+          }
+
+          &:not(:last-child) {
+            padding-right: calc(var(--page-margin) / 2);
+          }
+
+          .score-value {
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+.amenities-wrapper {
+  padding: calc(var(--page-margin) / 2) var(--page-margin) 0px var(--page-margin);
+
+  .amenities-tags {
+    --ion-grid-column-padding: 0px;
+
+    justify-content: left;
+    margin-top: calc(var(--page-amenity-vertical-gutter) * -1);
+
+    .tag-wrapper {
+      padding: var(--page-amenity-vertical-gutter) var(--page-amenity-horizontal-gutter) 0px 0px;
+      flex-grow: 0;
+      min-width: fit-content;
+
+      &:last-child {
+        padding-right: 0px;
+      }
+    }
+
+    .amenity-tag {
+      display: block;
+      border-radius: var(--app-narrow-radius);
+      border: 1px solid var(--ion-color-light-shade);
+      padding: var(--page-amenity-vertical-gutter) var(--page-amenity-horizontal-gutter);
+      font-size: 14px;
+      color: var(--ion-color-medium-tint);
+    }
+  }
+}
+
+.user-content {
+  --background: var(--page-background);
+  .user-info-row {
+    --ion-grid-column-padding: 0px;
+    padding: var(--page-margin);
+    .user-image-col {
+      margin: 0px auto;
+      margin-bottom: calc(var(--page-margin) / 2);
+      .user-image {
+        border-radius: 50%;
+      }
+    }
+
+    .user-details-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .user-name {
+        margin: 0px;
+        margin-bottom: calc(var(--page-margin) / 2);
+        min-width: 40%;
+      }
+
+      .user-age {
+        font-size: 14px;
+        font-weight: 300;
+        min-width: 60%;
+      }
+    }
+
+    .actions-col {
+      text-align: center;
+      margin-top: var(--page-margin);
+
+      .action-btn {
+        --border-radius: 50%;
+        --padding-start: 0px;
+        --padding-end: 0px;
+
+        width: 4ch;
+        height: 4ch;
+
+        .btn-icon {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+
+  .content-section {
+    padding: var(--page-margin);
+    border-top: solid 1px var(--ion-color-light-shade);
+    .section-header {
+      margin-top: 0px;
+      margin-bottom: var(--page-margin);
+    }
+  }
+
+  .user-languages-wrapper {
+    .language-item-row {
+      --ion-grid-column-padding: 0px;
+
+      margin-bottom: calc(var(--page-margin) / 2);
+
+      .language-item {
+        padding-inline-start: 0px;
+        padding-inline-end: 0px;
+
+        .language-name {
+          display: block;
+          font-size: 16px;
+          font-weight: 300;
+          margin-bottom: calc(var(--page-margin) / 3);
+        }
+
+        .language-score {
+          --buffer-background: rgba(var(--ion-color-secondary-rgb), .20);
+          --progress-background: rgba(var(--ion-color-secondary-rgb), 1);
+
+          height: var(--page-margin);
+          border-radius: calc(var(--page-margin) / 2);
+        }
+      }
+    }
+  }
+
+  .user-experience-wrapper {
+    .experience-list {
+      margin: 0px;
+      padding: 0px;
+
+      .experience-item {
+        --min-height: initial;
+        --padding-start: 0px;
+        --padding-end: 0px;
+        --inner-padding-start: 0px;
+        --inner-padding-end: 0px;
+
+        &:not(:last-child) {
+          padding-bottom: calc(var(--page-margin) / 2);
+        }
+
+        .experience-list-icon {
+          margin: 0px;
+          margin-right: calc(var(--page-margin) / 2);
+        }
+
+        .experience-label {
+          font-size: 16px;
+          font-weight: 300;
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .related-users-wrapper {
+    .related-users-row {
+      --ion-grid-columns: 7; // We want to show three users and a half. Each user fills 2 cols => (3.5 * 2 = 7 cols)
+      --ion-grid-column-padding: 0px;
+
+      flex-wrap: nowrap;
+      overflow-x: scroll;
+      will-change: scroll-position;
+      margin-left: calc(var(--page-margin) * -1);
+      margin-right: calc(var(--page-margin) * -1);
+
+      @include hide-scrollbars();
+
+      &::before,
+      &::after {
+        content: '';
+        flex: 0 0 calc(var(--page-margin) - var(--page-related-users-gutter));
+      }
+
+      .related-user-item {
+        padding: 0px var(--page-related-users-gutter);
+
+        .related-user-name {
+          display: block;
+          text-align: center;
+          margin-top: calc(var(--page-margin) / 2);
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

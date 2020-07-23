@@ -1,0 +1,496 @@
+<form class="create-user-form ion-page" [formGroup]="postJobForm" (ngSubmit)="submitForm()"> 
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title slot="">Post New Job</ion-title>
+      <ion-buttons slot="end">
+        <ion-buttons  (click)="loadCurrentLocation()">
+          <ion-button fill="outline" color="light"><ion-icon name="locate"></ion-icon></ion-button>
+        </ion-buttons>
+      </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="create-user-content"  style="position: relative;">
+
+  <ion-item-group class="filters-content filters-group">
+    
+<div id="map">
+  <google-map [mapOptions]="mapOptions"></google-map>
+</div>
+
+<ion-item-divider style="display: block;">
+  <ion-label class="range-label">SELECT JOB LOCATION</ion-label>
+</ion-item-divider>
+
+
+      <ion-row class="form-actions-wrapper" style="display: block;">
+        <ion-col>
+          <ion-item class="input-item">
+            <ion-label color="primary" position="floating">Choose hiring address</ion-label>
+            <ion-input (click)="showAddressModal()" type="text" formControlName="address"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+   
+    <!-- <ion-item class="input-item" style="--background: #333333;">
+      <ion-label style="color: #ffffff;" class="toggle-label">Enable Hiring Range</ion-label>
+      <ion-toggle color="tertiary" (ionChange)="onLocationEnabled($event)" checked></ion-toggle>
+    </ion-item> -->
+
+    <ion-list class="toggle-list" lines="full">
+      <ion-item class="toggle-item">
+        <ion-label class="toggle-label" color="primary">Enable Hiring Range</ion-label>
+        <ion-toggle color="primary"  (ionChange)="onLocationEnabled($event)" checked></ion-toggle>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-row class="form-actions-wrapper" *ngIf="!isLocationEnabled">
+      <p style="margin-left:10px;margin-top: 0px;font-size: smaller;"> Note: All professionals with relevant skills will be notified about this job. Enable range to hire grafters within a specific range from the job location.</p>
+    </ion-row>
+
+      <ion-row class="form-actions-wrapper" style="display: none;">
+        <ion-col>
+          <ion-item class="input-item">
+            <ion-label color="primary" position="floating">Latitude</ion-label>                           
+            <ion-input type="text" formControlName="latitude"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item class="input-item">
+            <ion-label color="primary" position="floating">Longitude</ion-label>
+            <ion-input type="text" formControlName="longitude"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="range-item" style="display: block;" *ngIf="isLocationEnabled">
+        <ion-col size="12">
+          <div class="range-header">
+            <span class="range-label" style="margin-left:15px;">Hire People Within </span>
+            <span class="range-value">{{ postJobForm.controls.radius.value }} K.m</span>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <ion-range class="range-control" formControlName="radius" color="primary" min="0" max="100" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+    </ion-item-group>
+   
+      <ion-item-group class="filters-content filters-group">
+        <ion-item-divider>
+          <ion-label class="range-label">JOB DETAILS</ion-label>
+        </ion-item-divider>
+
+      <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Job Title *</ion-label>
+        <ion-input type="text" formControlName="title" required></ion-input>
+      </ion-item>
+
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.title">
+          <div class="error-message" *ngIf="postJobForm.get('title').hasError(validation.type) && (postJobForm.get('title').dirty || postJobForm.get('title').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+
+    <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Job Category *</ion-label>
+        <ion-input type="text" formControlName="category_id" required></ion-input>
+        <ion-input type="text" formControlName="category_name" (click)="openJobCategorySelector()" required></ion-input>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.job_type">
+          <div class="error-message" *ngIf="postJobForm.get('job_type').hasError(validation.type) && (postJobForm.get('job_type').dirty || postJobForm.get('job_type').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+
+
+    <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Job Type *</ion-label>
+        <ion-select formControlName="job_type" cancelText="Cancel" okText="OK">
+          <ion-select-option *ngFor="let item of jobTypes" [value]="item.id" >{{item.title}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.job_type">
+          <div class="error-message" *ngIf="postJobForm.get('job_type').hasError(validation.type) && (postJobForm.get('job_type').dirty || postJobForm.get('job_type').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+
+      <!-- <section class="user-experience-fields fields-section">
+        <ion-row class="checkbox-tags rounded-checkbox-tags">
+          <ion-label class="form-actions-wrapper">Select Job Types *</ion-label>
+        </ion-row>
+      <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ion-item  style="display: block;" formArrayName="job_types" lines="none" class="checkbox-tag rounded-tag" *ngFor="let skill of jobTypesFormArray.controls; let i = index;">
+          <ion-label class="tag-label">{{jobTypes[i].title}}</ion-label>
+          <ion-checkbox [formControlName]="i" (change)="getSelectedJobAreasCount()"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+    </section> -->
+   
+
+
+      <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Select Job Area *</ion-label>
+        <ion-input type="hidden" formControlName="job_area" required></ion-input>
+        <ion-input type="text" formControlName="job_area_name" (click)="openSelectJobArea()" required></ion-input>
+      </ion-item>
+
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.job_area">
+          <div class="error-message" *ngIf="postJobForm.get('job_area').hasError(validation.type) && (postJobForm.get('job_area').dirty || postJobForm.get('job_area').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+
+    <ion-row class="form-actions-wrapper" style="display: block;" *ngIf="postJobForm.value.job_area_name">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Select Skills *</ion-label>
+        <ion-input type="hidden" formControlName="skills"></ion-input>
+        <ion-input type="text" formControlName="skills_name" (click)="openSelectJobSkills()"></ion-input>
+      </ion-item>
+
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.skills">
+          <div class="error-message" *ngIf="postJobForm.get('skills').hasError(validation.type) && (postJobForm.get('skills').dirty || postJobForm.get('skills').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+    
+    <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Job Closing Date</ion-label>
+        <ion-datetime [min]="minExpiryDate" [max]="maxExpiryDate" display-format="DD/MM/YYYY" picker-format="DD MMMM YYYY" formControlName="closingDate"></ion-datetime>
+      </ion-item>
+    </ion-row>
+
+    <ion-item-divider>
+      <ion-label class="range-label">JOB SPECIFICATION</ion-label>
+    </ion-item-divider>
+
+    <ion-row class="form-actions-wrapper" style="display: block;">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">Job Description</ion-label>
+        <ion-textarea rows="4" formControlName="job_description" placeholder="Write detailed job description here"></ion-textarea>
+      </ion-item>
+
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.job_description">
+          <div class="error-message" *ngIf="postJobForm.get('job_description').hasError(validation.type) && (postJobForm.get('job_description').dirty || postJobForm.get('job_description').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+    </ion-row>
+    
+
+    <ion-list class="toggle-list" lines="full">
+      <ion-item class="toggle-item">
+        <ion-label class="toggle-label" color="primary">Specify Required Experience</ion-label>
+        <ion-toggle color="primary" (ionChange)="onExperienceEnabled($event)" checked></ion-toggle>
+      </ion-item>
+    </ion-list>
+  
+  <div class="range-list" *ngIf="isExperienceRequired">
+    <ion-row class="range-item">
+      <ion-col size="12">
+        <div class="range-header">
+          <span class="range-value">Min: {{ postJobForm.controls.expInYrs.value.lower }} Year<span *ngIf="postJobForm.controls.expInYrs.value.lower > 1">s</span></span>
+          <span class="range-label"></span>
+          <span class="range-value">Max: {{ postJobForm.controls.expInYrs.value.upper }} Year<span *ngIf="postJobForm.controls.expInYrs.value.upper > 1">s</span></span>
+        </div>
+      </ion-col>
+      <ion-col size="12">
+        <ion-range class="range-control" formControlName="expInYrs" color="primary" dualKnobs="true" min="0" max="40" step="1"></ion-range>
+      </ion-col>
+    </ion-row>
+  </div>
+
+
+      <ion-input type="hidden" formControlName="pincode"></ion-input>
+      <ion-input type="hidden" formControlName="user_id"></ion-input>
+      <ion-input type="hidden" formControlName="category_id"></ion-input>
+     
+  </ion-item-group>
+
+
+  <!----------- Start Salary Detail Group ------->
+  <ion-item-group class="filters-content filters-group">
+  
+    <ion-item class="input-item" style="--background: #333333;">
+      <ion-label class="toggle-label" style="color: #ffffff;">Specify Salary/Fees</ion-label>
+      <ion-toggle color="tertiary" (ionChange)="onSalaryEnabled($event)" checked></ion-toggle>
+    </ion-item>
+  
+    <ion-row class="form-actions-wrapper" *ngIf="!isSalaryEnabled">
+      <p style="margin-left:10px;margin-top: 10px;font-size: smaller;"> Note: Salary details will not be displayed for this job post.</p>
+    </ion-row>
+
+    <div style="display: block;" *ngIf="isSalaryEnabled">
+    <ion-segment mode="md" class="stats-segment" (ionChange)="segmentButtonClicked($event)">
+      <ion-segment-button value="fixed" checked="true">
+        <ion-label>Fixed</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="monthly">
+        <ion-label>Per Month</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="hourly">
+        <ion-label>Per Hour</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <!------- Fixed View ------->
+ <ion-grid style="height: 100%" *ngIf="selectedSalaryType=='fixed'">
+  <ion-row align-items-center>
+    <ion-col size-sm="12" size-md="12" size-lg="6">
+      <ion-item class="input-item">
+        <ion-label position="floating">Select Currency*</ion-label>
+        <ion-input type="text" formControlName="currency" (click)="openCurrencyChooser()" readonly></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size-sm="12" size-md="12" size-lg="6">
+      <ion-item class="input-item">
+        <ion-label position="floating">Enter Price  <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span>*</ion-label>
+      <ion-input type="number" formControlName="fixed_fee"></ion-input>
+      </ion-item>
+    </ion-col>
+    </ion-row>
+
+    <div class="error-container">
+      <ng-container *ngFor="let validation of validations.fixed_fee">
+        <div class="error-message" *ngIf="postJobForm.get('fixed_fee').hasError(validation.type) && (postJobForm.get('fixed_fee').dirty || postJobForm.get('fixed_fee').touched)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+  </ion-grid>
+ <!------- Fixed View ------->
+
+ <!------- Monthly View ------->
+ <ion-grid style="height: 100%" *ngIf="selectedSalaryType=='monthly'">
+  <ion-row align-items-center>
+    <ion-col size-sm="12" size-md="12" size-lg="4">
+      <ion-item class="input-item">
+        <ion-label position="floating">Select Currency*</ion-label>
+        <ion-input type="text" formControlName="currency" (click)="openCurrencyChooser()" readonly></ion-input>
+      </ion-item>
+    </ion-col>
+
+    <ion-col size-sm="12" size-md="12" size-lg="4">
+      <ion-item class="input-item">
+        <ion-label position="floating">Min Salary <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span>*</ion-label>
+      <ion-input type="number" formControlName="min_salary"></ion-input>
+      </ion-item>
+    </ion-col>
+
+    <ion-col size-sm="12" size-md="12" size-lg="4">
+      <ion-item class="input-item">
+        <ion-label position="floating">Max Salary  <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span>*</ion-label>
+      <ion-input type="number" formControlName="max_salary"></ion-input>
+      </ion-item>
+    </ion-col>
+    </ion-row>
+
+    <div class="error-container">
+      <ng-container *ngFor="let validation of validations.min_salary">
+        <div class="error-message" *ngIf="postJobForm.get('min_salary').hasError(validation.type) && (postJobForm.get('min_salary').dirty || postJobForm.get('min_salary').touched)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="error-container">
+      <ng-container *ngFor="let validation of validations.max_salary">
+        <div class="error-message" *ngIf="postJobForm.get('max_salary').hasError(validation.type) && (postJobForm.get('max_salary').dirty || postJobForm.get('max_salary').touched)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+  </ion-grid>
+ <!------- Monthly View ------->
+
+  <!------- Hourly View ------->
+  <ion-grid style="height: 100%" *ngIf="selectedSalaryType=='hourly'">
+    <ion-row align-items-center>
+
+      <ion-col size-sm="12" size-md="12" size-lg="4">
+        <ion-item class="input-item">
+          <ion-label position="floating">Select Currency*</ion-label>
+          <ion-input type="text" formControlName="currency" (click)="openCurrencyChooser()" readonly></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size-sm="12" size-md="12" size-lg="4">
+        <ion-item class="input-item">
+          <ion-label position="floating">Min Rate/Hour <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span></ion-label>
+        <ion-input type="number" formControlName="min_rate_per_hour"></ion-input>
+        </ion-item>
+      </ion-col>
+  
+      <ion-col size-sm="12" size-md="12" size-lg="4">
+        <ion-item class="input-item">
+          <ion-label position="floating">Max Rate/Hour  <span *ngIf="selectedCurrency">(in {{selectedCurrency}})</span></ion-label>
+        <ion-input type="number" formControlName="max_rate_per_hour"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      </ion-row>
+
+     
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.min_rate_per_hour">
+          <div class="error-message" *ngIf="postJobForm.get('min_rate_per_hour').hasError(validation.type) && (postJobForm.get('min_rate_per_hour').dirty || postJobForm.get('min_rate_per_hour').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="error-container">
+        <ng-container *ngFor="let validation of validations.max_rate_per_hour">
+          <div class="error-message" *ngIf="postJobForm.get('max_rate_per_hour').hasError(validation.type) && (postJobForm.get('max_rate_per_hour').dirty || postJobForm.get('max_rate_per_hour').touched)">
+            <ion-icon name="information-circle-outline"></ion-icon>
+            <span>{{ validation.message }}</span>
+          </div>
+        </ng-container>
+      </div>
+
+    </ion-grid>
+   <!------- Hourly View ------->
+
+    </div>
+
+
+    <div class="error-container">
+      <ng-container *ngFor="let validation of validations.currency">
+        <div class="error-message" *ngIf="postJobForm.get('currency').hasError(validation.type) && (postJobForm.get('currency').dirty || postJobForm.get('currency').touched)">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>{{ validation.message }}</span>
+        </div>
+      </ng-container>
+    </div>
+
+  </ion-item-group>
+  <!----------- Ends Salary Detail Group ------->
+
+
+<!----------- Start Company Detail Group ------->
+  <ion-item-group class="filters-content filters-group">
+ 
+  <ion-item class="input-item" style="--background: #333333;">
+    <ion-label style="color: #ffffff;" class="toggle-label">Add Company Details</ion-label>
+    <ion-toggle color="tertiary" (ionChange)="onCompanyEnabled($event)"></ion-toggle>
+  </ion-item>
+
+  <ion-row class="form-actions-wrapper" *ngIf="!isCompanyPost">
+    <p style="margin-left:10px;margin-top: 10px;font-size: smaller;"> Note: Company details will not be displayed for this job post.</p>
+  </ion-row>
+
+  <ion-row class="form-actions-wrapper" *ngIf="isCompanyPost && myCompanies.length <= 0">
+    <p style="margin-left:10px;margin-top: 10px;font-size: smaller;"> Note: You have not registered any company profile yet. Create a quick company profile to post jobs on behalf of the company.
+      <a class="heading-call-to-action" [routerLink]="['/companies/manager']"> Click here.</a> </p>
+  </ion-row>
+
+  <ion-row class="form-actions-wrapper" style="display: block;" *ngIf="isCompanyPost && myCompanies.length > 0">
+    <ion-item class="input-item">
+      <ion-label position="floating">Select Company *</ion-label>
+      <!-- <ion-select formControlName="company_id" cancelText="Cancel" okText="OK">
+        <ion-select-option *ngFor="let item of myCompanies" [value]="item.id" >{{item.title}}</ion-select-option>
+      </ion-select> -->
+      <ion-input type="hidden" formControlName="company_id" required></ion-input>
+        <ion-input type="text" formControlName="company_name" (click)="openSelectCompany()"></ion-input>
+    </ion-item>
+  </ion-row>
+
+</ion-item-group>
+<!----------- Ends Company Detail Group ------->
+
+
+<!----------- Start Prefs Detail Group ------->
+<ion-item-group class="filters-content filters-group">
+  <!-- <ion-item-divider>
+    <ion-label class="range-label">COMPANY DETAILS (OPTIONAL)</ion-label>
+  </ion-item-divider> -->
+
+  <ion-item class="input-item" style="--background: #333333;">
+    <ion-label style="color: #ffffff;" class="toggle-label">Job Preferences</ion-label>
+  </ion-item>
+
+  <ion-list class="toggle-list" lines="full">
+    <ion-item class="toggle-item">
+      <ion-label class="toggle-label" color="primary">Allow Custom Offers</ion-label>
+      <ion-toggle color="primary" formControlName="enableCustomOffer" (ionChange)="onCustomOfferEnabled($event)"></ion-toggle>
+    </ion-item>
+
+    <ion-row class="form-actions-wrapper" *ngIf="isCustomOfferEnabled">
+      <p style="margin-left:10px;margin-top: 10px;font-size: smaller;"> People who apply for this job can share their custom pricing and timeline .</p>
+    </ion-row>
+
+    <ion-item class="toggle-item">
+      <ion-label class="toggle-label" color="primary">Enable Push Notifications</ion-label>
+      <ion-toggle color="primary" formControlName="enablePush" (ionChange)="onPushEnabled($event)" checked></ion-toggle>
+    </ion-item>
+
+    <ion-item class="toggle-item">
+      <ion-label class="toggle-label" color="primary">Receive E-mail Alert</ion-label>
+      <ion-toggle color="primary" formControlName="enableEmail" (ionChange)="onEmailAlertEnabled($event)"></ion-toggle>
+    </ion-item>
+  </ion-list>
+
+    <ion-row class="form-actions-wrapper" style="display: block;" *ngIf="postJobForm.value.enableEmail > 0">
+      <ion-item class="input-item">
+        <ion-label color="primary" position="floating">E-mail Address *</ion-label>
+        <ion-input type="email" formControlName="notifyEmail"></ion-input>
+      </ion-item>
+
+      
+    </ion-row>
+
+</ion-item-group>
+<!----------- Ends Prefs Detail Group ------->
+
+<!-- <p>{{postJobForm.value|json}}</p> -->
+</ion-content>
+<ion-footer>
+
+  <ion-row class="form-actions-wrapper">
+    <ion-col>
+      <ion-button class="submit-btn" expand="block" color="primary" type="submit" [disabled]="!postJobForm.valid" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SUBMIT JOB</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
+</form>

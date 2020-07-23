@@ -1,0 +1,99 @@
+<form class="create-user-form ion-page" [formGroup]="rangeForm" (ngSubmit)="nextStep()">
+<ion-header>
+    <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        
+        <ion-buttons  (click)="prevStep()">
+          <ion-button fill="outline" color="facebook">PREV</ion-button>
+        </ion-buttons>
+
+      </ion-buttons>
+      <ion-title slot="">Select Location</ion-title>
+      <ion-buttons slot="end">
+       
+        <ion-buttons  (click)="nextStep()">
+          <ion-button fill="outline" color="facebook">NEXT</ion-button>
+        </ion-buttons>
+
+      </ion-buttons>
+      
+    </ion-toolbar>
+
+    <!-- <ion-toolbar>
+      <ion-searchbar [(ngModel)]="query" (ionInput)="searchPlace()"></ion-searchbar>
+      <ion-list [hidden]="places.length == 0">
+        <ion-item *ngFor="let item of places" tappable (click)="selectSearchResult(item)">
+          {{ item.description }}
+        </ion-item>
+      </ion-list>
+  </ion-toolbar> -->
+
+  </ion-header>
+
+  <ion-content class="create-user-content">
+    <google-map [mapOptions]="mapOptions"></google-map>
+  </ion-content>
+
+  <ion-footer>
+    <ion-item-group class="filters-content filters-group range-list">
+    <ion-item-divider>
+      <ion-label>Set Work Radius</ion-label>
+    </ion-item-divider>
+   
+      <ion-row class="range-item">
+        <ion-col size="12">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Address</ion-label>
+            <ion-input type="text" formControlName="address" placeholder="Set work location"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="range-item" style="display: none;">
+        <ion-col size="6">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Latitude</ion-label>
+            <ion-input type="text" formControlName="latitude" required></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item class="input-item">
+            <ion-label color="secondary" position="floating">Longitude</ion-label>
+            <ion-input type="text" formControlName="longitude" required></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="range-item">
+        <ion-col size="12">
+          <div class="range-header">
+            <span class="range-label" style="margin-left:15px;">How far can you offer your service?</span>
+            <span class="range-value">{{ rangeForm.controls.radius.value }} KM</span>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <ion-range class="range-control" formControlName="radius" color="secondary" (ionChange)="rangeChange($event)" min="0" max="50" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+  </ion-item-group>
+
+
+  <!-- <ion-row class="details-purchase-options-row">
+   
+    <ion-col size="6">
+      <ion-button class="select-variant-btn" color="medium" expand="block" fill="outline" (click)="addMarkerTest()">Add Marker</ion-button>
+    </ion-col>
+    <ion-col size="6" class="main-call-to-action-col">
+      <ion-button class="add-to-cart-btn" color="dark" expand="block" fill="solid">More Action</ion-button>
+    </ion-col>
+  </ion-row>
+ -->
+
+    <ion-row class="form-actions-wrapper" style="background-color: 0A5392;">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" [disabled]="!rangeForm.valid" fill="solid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SAVE & CONTINUE</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

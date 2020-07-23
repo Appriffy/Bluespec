@@ -1,0 +1,47 @@
+{
+	"error": false,
+	"result": [{
+			"id": 1,
+			"relocation_name": "Home Allowance",
+			"relocation_input": 3,
+			"fee": "1200",
+			"fee_type": "Per Month"
+		},
+        {
+			"id": 2,
+			"relocation_name": "Vehicle Allowance",
+			"relocation_input": 2,
+			"fee": "800",
+			"fee_type": "Per Month"
+        },
+        {
+			"id": 3,
+			"relocation_name": "HR Allowance",
+			"relocation_input": 1,
+			"fee": "2200",
+			"fee_type": "Per Month"
+		},
+		{
+			"id": 3,
+			"relocation_name": "HRA Allowance",
+			"relocation_input": 1,
+			"fee": "2200",
+			"fee_type": "Per Month"
+		},
+		{
+			"id": 3,
+			"relocation_name": "Medical Allowance",
+			"relocation_input": 1,
+			"fee": "200",
+			"fee_type": "Per Month"
+		},
+		{
+			"id": 3,
+			"relocation_name": "PPA",
+			"relocation_input": 1,
+			"fee": "0",
+			"fee_type": "Per Month"
+		}
+	]
+
+}

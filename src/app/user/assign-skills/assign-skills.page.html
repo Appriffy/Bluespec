@@ -1,0 +1,85 @@
+<form class="create-user-form ion-page" [formGroup]="addSkillsForm" (ngSubmit)="addUserSkills()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="people/profile"></ion-back-button>
+        <!-- <ion-back-button *ngIf="user_profile_id > 0" [routerLink]="['/people/details', user_profile_id]"></ion-back-button> -->
+      </ion-buttons>
+      <ion-title>Assign Skills</ion-title>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" color="light" class="filters-btn" (click)="restartProcess()">
+          <ion-icon slot="icon-only" name="refresh"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+
+    <ion-row class="expiration-countdown" *ngIf="existingSkillset?.length <= 0">
+      <span class="expiration-lead">
+        Select a job area to start adding skills.</span>
+    </ion-row>
+
+    <ion-row class="expiration-countdown" *ngIf="existingSkillset?.length == 1">
+      <span class="expiration-lead">
+        You have added 1 skill. You can also add multiple job skills that you have.</span>
+    </ion-row>
+
+    <ion-row class="expiration-countdown" *ngIf="existingSkillset?.length > 1">
+      <span class="expiration-lead">
+        You have added  {{existingSkillset?.length}} skills yet.</span>
+    </ion-row>
+
+  </ion-header>
+
+  <ion-content class="create-user-content">
+
+ <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="!selectedJobArea">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-icon src="./assets/sample-icons/side-menu/construct.svg" style="color: #444444;font-size:48px;"></ion-icon>
+    <h5 class="section-header" style="font-weight: 500;color:#555555;">SELECT JOB AREA</h5>
+    <p class="section-header" style="font-weight: 500;color:#555555;margin-top:2px;">Select a job area to filter related job skills.</p>
+    <ion-button (click)="openSelectJobArea()" style="text-align: center;" class="upload-picture-btn" color="dark" expand="cover" fill="outline">
+      FIND SKILLS</ion-button>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+   
+    <section class="user-experience-fields fields-section" *ngIf="selectedJobArea">
+
+      <ion-row style="display: block;margin-top:0px;">
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Selected Job Area</ion-label>
+          <ion-input type="hidden" formControlName="job_area" required></ion-input>
+          <ion-input type="text" formControlName="job_area_name" (click)="openSelectJobArea()" readonly></ion-input>
+        </ion-item>
+      </ion-row>
+
+      <h4 *ngIf="skills?.length > 0" class="section-header" style="font-size: 18px;margin-top:20px;">Select the skills you have to start discovering the most relevant work opportunities around you.</h4>
+      <ion-row class="checkbox-tags rounded-checkbox-tags" *ngIf="skills?.length > 0">
+        <ion-item formArrayName="skills" lines="none" class="checkbox-tag rounded-tag" *ngFor="let yooSkill of skills">
+          <ion-label class="tag-label">{{yooSkill.title}}</ion-label>
+          <ion-checkbox [formControlName]="yooSkill.id" (click)="onJobSkillSelected(yooSkill.id)"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+
+    </section>
+
+     <!------- Empty View ------->
+  <ion-grid style="height: 100%" *ngIf="selectedJobArea && skills?.length == 0">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column;padding: 30px;">
+      <ion-icon src="./assets/sample-icons/side-menu/construct.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;color: #555555;"> No job skill found in {{selectedJobArea?.title}}.</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+  </ion-content>
+
+  <ion-footer *ngIf="addSkillsForm.valid">
+    <ion-row class="form-actions-wrapper" style="background-color: #ffffff;">
+      <ion-col>
+        <ion-button expand="block" color="primary" type="submit" fill="solid" [disabled]="!addSkillsForm.valid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; SAVE SKILLS</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

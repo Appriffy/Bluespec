@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="job-skills/listing"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{user?.title}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openItemUpdateModal()" *ngIf="localUser?.role_id == 1 && user">
+        Edit
+      </ion-button>
+      <ion-button *ngIf="user" fill="clear" color="light" class="filters-btn" (click)="favouriteJobArea()">
+        <ion-icon slot="icon-only" name="heart"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-content">
+  <!------ Top Header Main ---->
+  <div class="recipes-wrapper">
+    <div class="recipes-list">
+      <div class="recipe-item">
+
+        <!----- SECTION 1: BASIC ITEM DETAILS ----->
+        <app-image-shell class="recipe-cover-image" [mode]="'cover'" [src]="'./assets/images/banner.jpg'">
+          <app-aspect-ratio [ratio]="{w:12, h:3}">
+          </app-aspect-ratio>
+        </app-image-shell>
+        <div class="chef-picture-wrapper">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+            <app-image-shell style="background-color: white;border-radius: 10px;padding:8px;"  class="chef-picture-image" [src]="user?.image" [alt]="'Job Area Image'"></app-image-shell>
+          </app-aspect-ratio>
+        </div>
+     
+        <div class="recipe-call-to-action">
+         
+          <h3 class="recipe-name">
+            <app-text-shell [data]="user?.title"></app-text-shell>
+          </h3>
+
+          <h5 class="user-name" *ngIf="user?.parent_name">
+            <app-text-shell animation="bouncing" [data]="user?.parent_name"></app-text-shell>
+          </h5>
+
+          <span class="recipe-chef" *ngIf="user && user?.jobSkills.length <=0" style="margin-top:2px;">
+            <app-text-shell [data]="'No job skills listed for '+user?.title"></app-text-shell>
+           </span>
+
+           <span class="recipe-chef" *ngIf="user && user?.jobSkills.length > 0" style="margin-top:2px;">
+            <app-text-shell [data]="user?.jobSkills.length+' job skills listed for '+user?.title"></app-text-shell>
+           </span>
+
+           <h5 class="normalText" *ngIf="user && user?.job_area_desc">
+            <app-text-shell [data]="user?.job_area_desc"></app-text-shell>
+           </h5>
+
+        </div>
+<!----- SECTION 1: BASIC ITEM DETAILS ----->
+
+
+        <!----- SECTION 2: STAT BOX ----->
+        <hr class="details-divider">
+        <ion-row class="details-scores recipe-attributes">
+          <ion-col class="score-item attribute-score">
+            <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/briefcase.svg"></ion-icon>
+            <div class="score-value">
+              <app-text-shell *ngIf="user" [data]="user?.numJobs+' Jobs'"></app-text-shell>
+            </div>
+          </ion-col>
+
+          <ion-col class="score-item attribute-score">
+            <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/tags.svg"></ion-icon>
+            <div class="score-value">
+              <app-text-shell *ngIf="user" [data]="user?.numJobSkills+' Skills'"></app-text-shell>
+            </div>
+          </ion-col>
+
+          <ion-col class="score-item attribute-score">
+            <ion-icon class="score-icon" src="./assets/sample-icons/side-menu/heart.svg"></ion-icon>
+            <div class="score-value">
+              <app-text-shell *ngIf="user" [data]="user?.numFavourites+' Likes'"></app-text-shell>
+            </div>
+          </ion-col>
+        </ion-row>
+        <hr class="details-divider">
+        <!----- SECTION 2: STAT BOX ----->
+      </div>
+    </div>
+  </div>
+
+
+<!----- SECTION 3: LIST JOB SKILLS ----->
+  <ion-row class="details-tags" style="margin-top:15px;">
+    <ion-col class="tag-wrapper" *ngFor="let tag of user?.jobSkills">
+      <span class="item-tag">
+        <app-text-shell [data]="tag.title"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+<!----- SECTION 3: LIST JOB SKILLS ----->
+
+
+<!----- SECTION 4: PROMO BOX ----->
+  <ion-row class="promo-row" *ngIf="user">   
+    <ion-col size="10">
+      <p class="promo-description">
+        Looking for jobs in {{user?.title}}? Find most relevant jobs in areas of your choice.
+      </p>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim">
+        <span class="promo-code">
+          <app-text-shell [data]="'SUBSCRIBE'"></app-text-shell>
+        </span>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+<!----- SECTION 4: PROMO BOX ----->
+
+</ion-content>
+
+<ion-footer style="background-color:#eeeeee;">
+  <ion-row class="details-purchase-options-row">
+
+    <ion-col size="12" *ngIf="user && user?.id && (localUser?.role_id == 3 || localUser?.role_id == 1)">
+      <ion-button class="select-variant-btn" color="secondary" expand="block" fill="solid" [routerLink]="['/job-requests', {jobArea:user?.id}]">FIND JOBS</ion-button>
+    </ion-col>
+    <ion-col size="12" class="main-call-to-action-col" *ngIf="user && user?.id && (localUser?.role_id == 2 || localUser?.role_id == 1)">
+      <ion-button [routerLink]="['/post-new-job', {jobArea:user?.id}]" class="add-to-cart-btn" color="primary" expand="block" fill="solid">HIRE NOW</ion-button>
+    </ion-col>
+
+  </ion-row>
+
+</ion-footer>

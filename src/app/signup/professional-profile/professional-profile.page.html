@@ -1,0 +1,69 @@
+<form class="create-user-form ion-page" [formGroup]="addSkillsForm" (ngSubmit)="addUserSkills()">
+  <ion-header>
+    <ion-toolbar color="primary">
+
+      <ion-buttons slot="start">
+        
+        <ion-buttons  (click)="prevStep()">
+          <ion-button fill="outline" color="facebook">PREV</ion-button>
+        </ion-buttons>
+
+      </ion-buttons>
+      <ion-title slot="">Add Job Skills</ion-title>
+      <ion-buttons slot="end">
+       
+        <ion-buttons  (click)="nextStep()">
+          <ion-button fill="outline" color="facebook">NEXT</ion-button>
+        </ion-buttons>
+
+      </ion-buttons>
+      
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content" style="overflow: scroll;">
+
+
+
+    <section class="user-experience-fields fields-section">
+      <h5 class="section-header" slot="center">SELECT A JOB AREA</h5>
+      <p class="section-header" slot="center">Select a job area to filter relevant job skills to choose from.</p>
+     
+      <!-- <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ion-item formArrayName="jobAreas" lines="none" class="checkbox-tag rounded-tag" *ngFor="let jobArea of jobAreasFormArray.controls; let i = index;">
+          <ion-label class="tag-label">{{jobAreas[i].title}}</ion-label>
+          <ion-checkbox [formControlName]="i" (click)="onJobAreaSelected(jobAreas[i].id)"></ion-checkbox>
+        </ion-item>
+      </ion-row> -->
+
+      <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ion-item formArrayName="jobAreas" lines="none" class="checkbox-tag rounded-tag" *ngFor="let jobArea of jobAreas">
+          <ion-label class="tag-label">{{jobArea.title}}</ion-label>
+          <ion-checkbox [formControlName]="jobArea.id" (click)="onJobAreaSelected(jobArea.id)"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+
+    </section>
+
+    <section class="user-experience-fields fields-section">
+      <h5 class="section-header" slot="center">SELECT SKILLS</h5>
+      <p class="section-header" slot="center">Select the job skills to start discovering related work opportunities around you.</p>
+      <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ion-item formArrayName="skills" lines="none" class="checkbox-tag rounded-tag" *ngFor="let skill of skillsFormArray.controls; let i = index;">
+          <ion-label class="tag-label">{{skills[i].title}}</ion-label>
+          <ion-checkbox [formControlName]="i"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+    </section>
+
+   
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper" style="background-color: 0A5392;">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="light" type="submit" fill="solid" [disabled]="!addSkillsForm.valid"><ion-icon name="arrow-round-forward"></ion-icon>&nbsp; ADD SKILLS</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="app/user"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Education Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openAddEduDetailModal()">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+  <!-- <p>{{dataDebug}}</p> -->
+  <ion-list class="items-list" *ngIf="items?.length > 0  && !loading">
+
+    <ion-item tappable class="list-item" *ngFor="let item of items" (click)="onEduItemSelected(item)">
+
+      <!-- <ion-item class="list-item" *ngFor="let item of items"  [routerLink]="['/education-details', item]"></ion-item> -->
+
+      <ion-row class="user-row">
+        <ion-col class="user-data-wrapper">
+          <div class="user-info">
+
+            <h3 class="user-name" *ngIf="item.title">
+              <app-text-shell animation="bouncing" [data]="item.title+' ('+item.level_name+')'"></app-text-shell>
+            </h3>
+
+            <h5 class="user-age">
+              <app-text-shell animation="bouncing" [data]="item.organization"></app-text-shell>
+            </h5>
+
+            <h5 class="user-age" *ngIf="item.is_current">
+              <app-text-shell animation="bouncing" [data]="item.yoj?.concat(' to Current')"></app-text-shell>
+            </h5>
+            
+            <h5 class="user-age" *ngIf="!item.is_current">
+              <app-text-shell animation="bouncing" [data]="item.yoj?.concat(' - ').concat(item.yop)"></app-text-shell>
+            </h5>
+
+            <h5 class="user-age">
+              <app-text-shell animation="bouncing" [data]="'Score: '+item.score?.concat(' ').concat(item.score_type)"></app-text-shell>
+            </h5>
+
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <!------- Empty View ------->
+  <ion-grid style="height: 100%" *ngIf="items?.length == 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-icon src="./assets/sample-icons/side-menu/study_areas.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 style="text-align: center;color: #555555;"> No education detail found.</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+     <!------- Loading View ------->
+     <ion-grid style="height: 100%" *ngIf="loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+        <h5 style="text-align: center;color: #555555;">Loading...</h5>
+        </ion-row>
+      </ion-grid>
+     <!------- Loading View ------->
+
+</ion-content>

@@ -1,0 +1,74 @@
+<form class="update-user-form ion-page" [formGroup]="updateUserForm" (ngSubmit)="updateUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>Update Job Skill</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="update-user-content">
+    <ion-row class="select-user-image-row">
+      <ion-col class="user-image-col" size="5">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell [mode]="'cover'" class="user-image" animation="spinner" [src]="user.image" [alt]="'user image'"></app-image-shell>
+        </app-aspect-ratio>
+        <ion-button class="change-image-btn" color="secondary" (click)="fileInput.click()" *ngIf="!user.image">
+          <ion-icon class="btn-icon" slot="icon-only" name="camera"></ion-icon>
+        </ion-button>
+        <ion-button class="change-image-btn" color="danger" (click)="removeFile()" *ngIf="user.image">
+          <ion-icon class="btn-icon" slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <section class="user-details-fields fields-section">
+      <ion-list class="inputs-list" lines="full">
+
+        <div class="form-group" style="display: none;">
+          <input type="file" (change)="uploadFile($event)" #fileInput>
+        </div>
+        
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Skill Name *</ion-label>
+          <ion-input type="text" formControlName="title" required></ion-input>
+        </ion-item>
+       
+        
+        <ion-input type="hidden" formControlName="grafter_type"></ion-input>
+
+        <ion-input type="hidden" formControlName="parent_id"></ion-input>
+        <ion-item class="input-item">
+          <ion-label position="floating">Select Job Area *</ion-label>
+          <ion-input type="text" formControlName="parent_name" (click)="openSelectJobArea()" readonly></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label color="secondary" position="floating">Short Description</ion-label>
+          <ion-textarea rows="3" formControlName="skill_desc"></ion-textarea>
+        </ion-item>
+        
+        <ion-item class="input-item terms-item">
+          <ion-label>Make this job skill active.</ion-label>
+          <ion-checkbox formControlName="enabled" [checked]="enabled"></ion-checkbox>
+        </ion-item>
+        
+      </ion-list>
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="delete-btn" expand="block" color="primary" fill="outline" (click)="deleteItem()">DELETE</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="secondary" type="submit" fill="solid" [disabled]="!updateUserForm.valid">UPDATE</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

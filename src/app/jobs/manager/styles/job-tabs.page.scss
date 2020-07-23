@@ -1,0 +1,152 @@
+// Custom variables
+// Note:  These ones were added by us and have nothing to do with Ionic CSS Custom Properties
+:host {
+  --page-margin: var(--app-narrow-margin);
+  --page-background: var(--app-background-shade);
+  --page-border-radius: var(--app-fair-radius);
+  --page-segment-background: var(--app-background);
+  --page-segment-indicator-height: 2px;
+
+  --page-pictures-gutter: calc(var(--page-margin) / 4);
+  --page-tags-gutter: 4px;
+}
+
+.user-friends-content{
+  --background: var(--page-background);
+}
+
+.user-friends-segment {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  --background: var(--page-background);
+  background-color: var(--page-background);
+
+  ion-segment-button {
+    --padding-end: var(--page-margin);
+    --padding-start: var(--page-margin);
+    --background: var(--page-segment-background);
+    --color: rgba(var(--ion-color-dark-rgb), 0.4);
+    --color-checked: var(--ion-color-dark);
+    --indicator-color-checked: var(--ion-color-dark);
+
+    text-transform: capitalize;
+    min-height: calc((var(--page-margin) * 3) - var(--page-segment-indicator-height));
+
+    ion-label {
+      margin-top: calc(var(--page-margin) / 2);
+      margin-bottom: calc(var(--page-margin) / 4);
+    }
+  }
+}
+
+ion-searchbar.friends-searchbar {
+  padding: var(--page-margin);
+}
+
+.friends-list {
+  padding: 0px var(--page-margin);
+  margin-bottom: calc(var(--page-margin) * 3);
+  background-color: var(--page-background);
+}
+
+.empty-list-message {
+  margin: calc(var(--page-margin) * 3);
+  color: rgba(var(--ion-color-dark-rgb), 0.4);
+  text-align: center;
+}
+
+.friend-item {
+  background-color: #ffffff;
+  //--inner-padding-start: 0px;
+  //--inner-padding-end: 0px;
+  //--padding-start: 0px;
+  //--padding-end: 0px;
+  --padding-bottom: var(--page-margin);
+  --inner-padding-bottom: var(--page-margin);
+
+  //Custom Boxed Styling
+  //margin: var(--page-margin);
+  //margin:  var(--page-margin) var(--page-margin)/2  var(--page-margin) var(--page-margin)/2;
+  margin-left: var(--page-margin)/2;
+  margin-right: var(--page-margin)/2;
+  margin-top: var(--page-margin);
+  margin-bottom: var(--page-margin);
+  padding: var(--page-margin);
+  border-radius: var(--app-fair-radius);
+  box-shadow: 1px 1px 4px 1px var(--page-item-shadow-color);
+//Custom Boxed Styling
+
+  &:last-child {
+    --border-style: none;
+    --padding-bottom: 0px;
+    --inner-padding-bottom: 0px;
+  }
+
+  .user-details-section {
+    --ion-grid-column-padding: 0px;
+
+    width: 100%;
+    align-items: center;
+
+    .user-data-wrapper {
+      padding-left: var(--page-margin);
+      padding-right: calc(var(--page-margin) / 2);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .user-info {
+        &:not(:last-child) {
+          margin-bottom: calc(var(--page-margin) / 2);
+        }
+
+        .user-name {
+          margin: 0px;
+          margin-bottom: 4px;
+          font-size: 16px;
+        }
+
+        .user-job {
+          margin: 0px;
+          color: rgba(var(--ion-color-dark-rgb), 0.4);
+          font-size: 14px;
+        }
+      }
+    }
+
+    .user-actions-wrapper {
+      font-size: 14px;
+      max-width: 10ex; // The 'x' character is semi-square char
+      max-width: 10ch; // ch is the only font unit based on the width of characters
+
+      .user-action {
+        margin: 0px;
+      }
+    }
+  }
+}
+
+.item-tags {
+  margin-top: 5px;
+
+  .tag-wrapper {
+    padding-right: var(--page-tags-gutter);
+    flex-grow: 0;
+    min-width: fit-content;
+
+    &:last-child {
+      padding-right: 0px;
+    }
+  }
+
+  .item-tag {
+    display: block;
+    border-radius: var(--app-narrow-radius);
+    border: 1px solid var(--ion-color-light-shade);
+    padding: calc(var(--page-tags-gutter) / 2) var(--page-tags-gutter);
+    font-size: 11px;
+    font-weight: bold;
+    color: #222222;
+  }
+}

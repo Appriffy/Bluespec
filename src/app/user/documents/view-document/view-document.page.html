@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="{{backBtnUrl}}"></ion-back-button>
+      </ion-buttons>
+
+      <ion-buttons slot="end">
+        <ion-button (click)="openItemUpdateModal()" *ngIf="thisDocument?.status != 'Approved' && (localUser?.role_id == 1 || selfView)">
+        <!-- <ion-button (click)="openItemUpdateModal()" *ngIf="localUser?.role_id == 1 || selfView"> -->
+          Edit
+        </ion-button>
+      </ion-buttons>
+      <ion-title *ngIf="!thisDocument">View Document</ion-title>
+      <ion-title *ngIf="thisDocument">View {{thisDocument?.document_type}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="create-user-content">
+    <ion-row class="expiration-countdown" *ngIf="thisDocument?.status == 'Rejected'">
+      <span class="expiration-lead">This {{thisDocument?.document_type}} has been rejected. Upload a valid file to get re-verified.</span>
+    </ion-row>
+
+    <ion-row class="expiration-countdown approved" *ngIf="thisDocument?.status == 'Approved'">
+      <span class="expiration-lead">This {{thisDocument?.document_type}} has been approved.</span>
+    </ion-row>
+
+
+    <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Document</h5>
+    <h5 style="text-align: center;columns: #555555;font-size:13px;margin-top:2px;">Please wait...</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+    <ion-row *ngIf="thisDocument && !loading">
+  <!-- <pdf-viewer [src]="getFileURL()"></pdf-viewer> -->
+      <ion-card class="doc-card">
+        <ion-card-content>
+    <h4 class="user-age" style="color:#444444;font-size:16px;font-weight: 500;" *ngIf="thisDocument?.user_full_name"> Submitted by {{thisDocument?.user_full_name}}</h4>
+    <h5 class="user-age" style="color:#444444;font-size:16px;font-weight: 500;" *ngIf="thisDocument?.status"> Status: {{thisDocument?.status}}</h5>
+    <h5 class="user-age" style="color:#444444;font-size:16px;font-weight: 500;" *ngIf="thisDocument?.date_created"> Submission Date : {{thisDocument?.date_created}}</h5>
+    
+    <h5 class="user-age" style="color:#444444;font-size:16px;font-weight: 500;" *ngIf="!selfView && thisDocument?.size > 0">File Info : {{thisDocument?.file_format}} ({{thisDocument?.size}} KB)</h5>
+    
+    <hr>
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column" 
+    *ngIf="getFileType() === 'pdf' && pdfLoadStatus">
+      <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+      <h5 style="text-align: center;columns: #555555;">Loading Preview...</h5>
+      </ion-row>
+
+    <pdf-viewer *ngIf="getFileType() === 'pdf'" [src]="getFileURL()" [render-text]="true"
+    style="display: block;" [original-size]="false" [fit-to-page]="true" 
+    (on-progress)="onProgress($event)" (error)="onError($event)" (after-load-complete)="pageRendered($event)"></pdf-viewer>
+
+
+    <img *ngIf="getFileType() == 'jpg' || getFileType() == 'jpeg' || getFileType() == 'png'" 
+    [src]="getFileURL()" style="width:100%;height:auto;margin:0 auto;"/>
+
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+
+    <ion-row class="form-actions-wrapper"  style="text-align: center;align-content: center;margin: 0 auto;">
+      <ion-col size="12">
+        <ion-button class="promo-code-btn" style="text-align: center;" expand="cover" shape="round" fill="outline" color="claim">
+          <a target="_blank" [href]="getFileURL()" style="text-align: center;text-decoration: none;">
+            <span class="promo-code">
+              <ion-icon class="btn-icon" slot="icon-only" src="./assets/sample-icons/side-menu/download.svg"></ion-icon> DOWNLOAD 
+            </span>
+          </a>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-content>
+
+  <ion-footer>
+    <section class="user-details-fields fields-section">
+        <ion-row class="form-actions-wrapper" *ngIf="localUser?.role_id == 1">
+          <ion-col *ngIf="thisDocument?.status == 'Pending' || thisDocument?.status == 'Rejected'">
+            <ion-button class="submit-btn" expand="block" color="primary" (click)="updateDocStatus('Approved')" fill="solid">
+              <ion-icon class="btn-icon" slot="icon-only" src="./assets/sample-icons/side-menu/checkmark.svg"></ion-icon> &nbsp;&nbsp;APPROVE</ion-button>
+          </ion-col>
+          <ion-col *ngIf="thisDocument?.status == 'Pending'|| thisDocument?.status == 'Approved'">
+            <ion-button class="submit-btn" expand="block" color="danger" (click)="updateDocStatus('Rejected')" fill="solid">
+              <ion-icon class="btn-icon" slot="icon-only" src="./assets/sample-icons/side-menu/close.svg"></ion-icon> &nbsp;&nbsp;REJECT</ion-button>
+          </ion-col>
+        </ion-row>
+    </section>
+    
+  </ion-footer>

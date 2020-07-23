@@ -1,0 +1,87 @@
+<ion-header *ngIf="localUser != null && localUser?.role_id !== 1">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>My Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="getDataSummaryForDashboard()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="page-home" style="background-color: #eeeeee;">
+ 
+  <!-- Segment buttons with text and click listeners -->
+<ion-segment mode="md" class="stats-segment" (ionChange)="segmentButtonClicked($event)">
+  <ion-segment-button value="total" checked="true">
+    <ion-label><ion-icon src="./assets/sample-icons/side-menu/dashboard.svg" style="font-size: 20px;display: inline-block;vertical-align: middle;"></ion-icon> Total Summary</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="chat">
+    <ion-label><ion-icon src="./assets/sample-icons/side-menu/chat.svg" style="font-size: 20px;display: inline-block;vertical-align: middle;"></ion-icon> Chat</ion-label>
+  </ion-segment-button>
+
+</ion-segment>
+
+ <!------- Today View ------->
+ <ion-grid style="height: 100%" *ngIf="tabChoice=='chat'">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h4 style="text-align: center;color: #555555;">COMMUNICATION SUMMARY VIEW</h4>
+    <h5 style="text-align: center;color: #555555;">Coming Soon</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Today View ------->
+
+ <div *ngIf="tabChoice=='total'">
+  <ion-grid>
+    <ion-row class="related-deal">
+    <ion-col size-sm="12" size-md="12" size-lg="6" size="12">
+      <ion-card color="light" text-center padding [routerLink]="['/jobs/manager']">
+        <ion-row>
+          <ion-col size="3" align-self-start style="vertical-align:middle;">
+            <ion-icon src="./assets/sample-icons/side-menu/documents-attach.svg" class="dashicon" style="color: white;"></ion-icon>
+            <ion-icon name="documents" class="dashicon" style="color: white;"></ion-icon>
+          </ion-col>
+          <ion-col align-self-end style="text-align:right;">
+            <h1 class="user-name" *ngIf="dashboardSummaryList">
+              <app-text-shell animation="bouncing" [data]="dashboardSummaryList[0].pendingJobs?dashboardSummaryList[0].pendingJobs:'0'"></app-text-shell>
+            </h1>
+            <h5 class="related-deal-title" style="margin-bottom:2px;">
+              PENDING JOBS
+            </h5>
+            <p style="margin-top:0px;">
+              Manage your job requests
+          </p>
+          </ion-col> </ion-row></ion-card></ion-col>
+
+
+
+          <ion-col size-sm="12" size-md="12" size-lg="6" size="12">
+            <ion-card text-center padding [routerLink]="['/jobs/manager', {tab:'ongoing_jobs'}]">
+              <ion-row>
+                <ion-col size="3" align-self-start style="vertical-align:middle;">
+                  <ion-icon src="./assets/sample-icons/side-menu/timer.svg" class="dashicon" style="color: white;"></ion-icon>
+                </ion-col>
+                <ion-col align-self-end style="text-align:right;">
+                  <h1 class="user-name" *ngIf="dashboardSummaryList">
+                    <app-text-shell animation="bouncing" [data]="dashboardSummaryList[0].ongoingJobs?dashboardSummaryList[0].ongoingJobs:'0'"></app-text-shell>
+                  </h1>
+                  <h5 class="related-deal-title" style="margin-bottom:2px;">
+                    ONGOING JOBS
+                  </h5>
+                  <p style="margin-top:0px;">
+                    Track progress of currently ongoing jobs
+                </p>
+                </ion-col></ion-row></ion-card></ion-col>
+                
+
+        </ion-row>
+  </ion-grid>
+</div>
+
+
+  
+</ion-content>

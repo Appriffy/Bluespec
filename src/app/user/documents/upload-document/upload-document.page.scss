@@ -1,0 +1,113 @@
+@import "../../../../theme/mixins/inputs/checkbox-tag";
+
+:host {
+  --page-margin: var(--app-fair-margin);
+  --page-background: var(--app-background);
+  --page-background-shade: var(--app-background-shade);
+  --page-tags-gutter: 5px;
+}
+
+
+// input[type="file"] {
+//   display: block !important;
+//   width: 100% !important;
+//   height: 100% !important;
+//   opacity: 0 !important;
+//   overflow: hidden !important;
+//   z-index: 100 !important;
+//   margin-top: -20px;
+//   padding-top: -20px;
+//   top: -20px;
+// }
+
+.expiration-countdown {
+  color: var(--ion-color-lightest);
+  background-color: var(--ion-color-danger);
+  padding: calc(var(--page-margin) / 2) var(--page-margin);
+
+  position: sticky;
+  top: 0;
+  z-index: 8;
+
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+
+  .expiration-lead {
+    padding: 0px calc(var(--page-margin) / 2);
+    font-weight: 500;
+    font-size: 14px;
+  }
+} 
+
+.create-user-content {
+  --background: var(--page-background);
+  .select-user-image-row {
+    --ion-grid-column-padding: 0px;
+    padding: var(--page-margin);
+    background-color: var(--page-background-shade);
+    //background-color: #ffffff;
+    .user-image-col {
+      margin: 0px auto;
+      position: relative;
+      .user-image {
+        background-color: #ffffff;
+        border-radius: 0%;
+        border: solid 3px #777777;
+      }
+    }
+
+    .change-image-btn {
+      --border-radius: 50%;
+      --padding-start: 0px;
+      --padding-end: 0px;
+
+      position: absolute;
+      right: 0px;
+      bottom: var(--page-margin);
+      z-index: 3;
+      width: 4ch;
+      height: 4ch;
+      margin: 20px;
+
+      .btn-icon {
+        font-size: 26px;
+      }
+    }
+  }
+
+  .fields-section {
+    padding: var(--page-margin) 0px;
+    border-bottom: calc(var(--page-margin) * 2) solid var(--page-background-shade);
+
+    .section-header {
+      padding: 0px var(--page-margin);
+      margin-top: 0px;
+      margin-bottom: var(--page-margin);
+    }
+  }
+
+  .user-details-fields {
+    .inputs-list {
+      padding: 0px var(--page-margin);
+    }
+
+    .input-item {
+      --padding-start: 0px;
+      --padding-end: 0px;
+      --inner-padding-start: 0px;
+      --inner-padding-end: 0px;
+    }
+  }
+
+}
+
+.form-actions-wrapper {
+  --ion-grid-column-padding: calc(var(--page-margin) / 2);
+
+  padding: calc(var(--page-margin) / 2);
+
+  .submit-btn {
+    margin: 0px;
+  }
+}

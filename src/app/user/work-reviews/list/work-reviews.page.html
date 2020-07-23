@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/people/profile" *ngIf="selfView"></ion-back-button>
+       
+      <!-- <ion-back-button></ion-back-button> -->
+<!--- && username -->
+      <ion-button [routerLink]="['/people/details', username]" fill="clear" color="light" *ngIf="!selfView">
+        <ion-icon slot="icon-only" name="arrow-round-back"></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+    <ion-title>Work Reviews</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" fill="clear" color="light" class="filters-btn" (click)="loadItems()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="firebase-listing-content">
+  <ion-row class="expiration-countdown" *ngIf="!loading && items?.length > 0 && avgSummary">
+    <span class="expiration-lead">{{avgSummary}}</span>
+  </ion-row>
+
+   <!------- Loading View ------->
+ <ion-grid style="height: 100%" *ngIf="loading">
+  <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+    <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+    <h5 style="text-align: center;columns: #555555;">Loading Reviews</h5>
+    </ion-row>
+  </ion-grid>
+ <!------- Loading View ------->
+
+   <!------- Empty View ------->
+   <ion-grid style="height: 100%" *ngIf="items?.length <= 0 && !loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      
+      <ion-icon src="./assets/sample-icons/side-menu/thumbs-up.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+      <h5 *ngIf="selfView" style="text-align: center;color: #555555;">Submit Documents</h5>
+      <h5 *ngIf="selfView" style="text-align: center;columns: #555555;font-size: 13px;margin-top:1px;">Upload the mandatory documents to get your profile verified.</h5>
+
+      <div *ngIf="!selfView && !adminModeView">
+        <h5 style="text-align: center;color: #555555;">No Review yet</h5>
+      </div>
+
+      <div *ngIf="!selfView && adminModeView">
+        <h5 style="text-align: center;color: #555555;">No Review yet</h5>
+        <h5 style="text-align: center;columns: #555555;font-size: 14px;margin-top:1px;">Looks like no one reviewed you for your work yet. Keep up the good work. All your reviews will appear here.</h5>  
+      </div>
+      
+      </ion-row>
+    </ion-grid>
+   <!------- Empty View ------->
+
+
+     <div class="reviews-list" *ngIf="items?.length > 0 && !loading">     
+      <div class="review-item" *ngFor="let review of items" tappable>
+    <app-work-review [review]="review"></app-work-review>
+</div>
+</div>
+
+     
+     
+</ion-content>

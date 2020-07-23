@@ -1,0 +1,187 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Manage Job Applications
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!loading" (click)="loadAllApplications()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-friends-content">
+  <ion-segment class="user-friends-segment" mode="md" (ionChange)="segmentChanged($event)">
+    <ion-segment-button mode="md" checked="true" value="pending">
+      <ion-label>Pending</ion-label>
+    </ion-segment-button>
+    <ion-segment-button mode="md" value="shortlisted">
+      <ion-label>Shortlisted</ion-label>
+    </ion-segment-button>
+    <ion-segment-button mode="md" value="rejected">
+      <ion-label>Rejected</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-searchbar class="friends-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()"></ion-searchbar>
+
+
+  <!------------->
+  <ng-template #completedJobItem let-item="item">
+    <ion-row class="user-details-section">
+      <ion-col class="user-image-wrapper" size="2">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="item.applicant_image" [alt]="'Grafter Photo'"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell [data]="item.applicant_name"></app-text-shell>
+          </h3>
+          <h5 class="user-job" *ngIf="item.amount" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+            <ion-icon name="clipboard" style="vertical-align: middle;"></ion-icon> Offer: <app-text-shell style="display: inline;" [data]="item.amount+' '+item.currency+' '+item.salary_type|uppercase"></app-text-shell></h5>
+            
+            <h5 class="user-job" *ngIf="item.delivery_date" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+              <ion-icon name="stopwatch" style="vertical-align: middle;"></ion-icon> Expected Delivery: <app-text-shell style="display: inline;" [data]="item.delivery_date+' Days'"></app-text-shell></h5>
+          
+              <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+            <ion-icon name="clock" style="vertical-align: middle;"></ion-icon> Submitted <app-text-shell style="display: inline;" [data]="item.date_created"></app-text-shell></h5>
+
+        </div>
+      </ion-col>
+      <ion-col class="user-actions-wrapper">
+        <ion-button class="user-action" (click)="openJobApplicationDialog(item)" expand="block" size="small" color="primary">View Offer<span></span></ion-button>
+       &nbsp;&nbsp;&nbsp;&nbsp;
+        <ion-button class="user-action" [routerLink]="['/people/details', item.user_name]" expand="block" size="small" color="secondary">View Profile</ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ng-template>
+<!-----------Completed  Buttons -->
+
+  <ng-template #ongoingJobItem let-item="item">
+    <div class="user-details-section">
+    <ion-row>
+      <ion-col class="user-image-wrapper" size="2">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="item.applicant_image" [alt]="'Grafter Photo'"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell [data]="item.applicant_name"></app-text-shell>
+          </h3>
+          <ion-badge class="schedule-closed" color="primary" >
+            {{item.status}}</ion-badge> 
+        
+            <div class="user-info"> 
+              <h5 class="user-job" *ngIf="item.amount" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                <ion-icon name="clipboard" style="vertical-align: middle;"></ion-icon> Offer: <app-text-shell style="display: inline;" [data]="item.amount+' '+item.currency+' '+item.salary_type"></app-text-shell></h5>
+                
+                <h5 class="user-job" *ngIf="item.delivery_date" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                  <ion-icon name="stopwatch" style="vertical-align: middle;"></ion-icon> Expected Delivery: <app-text-shell style="display: inline;" [data]="item.delivery_date+' Days'"></app-text-shell></h5>
+              
+                  <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+                <ion-icon name="clock" style="vertical-align: middle;"></ion-icon> Submitted <app-text-shell style="display: inline;" [data]="item.date_created"></app-text-shell></h5>
+                           
+                </div>
+                <ion-row>
+                  <ion-col size="12">
+                    <ion-button style="display: inline-block;" (click)="openJobApplicationDialog(item)" class="user-action" expand="cover" size="small" color="primary"><ion-icon name="copy"></ion-icon>  Application</ion-button>
+                   
+                    <ion-button style="display: inline-block;" class="user-action" expand="cover" fill="outline" size="small" color="blue" [routerLink]="['/people/details', item.user_name]"><ion-icon name="analytics"></ion-icon>  View Profile</ion-button>
+
+                    <ion-button style="display: inline-block;" class="user-action" expand="cover" size="small" color="secondary"><ion-icon name="chatbubbles"></ion-icon>  Chat<span></span></ion-button>   
+                  </ion-col></ion-row>
+        </div>
+      </ion-col>
+    </ion-row>
+</div>
+  </ng-template>
+
+
+  <!-----------##### PENDING JOB REQUESTS ####-->
+  <ng-template #pendingJobItem let-item="item">
+    <ion-row class="user-details-section">
+      <ion-col class="user-image-wrapper" size="2">
+        <app-aspect-ratio [ratio]="{w:1, h:1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="item.applicant_image" [alt]="'Grafter Photo'"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+
+      <ion-col class="user-data-wrapper">
+        <div class="user-info">
+          <h3 class="user-name">
+            <app-text-shell [data]="item.applicant_name"></app-text-shell>
+          </h3>
+          <h5 class="user-job" *ngIf="item.amount" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+            <ion-icon name="clipboard" style="vertical-align: middle;"></ion-icon> Offer: <app-text-shell style="display: inline;" [data]="item.amount+' '+item.currency+' '+item.salary_type"></app-text-shell></h5>
+            
+          <h5 class="user-job" *ngIf="item.delivery_date" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+              <ion-icon name="stopwatch" style="vertical-align: middle;"></ion-icon> Expected Delivery: <app-text-shell style="display: inline;" [data]="item.delivery_date+' Days'"></app-text-shell></h5>
+          
+          <h5 class="user-job" style="color: #444444;margin-top:5px;margin-bottom: 5px;">
+            <ion-icon name="clock" style="vertical-align: middle;display:inline-block;"></ion-icon> Submitted <app-text-shell style="display: inline;vertical-align: middle;" [data]="item.date_created"></app-text-shell></h5>
+
+        </div>
+      </ion-col>
+      <ion-col class="user-actions-wrapper">
+        <ion-button class="user-action" (click)="openJobApplicationDialog(item)" expand="block" size="small" color="primary">View Offer<span></span></ion-button>
+       &nbsp;&nbsp;&nbsp;&nbsp;
+        <ion-button class="user-action" [routerLink]="['/people/details', item.user_name]" expand="block" size="small" color="secondary">View Profile</ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ng-template>
+
+  <section [hidden]="segmentValue !== 'pending'">
+    <ion-list class="friends-list" *ngIf="JobRequestsList.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of JobRequestsList">
+        <ng-container *ngTemplateOutlet="pendingJobItem; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="JobRequestsList.length <= 0">
+      <h5 class="empty-list-message">No Pending Application</h5>
+    </ng-container>
+  </section>
+
+  <section [hidden]="segmentValue !== 'shortlisted'">
+    <ion-list class="friends-list" *ngIf="ongoingJobsList.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of ongoingJobsList">
+        <ng-container *ngTemplateOutlet="ongoingJobItem; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="ongoingJobsList.length <= 0">
+      <h5 class="empty-list-message">No Shortlisted Application</h5>
+    </ng-container>
+
+  </section>
+
+  <section [hidden]="segmentValue !== 'rejected'">
+    <ion-list class="friends-list" *ngIf="completedJobsList.length > 0">
+      <ion-item class="friend-item" *ngFor="let item of completedJobsList">
+        <ng-container *ngTemplateOutlet="completedJobItem; context: { item: item }"></ng-container>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="completedJobsList.length <= 0">
+      <h5 class="empty-list-message">No Rejected Applications</h5>
+    </ng-container>
+  </section>
+
+</ion-content>
+
+<ion-footer *ngIf="loading">
+<ion-row class="expiration-countdown">
+  <span class="expiration-lead">
+    Loading Applications...
+      <!-- <h5 style="text-align: center;color: #ffffff;"><ion-spinner name="bubbles" style="width:18px;height:18px;display:inline-block;margin:0 auto;stroke:#ffffff;fill:#444;text-align: center;vertical-align: middle;"></ion-spinner> &nbsp;Loading Applications</h5> -->
+  </span>
+</ion-row>
+</ion-footer>

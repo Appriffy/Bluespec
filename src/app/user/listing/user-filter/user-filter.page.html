@@ -1,0 +1,186 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-menu-button></ion-menu-button> -->
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="filterUsers()">FILTER</ion-button>
+    </ion-buttons>
+    <ion-title>Filter Users</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar color="secondary" class="ion-padding" *ngIf="devMode">
+    <p>Debug Mode ON: {{filterArr|json}}</p>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="filters-content">
+  <ion-item-group class="filters-group">
+  
+      <!-- <form class="validations-form" [formGroup]="userFilterForm" #f="ngForm" (ngSubmit)="onSubmit()" method="POST"> -->
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Hiring Location</ion-label>
+      </ion-item-divider>
+  
+     
+      <ion-row>
+        <ion-col size="12" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Select a location" name="address" [(ngModel)]="filterArr.address"></ion-input>
+          </ion-item>    
+        </ion-col>
+
+        <ion-col size="6" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Latitude" name="latitude" [(ngModel)]="filterArr.latitude"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6" align-self-start style="vertical-align:middle;">
+          <ion-item>
+            <ion-input placeholder="Longitude" name="longitude" [(ngModel)]="filterArr.longitude"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Search within {{ filter_search_radius }} KM</ion-label>
+      </ion-item-divider>
+
+      <ion-row class="range-item">
+        <!-- <ion-col size="12">
+          <div class="range-header">
+            <span class="range-label" style="margin-left:15px;">Specify a search range</span>
+            <span class="range-value">{{ filterArr.search_radius }} KM</span>
+          </div>
+        </ion-col> -->
+        <ion-col size="12">
+          <ion-range class="range-control" [(ngModel)]="filterArr.search_radius" color="secondary" (ionChange)="searchRangeChange($event)" min="0" max="50" step="1"></ion-range>
+        </ion-col>
+      </ion-row>
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Availability Status</ion-label>
+      </ion-item-divider>
+      
+      <ion-radio-group name="online_status" (ionChange)="onChangeOnlineStatus($event)" [(ngModel)]="online_status" style="margin-left:20px;margin-right:20px;">
+        <ion-row class="radio-tags" style="background-color: white;padding:10px 0 10px 0;">
+          <ion-item class="radio-tag" lines="none">
+            <ion-label class="tag-label">ANY</ion-label>
+            <ion-radio value=""></ion-radio>
+          </ion-item>
+
+          <ion-item class="radio-tag" lines="none">
+            <ion-label class="tag-label">
+              <span>ONLINE</span>
+            </ion-label>
+            <ion-radio value="Online" checked></ion-radio>
+          </ion-item>
+         
+          <ion-item class="radio-tag" lines="none">
+            <ion-label class="tag-label">
+              <span>OFFLINE</span>
+            </ion-label>
+            <ion-radio value="Offline"></ion-radio>
+          </ion-item>
+        </ion-row>
+      </ion-radio-group>
+
+      <ion-item class="input-item" *ngIf="localUser!== null && localUser?.role_id == 1">
+        <ion-label position="floating">Filter By Account Status</ion-label>
+        <ion-select [(ngModel)]="filterArr.status" cancelText="Cancel" okText="OK">
+          <ion-select-option *ngFor="let item of userStatusArr" [value]="item" >{{item}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Work Experience ({{selected_work_experience_min}}-{{selected_work_experience_max}} Yrs)</ion-label>
+      </ion-item-divider>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label position="floating">Min. Experience</ion-label>
+          <ion-select  [(ngModel)]="selected_work_experience_min" cancelText="Cancel" okText="OK">
+            <ion-select-option *ngFor="let item of custom_values" [value]="item" >{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-item class="input-item">
+          <ion-label position="floating">Max. Experience</ion-label>
+          <ion-select  [(ngModel)]="selected_work_experience_max" cancelText="Cancel" okText="OK">
+            <ion-select-option *ngFor="let item of custom_values" [value]="item" >{{item}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+
+    </ion-row>
+     
+       <!-- <ion-item class="counter-item">
+        <ion-label class="counter-label">Avg. Rating ({{rating_range_lower}} - {{rating_range_upper}})</ion-label>
+        <ion-range class="range-control" color="secondary" dualKnobs="true" (ionChange)="rangeChange($event)" min="0" max="5" step="1"></ion-range>
+      </ion-item>  -->
+
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Average Rating ({{rating_range_lower}} - {{rating_range_upper}} Stars)</ion-label>
+      </ion-item-divider>
+
+      <ion-row>
+    <ion-col size="12" align-self-start style="vertical-align:middle;">
+      <ion-item class="input-item">
+        <ion-range color="secondary" dualKnobs="true" (ionChange)="rangeChange($event)" min="0" max="5" step="1"></ion-range>
+      </ion-item> 
+
+    </ion-col>
+
+  </ion-row>
+
+      <ion-item-divider>
+        <ion-label style="color:#555555;font-weight:bold;">Select Professional Skills</ion-label>
+      </ion-item-divider>
+
+      <!-- <ion-row class="checkbox-tags rounded-checkbox-tags">
+        <ng-container *ngFor="let skill of skill_types">
+          <ion-item lines="none" class="checkbox-tag rounded-tag">
+            <ion-label class="tag-label">{{ skill.title }}</ion-label>
+            <ion-checkbox formControlName="selected_skill_types"></ion-checkbox>
+          </ion-item>
+        </ng-container>
+      </ion-row> -->
+
+      <!-- <ion-item-divider>
+        <ion-label>Work Experience</ion-label>
+      </ion-item-divider> -->
+
+      <ion-list class="counter-list" lines="full">
+       
+      
+       
+
+      
+    <ion-row class="checkbox-tags rounded-checkbox-tags">
+      <ng-container *ngFor="let s of skill_types">
+        <ion-item lines="none" class="checkbox-tag rounded-tag">
+          <ion-label class="tag-label">{{ s.title }}  <span *ngIf="s.enabled" style="vertical-align: middle;font-size: 18px;
+            font-weight: 500;"><ion-icon name="checkmark-circle-outline"></ion-icon></span> </ion-label>
+          <ion-checkbox name="selected_skills" [(ngModel)]="s.enabled" (click)="updateSelectedSkillsFilter(s)"></ion-checkbox>
+        </ion-item>
+      </ng-container>
+    </ion-row>
+
+    <ion-row class="checkbox-tags rounded-checkbox-tags">
+     <ion-col padding size="12">
+      <ion-button lg class="submit-btn" (click)="filterUsers()" type="submit" expand="block" fill="solid">Apply Filter </ion-button>
+</ion-col>
+    </ion-row>
+
+      </ion-list>
+
+    
+  </ion-item-group>
+</ion-content>

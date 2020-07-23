@@ -1,0 +1,179 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="dashboard"></ion-back-button>
+    </ion-buttons>
+    
+    <ion-title>Job Requests</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button fill="clear" color="light" class="filters-btn" (click)="loadJobsFromServer()">
+        <ion-icon slot="icon-only" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="filters-toolbar">
+    <ion-row class="searchbar-row" align-items-center>
+      <ion-col>
+        <ion-searchbar class="items-searchbar" animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchList()" placeholder="Search jobs..."></ion-searchbar>
+      </ion-col>
+      <ion-col class="call-to-action-col">      
+        <ion-button fill="clear" color="primary" class="filters-btn" (click)="showJobFilterScreen()">
+          <ion-icon slot="icon-only" name="options"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="deals-listing-content">
+
+
+  <!------- Loading View ------->
+  <ion-grid style="height: 100%" *ngIf="loading">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <ion-spinner name="bubbles" style="width:32px;height:32px;margin:0 auto;stroke:#222;fill:#444;text-align: center;"></ion-spinner>
+      <h5 style="text-align: center;columns: #555555;">Finding Jobs...</h5>
+      </ion-row>
+    </ion-grid>
+   <!------- Loading View ------->
+  
+     <!------- Empty View ------->
+     <ion-grid style="height: 100%" *ngIf="listing.items?.length <= 0 && !loading">
+      <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+        <ion-icon src="./assets/sample-icons/side-menu/briefcase.svg" style="display:block;width:48px;height:48px;color:#444"></ion-icon>
+        <h5 style="text-align: center;columns: #555555;">No Job Found</h5>
+        <ion-button class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim" (click)="showJobFilterScreen()">
+          <span class="promo-code">
+           FILTER JOBS
+          </span>
+        </ion-button>
+        </ion-row>
+      </ion-grid>
+     <!------- Empty View ------->
+
+  <ng-container *ngIf="listing?.items && !loading">
+    <ion-toolbar color="secondary" class="ion-padding" *ngIf="appSettings && appSettings.debugMode">
+      <p>Debug Mode ON: {{jobFilterArr|json}}</p>
+   </ion-toolbar>
+    <!-- <p>Filters: {{jobFilterArr|json}}</p> -->
+    <!-- <p>{{listing.items.length}} Professionals found within {{jobFilterArr.search_radius}} K.m</p> -->
+   
+    <div class="listing-item" *ngFor="let item of listing.items" [ngClass]="{'ended': ((item.expirationDate | appTimeDifference) < 0), 'imminent-end': ((item.expirationDate | appTimeDifference) > 0 && (item.expirationDate | appTimeDifference) <= 2), 'ends-soon': ((item.expirationDate | appTimeDifference) > 0 && (item.expirationDate | appTimeDifference) > 2 && (item.expirationDate | appTimeDifference) < 10), 'distant-end': ((item.expirationDate | appTimeDifference) >= 10)}">
+      
+      <ion-row class="top-row">
+        <ion-col class="info-col">
+          <h4 class="item-name">
+            <a class="name-anchor" [routerLink]="['/jobs/details', item.qcode]">
+              <app-text-shell animation="bouncing" [data]="item.title"></app-text-shell>
+            </a>
+          </h4>
+
+          <ion-badge *ngIf="item && item.job_type_name" style="margin-left: 0px;" class="status-label" color="facebook">{{item.job_type_name}}</ion-badge>
+          &nbsp; <ion-badge *ngIf="item && item.job_area_name" style="margin-left: 0px;" class="status-label" color="facebook">{{item.job_area_name}} </ion-badge>
+
+        </ion-col> 
+        <ion-col class="user-actions-wrapper">
+          <!-- <ion-button class="bookmark-button" fill="clear" color="claim">
+            <span class="accommodation-value" *ngIf="item.salary_type == 'monthly'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.min_salary+' - '+item.jobSalary.max_salary"></app-text-shell>
+            </span>
+            <span class="accommodation-value" *ngIf="item.salary_type == 'hourly'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.min_rate_per_hour+' - '+item.jobSalary.max_rate_per_hour"></app-text-shell>
+            </span>
+            <span class="accommodation-value" *ngIf="item.salary_type == 'fixed'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.jobSalary.fixed_fee"></app-text-shell>
+            </span>
+          </ion-button> -->
+
+          <h4 class="bookmark-button" fill="clear" color="claim">
+            <span class="accommodation-value" *ngIf="item.job_salary && item.salary_type == 'monthly'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.job_salary"></app-text-shell>
+            </span>
+            <span class="accommodation-value" *ngIf="item.job_salary && item.salary_type == 'hourly'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.job_salary"></app-text-shell>
+            </span>
+            <span class="accommodation-value" *ngIf="item.job_salary && item.salary_type == 'fixed'">
+              <app-text-shell animation="bouncing" [data]="item.currency+' '+item.job_salary"></app-text-shell>
+            </span>
+            <span class="accommodation-value" *ngIf="!item.job_salary && item.salary_type == ''">
+              <app-text-shell animation="bouncing" [data]="'N/A'"></app-text-shell>
+            </span>
+          </h4>
+
+          <h5 class="user-job" style="font-size: 12px;line-height: 12px;margin-top: 0px;" *ngIf="item && item.salary_type">
+            <app-text-shell animation="bouncing" [data]="item.salary_type|titlecase"></app-text-shell>
+          </h5>
+
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row class="middle-row">
+        <ion-col class="info-col">
+             <!-- <ion-badge style="margin-left: 0px;" class="status-label" color="facebook"><ion-icon name="briefcase"></ion-icon> {{item.job_type_name}} </ion-badge>
+            &nbsp;<ion-badge style="margin-left: 0px;" class="status-label" color="facebook"><ion-icon name="construct"></ion-icon> {{item.job_area_name}} </ion-badge>
+            -->
+
+          <p class="item-description" *ngIf="item.address"><ion-icon name="locate" style="display:inline-block;font-size:13px;line-height:14px;vertical-align: middle;"></ion-icon> <app-text-shell style="display:inline-block;vertical-align: middle;" animation="bouncing" [data]="item.address">
+          </app-text-shell></p>
+          
+          <p class="item-description" *ngIf="item.distance && appSettings && appSettings.debugMode"><ion-icon name="navigate" style="display:inline-block;font-size:13px;line-height:14px;vertical-align: middle;"></ion-icon> <app-text-shell style="display:inline-block;vertical-align: middle;" animation="bouncing" [data]="item.distance+' Km away'">
+          </app-text-shell></p>
+
+          <p class="item-description" style="margin-top:10px;">
+            <app-text-shell animation="bouncing" lines="3" [data]="item.job_description"></app-text-shell>
+          </p>
+        
+
+          <ion-row class="item-tags" *ngIf="item.jobSkills.length > 0">
+            <ion-col class="tag-wrapper">
+              <span class="item-tag" style="display: inline-block;vertical-align: middle;border:none;font-size: 13px;
+              font-weight: 500;">Required Skills: </span></ion-col>
+            <ion-col class="tag-wrapper" *ngFor="let skill of item.jobSkills">
+              <span class="item-tag" style="display: inline-block;">
+                <app-text-shell animation="bouncing" style="display: inline-block;vertical-align: middle;" [data]="skill.title"></app-text-shell>
+              </span>
+            </ion-col>
+          </ion-row>
+
+        </ion-col>
+        
+      </ion-row>
+      <ion-row class="bottom-row">
+        <!-- <ion-col class="code-wrapper">
+          <span class="item-code" [ngClass]="{'expired': ((item.expirationDate | appTimeDifference) < 0)}">
+            <app-text-shell [data]="item.job_type_name"></app-text-shell>
+          </span>
+    
+        </ion-col> -->
+
+        <ion-col *ngIf="((item.expirationDate | appTimeDifference) > 0)" class="call-to-action-col">
+          <ion-button class="claim-button" expand="block" color="claim" [routerLink]="['/jobs/details', item.qcode]">
+            <span class="button-cta">ACCEPT</span>
+            <ion-icon slot="end" name="ios-arrow-forward"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col *ngIf="((item.expirationDate | appTimeDifference) <= 0)" class="call-to-action-col">
+          <span class="expired-cta">EXPIRED</span>
+        </ion-col>
+        
+        <ion-col class="time-left-wrapper" size="5" [ngClass]="{'countdown-active': ((item.expirationDate | appTimeDifference) > 0 && (item.expirationDate | appTimeDifference) <= 2)}">
+          <span class="expiration-cta">JOB {{ ((item.expirationDate | appTimeDifference) < 0) ? 'EXPIRED' : 'EXPIRES IN' }}:</span>
+          <ng-container *ngIf="((item.expirationDate | appTimeDifference) < 0 || (item.expirationDate | appTimeDifference) > 2)">
+            <span class="item-time-left">
+              <app-text-shell [data]="(item.expirationDate | appTimeAgo)"></app-text-shell>
+            </span>
+          </ng-container>
+          <ng-container *ngIf="((item.expirationDate | appTimeDifference) > 0 && (item.expirationDate | appTimeDifference) <= 2)">
+            <ion-row class="countdown-wrapper">
+              <app-countdown-timer class="item-countdown" fill="inner-time" [end]="item.expirationDate" [units]="{from: 'hour', to: 'second'}"></app-countdown-timer>
+            </ion-row>
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ng-container>
+</ion-content>

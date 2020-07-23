@@ -1,0 +1,367 @@
+<ion-header>
+  <ion-toolbar color="white">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title><img src="assets/images/logo.png" style="height:40px;vertical-align: middle;"/></ion-title>
+    <ion-buttons slot="end">
+
+      <ion-button [routerLink]="['/auth/login']" *ngIf="!isLoggedIn">
+        <ion-icon slot="icon-only" src="./assets/sample-icons/side-menu/login.svg" ></ion-icon>
+      </ion-button>
+
+      <ion-button [routerLink]="['/auth/logout']" *ngIf="isLoggedIn">
+        <ion-icon slot="icon-only" src="./assets/sample-icons/side-menu/logout.svg" ></ion-icon>
+      </ion-button>
+
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="user-content">
+
+  <!--------######## AUTH CARD ########
+  <ion-card text-center [routerLink]="'/profile'" *ngIf="isLoggedIn && devMode">
+    <div class="">
+    <ion-row class="" style="margin-top:2px;margin-bottom: 2px;">
+      <ion-col size="2" class="user-image-wrapper">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell class="review-user-image" [src]="'localUser?.user_image'" [alt]="'review user image'"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="user-brief-wrapper" style="align-items: flex-start;text-align: left;">
+        <h5 class="review-user-name" style="margin-top:2px;margin-bottom: 2px;">
+          <app-text-shell [data]="localUser?.first_name+' '+localUser?.last_name"></app-text-shell>
+        </h5>
+        <ion-row class="details-scores user-scores" style="margin-top: 2px;margin-bottom: 2px;">
+          <ion-col class="score-item user-score">
+            <ion-icon class="score-icon" style="font-size: 20px;" src="./assets/sample-icons/side-menu/clock.svg"></ion-icon>
+            <div class="score-value">
+              <app-text-shell [data]="localUser?.online_status"></app-text-shell>
+            </div>
+          </ion-col>
+          <ion-col class="score-item user-score">
+            <ion-icon class="score-icon" style="font-size: 20px;" src="./assets/sample-icons/side-menu/map-pin.svg"></ion-icon>
+            <div class="score-value">
+              <app-text-shell [data]="localUser?.id+' => '+localUser?.status"></app-text-shell>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row></div>
+    </ion-card>
+  ######## AUTH CARD ########----->
+
+
+<!----------- CARD BANNER GRAFTER ---------->
+<div class="listing-item" *ngIf="isLoggedIn && localUser !== null && localUser?.role_id == 3">
+  <ion-row class="image-row">
+    <ion-col size="12">
+      <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slide_grafter_bg1.jpg'" [routerLink]="['/job-requests']">
+        <app-aspect-ratio [ratio]="{w:10, h:5}">
+          <div class="content-inside-item-image">
+            <div class="slideText">
+              <h5 style="color: white;text-align: center;">Discover work opportunities, find part-time, full-time and contract jobs in areas of your choice.</h5>
+            </div>
+            <div class="item-cta">
+              <span>Find Jobs</span>
+              <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+            </div>
+          </div>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-col>
+  </ion-row></div>
+  <!----------- CARD BANNER ---------->
+
+<!----------- CARD BANNER ---------->
+<div class="listing-item" *ngIf="isLoggedIn && localUser !== null && localUser?.role_id == 2 ||  localUser?.role_id == 1">
+  <ion-row class="image-row">
+    <ion-col size="12">
+      <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slidebg4.jpg'" [routerLink]="['/post-new-job']">
+        <app-aspect-ratio [ratio]="{w:5, h:2}">
+          <div class="content-inside-item-image">
+            <div class="slideText">
+              <h5 style="color: white;text-align: center;">Post your job requirement to get offers from professionals. Review, shortlist and get your work done.</h5>
+            </div>
+            <div class="item-cta">
+              <span>GET STARTED</span>
+              <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+            </div>
+          </div>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-col>
+  </ion-row></div>
+  <!----------- CARD BANNER ---------->
+
+
+  <ion-slides class="walkthrough-slides" pager="true" [options]="slidesOptions" *ngIf="!isLoggedIn">
+    <ion-slide class="first-slide">
+      <ion-row class="">
+        <ion-col size="12">
+          <img src="assets/images/bg-hire.jpg"/>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide class="second-slide">
+      <ion-row class="slide-inner-row">
+        <ion-col class="">
+          <img src="assets/images/bg-professionals.jpg"/>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+  </ion-slides>
+  
+
+  <!----- SECTION FOR EMPLOYER : PROMO BOX ----->
+<!-- <ion-row class="promo-row" style="background-color: #eeeeee;" *ngIf="employerMode">   
+  <ion-col size="10">
+    <h1><ion-icon name="rocket" style="font-size: 40px;"></ion-icon></h1>
+    <h4 class="promo-description">
+      Looking to hire for your company or individual requirements? Post a job to find the right professional easily and quickly.
+    </h4>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button href="/bluspec-recruiter" class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim">
+      <span class="promo-code">
+        POST A JOB
+      </span>
+    </ion-button>
+  </ion-col>
+</ion-row> -->
+
+
+<div style="background-color: #fff;display:block;"> 
+<div class="user-friends-section">
+  <ion-row class="heading-row">
+    <h5 class="details-section-title" *ngIf="employerMode">JOB SKILLS</h5>
+    <h5 class="details-section-title" *ngIf="!employerMode">FIND JOBS BY SKILLS</h5>
+    <a class="heading-call-to-action" [routerLink]="['/job-skills/listing']">SEE ALL</a>
+  </ion-row>
+
+  <ion-row class="heading-row" style="margin-top:0px;">
+    <p *ngIf="!employerMode" class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #111;">
+      Find part-time, full-time, contract and freelancer jobs by your skills. Set up your preferences to see most relevant opportunities.</p>
+   
+      <p *ngIf="employerMode" class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #111;">
+        Find part-time, full-time, contract and freelancer experts in a wide range of job skills.</p>
+     
+  </ion-row>
+  <ion-row class="bluspeccarosell-row">
+    <ion-col class="friend-item" size="2" *ngFor="let friend of skills">
+      <app-aspect-ratio [ratio]="{w: 1, h: 1}" style="background-color: white;" [routerLink]="['/job-skills/details', friend.id]">
+        <app-image-shell class="friend-picture" style="background-color: white;border-radius: 10px;" [src]="friend.image"></app-image-shell>
+      </app-aspect-ratio>
+      <span class="friend-name">
+        <app-text-shell [data]="friend.title" [routerLink]="['/job-skills/details', friend.id]"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+</div></div>
+
+
+<!----- SECTION FOR GRAFTER : PROMO BOX ----->
+<ion-row class="promo-row" style="background-color: #eeeeee;" *ngIf="localUser !== null && (localUser?.role_id == 1 || localUser?.role_id == 3)">   
+  <ion-col size="10">
+    <h3><ion-icon name="notifications" style="font-size: 40px;color:#666666;"></ion-icon></h3>
+   
+    <p class="promo-description">
+     Subscribe to get notified of the best job opportunities in areas of your preference.
+    </p>
+    
+  </ion-col>
+  <ion-col size="6">
+    <ion-button class="promo-code-btn" expand="block" shape="round" fill="outline" color="claim">
+      <span class="promo-code">
+        <app-text-shell *ngIf="localUser" [routerLink]="['/people/assign-skills', localUser?.id]" [data]="'SUBSCRIBE'"></app-text-shell>
+      </span>
+    </ion-button>
+  </ion-col>
+</ion-row>
+<!----- SECTION: PROMO BOX ----->
+
+
+  <!----------- CARD BANNER GRAFTER ---------->
+  <div class="listing-item" *ngIf="isLoggedIn && localUser !== null && localUser?.role_id == 3">
+    <ion-row class="image-row">
+      <ion-col size="12">
+        <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slide_grafter_bg3.jpg'" [routerLink]="['/people/profile']">
+          <app-aspect-ratio [ratio]="{w:6, h:3}">
+            <div class="content-inside-item-image">
+              <div class="slideText">
+                <h5 style="color: white;text-align: center;"> Stand out with your professional profile. List your skills, education details and work experiences. </h5>
+
+              </div>
+              <div class="item-cta">
+                <span>MY PROFILE</span>
+                <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+              </div>
+            </div>
+          </app-aspect-ratio>
+        </app-image-shell>
+      </ion-col>
+    </ion-row></div>
+    <!----------- CARD BANNER ---------->
+
+
+<!-----------##### COMPANIES #####-------->
+<section class="" style="background-color:#0A5392;display: block;padding-top:14px;">   
+  <div class="user-friends-section">
+    <ion-row class="heading-row">
+      <h5 class="details-section-title" style="color: #ffffff;">JOB AREAS</h5>
+      <a class="heading-call-to-action" style="color: #ffffff;" [routerLink]="['/job-areas/listing']">SEE ALL</a>
+    </ion-row>
+   
+    <ion-row class="heading-row" style="margin-top:0px;">
+      <p *ngIf="!employerMode" class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #ffffff;">Stay updated to the most relevant jobs in top companies of your favourite domain. </p>
+      <p *ngIf="!employerMode" class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #ffffff;">
+        Subscribe to get notifications whenever a new relevant job is posted. </p>
+
+      <p *ngIf="employerMode" class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #ffffff;">
+        Register your company to start posting jobs. Discover talents easily and quickly on Bluspec. <a href="/companies/create"></a></p>
+     
+    </ion-row>
+
+    <ion-row class="friends-row">
+      <ion-col class="friend-item" size="2" *ngFor="let friend of jobAreas">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}" [routerLink]="['/job-areas/details', friend.id]">
+          <app-image-shell  style="background-color: white;border-radius: 10px;padding:8px;" class="friend-picture" [src]="friend.image"></app-image-shell>
+        </app-aspect-ratio>
+        <span class="friend-name">
+          <app-text-shell [data]="friend.title" style="color:#ffffff;"></app-text-shell>
+        </span>
+      </ion-col>
+    </ion-row>
+  </div></section>
+
+
+  <!----- SECTION: EMPLOYER JOB POST PROMO BOX ----->
+<ion-row class="promo-row" style="background-color:white;display: block;padding:25px;" *ngIf="localUser !== null && (localUser?.role_id == 1 || localUser?.role_id == 2)">   
+  <ion-col size="10">
+    <h1><ion-icon name="rocket" style="font-size: 40px;color:#444444;"></ion-icon></h1>
+    <h3 class="promo-description" style="color: #444444;"> 
+      Looking to hire talents for your company or find grafters to get your individual jobs done? 
+    </h3>
+
+    <h2 class="promo-description" style="color: #444444;"> 
+      Post a job now and let us find the best match for your requirement.
+    </h2>
+  </ion-col>
+  <ion-col size="6">
+    <ion-button href="/post-new-job" class="promo-code-btn" expand="cover" shape="round" fill="outline" color="dark">
+      <span class="promo-code">
+        POST A JOB
+      </span>
+    </ion-button>
+  </ion-col>
+</ion-row>
+<!----- SECTION: EMPLOYER JOB POST PROMO BOX ----->
+
+
+<!----------- CARD BANNER ---------->
+<div class="listing-item" *ngIf="isLoggedIn && localUser !== null && localUser?.role_id == 2 || localUser?.role_id == 1">
+  <ion-row class="image-row">
+    <ion-col size="12">
+      <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slidebg3.jpg'" [routerLink]="['/people/listing/grafters']">
+        <app-aspect-ratio [ratio]="{w:5, h:3}">
+          <div class="content-inside-item-image">
+            <div class="slideText">
+              <h5 style="color: white;text-align: center;">Hire Freelancers and Top Skilled Professionals easily and quickly.</h5>
+            </div>
+            <div class="item-cta">
+              <span>Find Professionals</span>
+              <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+            </div>
+          </div>
+        </app-aspect-ratio>
+      </app-image-shell>
+    </ion-col>
+  </ion-row></div>
+  <!----------- CARD BANNER ---------->
+
+<!-----------##### PROFESSIONALS #####-------
+  <div class="" style="display:block;" *ngIf="employerMode"> 
+    <div class="user-friends-section">
+      <ion-row class="heading-row">
+        <h5 class="details-section-title">PROFESSIONALS</h5>
+        <a class="heading-call-to-action" [routerLink]="['/hire-people-for-work']">FIND</a>
+      </ion-row>
+    
+      <ion-row class="heading-row" style="margin-top:0px;">
+        <p class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #111;">
+          Find among a vast talent pool of our professionals. Search, shortlisted and get your work done.</p>
+       
+      </ion-row>
+      <ion-row class="bluspeccarosell-row">
+        <ion-col class="friend-item" size="2" *ngFor="let friend of skills" [routerLink]="['/view-profile', friend.id]">
+          <app-aspect-ratio [ratio]="{w: 1, h: 1}" style="background-color: white;">
+            <app-image-shell class="friend-picture" [src]="friend.image"></app-image-shell>
+          </app-aspect-ratio>
+          <span class="friend-name">
+            <app-text-shell [data]="friend.title"></app-text-shell>
+          </span>
+        </ion-col>
+      </ion-row>
+    </div></div> --->
+
+
+<!-----------##### COMPANIES #####-------->
+<section class="bluspecrow" style="background-color: #ffffff;display: block;padding-top:15px;">   
+  <div class="user-friends-section">
+    <ion-row class="heading-row">
+      <h5 class="details-section-title" style="color: #444444;">COMPANIES</h5>
+      <a class="heading-call-to-action" style="color: #444444;" [routerLink]="['/companies/listing']">SEE ALL</a>
+    </ion-row>
+   
+    <ion-row class="heading-row" style="margin-top:0px;">
+      <p class="details-section-title" style="text-align:left;font-size:14px;line-height:14px;color: #444444;">Stay updated to the most relevant jobs in top companies of your favourite domain. </p>
+     
+    </ion-row>
+
+    <ion-row class="friends-row">
+      <ion-col class="friend-item" size="2" *ngFor="let friend of companies">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}" [routerLink]="['/companies/details', friend.id]">
+          <app-image-shell class="friend-picture" [src]="friend.logo" style="background-color: cyan"></app-image-shell>
+        </app-aspect-ratio>
+        <span class="friend-name" style="color: #444444;">
+          <app-text-shell [data]="friend.title"></app-text-shell>
+        </span>
+      </ion-col>
+    </ion-row>
+  </div></section>
+
+  <!----------- CARD BANNER GRAFTER ---------
+  <div class="listing-item" *ngIf="isLoggedIn && localUser !== null && localUser?.role_id == 3">
+    <ion-row class="image-row">
+      <ion-col size="12">
+        <app-image-shell [mode]="'cover'" class="add-overlay item-image" [src]="'./assets/images/slide_grafter_bg3.jpg'" [routerLink]="['/people/profile']">
+          <app-aspect-ratio [ratio]="{w:8, h:3}">
+            <div class="content-inside-item-image">
+              <div class="slideText">
+                <h5 style="color: white;text-align: center;">Stand out with your professional profile. </h5>
+              </div>
+              <div class="item-cta">
+                <span>MY PROFILE</span>
+                <ion-icon class="cta-icon" name="arrow-round-forward"></ion-icon>
+              </div>
+            </div>
+          </app-aspect-ratio>
+        </app-image-shell>
+      </ion-col>
+    </ion-row></div>
+    ---------- CARD BANNER ---------->
+
+</ion-content>
+
+<!-- <ion-footer style="background-color:#eeeeee;">
+  <ion-row class="details-purchase-options-row">
+    <ion-col size="12" class="main-call-to-action-col">
+      <ion-button *ngIf="localUser !== null && localUser?.role_id == 3" class="action-btn" color="secondary" expand="block" fill="solid" (click)="openSizeChooser()">WORK</ion-button>
+    </ion-col>
+    <ion-col size="12" class="main-call-to-action-col">
+      <ion-button *ngIf="localUser !== null && localUser?.role_id == 2" class="action-btn" color="dark" expand="block" fill="solid">HIRE</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-footer> -->

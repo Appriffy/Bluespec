@@ -1,0 +1,170 @@
+<form class="create-user-form ion-page" [formGroup]="updateStatusForm" (ngSubmit)="createUser()">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="end">
+        <ion-button (click)="dismissModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>View Application</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="filters-content">
+    <ion-row class="expiration-countdown" *ngIf="jobApplication?.date_updated">
+      <span class="expiration-lead">This application has been processed on {{jobApplication?.date_updated}}.</span>
+    </ion-row>
+
+    <!------------- 1. applicant profile ------------->
+    <ion-row class="user-details-section">
+      <ion-col class="user-image-wrapper">
+        <app-aspect-ratio [ratio]="{w: 1, h: 1}">
+          <app-image-shell class="user-image" animation="spinner" [src]="jobApplication?.applicant_image"></app-image-shell>
+        </app-aspect-ratio>
+      </ion-col>
+      <ion-col class="user-info-wrapper">
+        <ion-row class="user-data-row">
+          <ion-col size="12">
+            <h3 class="user-name">
+              <app-text-shell [data]="jobApplication?.applicant_name"></app-text-shell>
+            </h3>
+           
+             <h5 class="user-title" *ngIf="jobApplication?.applicantProfile.tagline" style="color: #444444;margin-top: 1px;">
+              <app-text-shell style="display: inline-block;" animation="bouncing" [data]="jobApplication?.applicantProfile.tagline"></app-text-shell>
+             
+            </h5>
+
+            <ion-badge *ngIf="jobApplication?.applicantProfile.online_status=='Online'" style="margin-left: 0px;" class="status-label" color="primary">{{jobApplication?.applicantProfile.online_status}}</ion-badge>
+            <ion-badge *ngIf="jobApplication?.applicantProfile.online_status !=='Online'" style="margin-left: 0px;" class="status-label" color="danger">{{jobApplication?.applicantProfile.online_status}}</ion-badge>
+  
+            <h5 class="user-age" style="font-size:13px;color: #444444;margin-top:3px;margin-bottom:1px;" *ngIf="jobApplication?.applicantProfile.last_active">
+              <app-text-shell animation="bouncing" [data]="'Last Seen: '+jobApplication?.applicantProfile.last_active"></app-text-shell>
+            </h5>
+  
+            <h5 class="user-age" style="font-size:13px;color: #444444;margin-top:3px;margin-bottom:1px;">
+              <app-text-shell animation="bouncing" [data]="'Country: '+jobApplication?.applicantProfile.country"></app-text-shell>
+            </h5>  
+  
+            <ion-button [routerLink]="['/people/details', jobApplication?.user_name]" class="call-to-action-btn" size="small" color="primary">
+              <ion-icon slot="icon-only" name="arrow-forward"></ion-icon> View Profile
+            </ion-button>
+
+          </ion-col>
+        </ion-row>
+       
+      </ion-col>
+    </ion-row>
+<!-------- end of applicant profile--------->
+
+
+<!-------- COMMENT--------->
+<div class="details-wrapper" *ngIf="jobApplication?.comment">
+  <div class="accommodations-wrapper">
+    <h5 class="detail-title">Offer Description</h5>
+    <p>{{jobApplication?.comment}}</p>
+  </div>
+</div>
+<!-------- END COMMENT --------->
+
+
+<!-------- 2. JOB STAT TABLE--------->
+<div class="details-wrapper">
+  <!-- <p>{{jobApplication|json}}</p> -->
+  <div class="accommodations-wrapper">
+   <ion-row class="accommodation-row" *ngIf="jobApplication?.salary_type">
+     <ion-col class="icon-wrapper">       
+       <ion-icon name="cash"  class="accommodation-icon"></ion-icon>
+     </ion-col>
+     <ion-col size="4">
+       <span class="accommodation-name">Offer Price</span>
+     </ion-col>
+     <ion-col size="6">
+       <span class="accommodation-value" *ngIf="jobApplication?.salary_type == 'monthly'">
+         <app-text-shell [data]="jobApplication?.amount+' '+jobApplication?.currency+'/Month'"></app-text-shell>
+       </span>
+       <span class="accommodation-value" *ngIf="jobApplication?.salary_type == 'hourly'">
+         <app-text-shell [data]="jobApplication?.amount+' '+jobApplication?.currency+' '+'/Hour'"></app-text-shell>
+       </span>
+       <span class="accommodation-value" *ngIf="jobApplication?.salary_type == 'fixed'">
+         <app-text-shell [data]="jobApplication?.amount+' '+jobApplication?.currency+' (Fixed)'"></app-text-shell>
+       </span>
+     </ion-col>
+   </ion-row>
+ 
+   <ion-row class="accommodation-row" *ngIf="jobApplication?.delivery_date">
+     <ion-col class="icon-wrapper">
+       <ion-icon class="accommodation-icon" name="stopwatch"></ion-icon>
+     </ion-col>
+     <ion-col size="4">
+       <span class="accommodation-name">Delivery Time</span>
+     </ion-col>
+     <ion-col size="6">
+       <span class="accommodation-value">
+         <app-text-shell [data]="jobApplication?.delivery_date+' Days'"></app-text-shell>
+       </span>
+     </ion-col>
+   </ion-row>
+ 
+   <ion-row class="accommodation-row" *ngIf="jobApplication?.date_created">
+    <ion-col class="icon-wrapper">
+      <ion-icon class="accommodation-icon" name="calendar"></ion-icon>
+    </ion-col>
+    <ion-col size="4">
+      <span class="accommodation-name">Submitted On</span>
+    </ion-col>
+    <ion-col size="6">
+      <span class="accommodation-value">
+        <app-text-shell [data]="jobApplication?.date_created"></app-text-shell>
+      </span>
+    </ion-col>
+  </ion-row>
+   
+ </div>
+ </div>
+ <!-------- END OF JOB STAT TABLE--------->
+
+
+    <section>
+      <ion-list class="inputs-list" lines="full">
+
+        <ion-item-divider style="--background: #333333;">
+          <ion-label style="color: #ffffff;">UPDATE APPLICATION STATUS</ion-label>
+        </ion-item-divider>
+        <h5 style="margin-top:18px;padding-left: var(--page-margin);">Select Status</h5>
+        <ion-radio-group formControlName="status">
+          <ion-row class="radio-tags">
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">Pending</ion-label>
+              <ion-radio value="Pending"></ion-radio>
+            </ion-item>
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">
+                <span>Shortlist</span>
+              </ion-label>
+              <ion-radio value="Shortlisted"></ion-radio>
+            </ion-item>
+           
+            <ion-item class="radio-tag" lines="none">
+              <ion-label class="tag-label">
+                <span>Reject</span>
+              </ion-label>
+              <ion-radio value="Rejected"></ion-radio>
+            </ion-item>
+
+          </ion-row>
+        </ion-radio-group>
+
+        <ion-input type="hidden" formControlName="item_id"></ion-input>
+      </ion-list>
+    </section>
+
+  </ion-content>
+
+  <ion-footer>
+    <ion-row class="form-actions-wrapper">
+      <ion-col>
+        <ion-button class="submit-btn" expand="block" color="primary" type="submit" fill="solid" [disabled]="!updateStatusForm.valid">UPDATE APPLICATION</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>
