@@ -1,5 +1,5 @@
 # Bluspec
-A Platform for Recruiters and Grafters
+A Platform for Recruiters and Grafters. 
 
 ## Install dependencies
 Run `npm install` to install the project dependencies.
@@ -14,7 +14,7 @@ Run `ionic serve` to start a live-reload dev server
 
 ### To test the app as a Native App
 
-This project uses [Capacitor](https://capacitor.ionicframework.com/docs/) (spiritual successor to Cordova).
+This project uses [Capacitor](https://capacitor.ionicframework.com/docs/) (Successor to Cordova).
 
 Before starting make sure to read the [Capacitor Required Dependencies](https://capacitor.ionicframework.com/docs/getting-started/dependencies).
 
